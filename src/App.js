@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./css/App.css";
+import "./css/film-mentat.css";
+import "./css/themes/nebula.css";
+import React, { useState } from "react";
+import FilmSearchHeader from "./components/search/FilmSearchHeader";
+import FilmCalendarList from "./components/calendar/FilmCalendarList";
 
 function App() {
+  const [pauseScroll, setPauseScroll] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <FilmSearchHeader
+        pauseScroll={pauseScroll}
+        setPauseScroll={setPauseScroll}
+      />
+      <FilmCalendarList pauseScroll={pauseScroll} />
+    </>
   );
 }
 

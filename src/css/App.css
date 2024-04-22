@@ -1,0 +1,85 @@
+
+
+
+
+.filmFlex {
+  display: flex;
+}
+
+.filmListItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+
+  margin-top: 0.5rem; /* 8px */
+  margin-bottom: 0.5rem; /* 8px */
+  text-transform: capitalize;
+
+  background-color: rgb(226 232 240);
+}
+
+
+
+
+
+
+.calendarLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1em;
+}
+
+.calendarLogo, .calendarLinks div {
+  background-color: #00E054;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+
+.CalendarProfile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+
+  background-color: #1E252D;
+  color: #ffffff;
+  height: 50px;
+}
+
+.profileImage {
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+
+/* .CalendarList {
+  margin-top: 60px;
+  padding-top: 24px;
+} */
+
+.CalendarMonth {
+  background-color: #445565;
+  color: #00E054;
+  margin-bottom: 24px;
+  padding: 0 16px;
+  text-transform: uppercase;
+  font-size: 12px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+.film-series-format {
+  font-size: 10px;
+  line-height: 1.5em;
+}
+
+.error input {
+  border: 1px solid red;
+}
