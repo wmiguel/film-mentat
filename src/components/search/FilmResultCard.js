@@ -1,8 +1,8 @@
 import React from "react";
 import FilmResult from "./FilmResult";
 
-import { db } from "../../firebase/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const FilmResultCard = ({ film, index, toggleOff }) => {
   const addtoCalendar = async (film) => {
@@ -17,7 +17,10 @@ const FilmResultCard = ({ film, index, toggleOff }) => {
 
     const formattedToday = yyyy + "-" + mm + "-" + dd;
 
+    const { uid } = auth.currentUser;
+
     await addDoc(collection(db, "films"), {
+      uid,
       title: newFavouriteList[0].Title,
       year: newFavouriteList[0].Year,
       poster: newFavouriteList[0].Poster,

@@ -1,25 +1,31 @@
+import React, { useState } from "react";
 import "./css/App.css";
 import "./css/film-mentat.css";
 import "./css/themes/nebula.css";
-import React from "react";
 
-import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from "./context/AuthContext";
-import Protected from "./components/navbar/Protected";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import FilmSearchHeader from "./components/search/FilmSearchHeader";
+import { Route, Routes } from "react-router-dom";
+
+import NavigationBar from "./components/search/NavigationBar";
 import FilmCalendarList from "./components/calendar/FilmCalendarList";
+import Protected from "./components/navbar/Protected";
+import Home from "./pages/Home";
+import Account from "./pages/Account";
 
-
-function App({pauseScroll}) {
+function App() {
+  const [pauseScroll, setPauseScroll] = useState(false);
   return (
     <>
       <AuthContextProvider>
-        <FilmSearchHeader />
+        {/* Displayed in every page */}
+        <NavigationBar
+          setPauseScroll={setPauseScroll}
+          pauseScroll={pauseScroll}
+        />
+
+        {/* Each route path leads to this page */}
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/signin" element={<SignIn />}></Route>
+          <Route path="/" element={<Home />} />
           <Route
             path="/calendar"
             element={
@@ -27,11 +33,18 @@ function App({pauseScroll}) {
                 <FilmCalendarList pauseScroll={pauseScroll} />
               </Protected>
             }
-          ></Route>
+          />
+          <Route
+            path="/account"
+            element={
+              <Protected>
+                <Account />
+              </Protected>
+            }
+          />
         </Routes>
       </AuthContextProvider>
     </>
   );
 }
-
 export default App;

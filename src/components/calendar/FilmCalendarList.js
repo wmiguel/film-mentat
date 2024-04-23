@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-
-import FilmCard from "./FilmCard";
-
-import { db } from "../../firebase/firebase";
+import { 
+  auth, 
+  db,
+   } from "../../firebase/firebase";
 import {
   query,
+  where,
   orderBy,
   collection,
   onSnapshot
 } from "firebase/firestore";
+import FilmCard from "./FilmCard";
 
 function FilmCalendarList({ pauseScroll }) {
   const [films, setFilms] = useState([]);
+  const [userLogged, setUserLogged] = useState(null);
   const months = [
     "January",
     "February",
@@ -26,11 +29,23 @@ function FilmCalendarList({ pauseScroll }) {
     "November",
     "December",
   ];
+  const organizedFilms = organizeFilmsByMonth(films);
+  const pause = pauseScroll ? "pause-scroll" : "";
 
   // Read film from firebase
   useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUserLogged(user.uid);
+      console.log(user.uid);
+    });
+
+    const uid = userLogged;
+    console.log(uid);
+    const filmsRef = collection(db, "films");
+
     const q = query(
-      collection(db, "films"),
+      filmsRef,
+      where("uid", "==", uid),
       orderBy("date"),
       orderBy("year", "asc")
     );
@@ -43,7 +58,7 @@ function FilmCalendarList({ pauseScroll }) {
       setFilms(filmsArr);
     });
     return () => unsubscribe();
-  }, []);
+  }, [userLogged]);
 
   function parseDate(dateString) {
     const [year, month, day] = dateString.split("-");
@@ -95,10 +110,6 @@ function FilmCalendarList({ pauseScroll }) {
     return sortedFilms.map(([key, value]) => value);
   }
 
-  const organizedFilms = organizeFilmsByMonth(films);
-
-  const pause = pauseScroll ? "pause-scroll" : "";
-
   return (
     <section id="film-calendar-list" className={`film-calendar-list ${pause}`}>
       <div className="content-wrap">
@@ -129,5 +140,4 @@ function FilmCalendarList({ pauseScroll }) {
     </section>
   );
 }
-
 export default FilmCalendarList;

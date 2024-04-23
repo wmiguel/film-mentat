@@ -7,36 +7,21 @@ import { Link } from "react-router-dom";
 
 function FilmCalendarNavigation({ toggleSearch, rotateStyle }) {
   const rotate = rotateStyle ? "turn-right" : "toggle-left";
-  const { user, logOut } = UserAuth();
-  const handleSignOut = async () => {
-    try {
-      await logOut();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  const { user } = UserAuth();
   return (
     <header className="film-calendar-header">
-      <div className="film-calendar-sitename">
-        <GiBrain size={25} />
-        <h1>Mentat</h1>
-      </div>
-      <div className="film-calendar-nav">
-
-        <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
-
-        {user?.displayName ? (
-          <>
-            <FilmCalendarAccount />
-            <button onClick={handleSignOut}>Log Out</button>
-          </>
-        ) : (
-          <Link style={{ color: "white" }} to="/signin">
-            Sign In
-          </Link>
-        )}
-      </div>
+      <Link style={{ color: "white", textDecoration: "none" }} to="/">
+        <div className="film-calendar-sitename">
+          <GiBrain size={25} />
+          <h1>Mentat</h1>
+        </div>
+      </Link>
+      {user?.displayName ? (
+        <div className="film-calendar-nav">
+          <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
+          <FilmCalendarAccount />
+        </div>
+      ) : null}
     </header>
   );
 }

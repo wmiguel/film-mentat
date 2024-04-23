@@ -3,7 +3,7 @@ import FilmCalendarNavigation from "./FilmCalendarNavigation";
 import FilmCalendarSearch from "./FilmCalendarSearch";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
-function FilmSearchHeader({ pauseScroll, setPauseScroll }) {
+function NavigationBar({ pauseScroll, setPauseScroll }) {
   const [style, setStyle] = useState(false);
   const [rotateStyle, setRotate] = useState(false);
 
@@ -82,4 +82,4 @@ function FilmSearchHeader({ pauseScroll, setPauseScroll }) {
   );
 };
 
-export default FilmSearchHeader;
+export default NavigationBar;
