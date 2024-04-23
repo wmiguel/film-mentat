@@ -2,6 +2,7 @@ import React from "react";
 import { GiBrain } from "react-icons/gi";
 import FilmToggleSearch from "../buttons/FilmToggleSearch";
 import FilmCalendarAccount from "../buttons/FilmCalendarAccount";
+// import FilmLocalEvents from "../buttons/FilmLocalEvents";
 import { UserAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
@@ -19,6 +20,7 @@ function FilmCalendarNavigation({ toggleSearch, rotateStyle }) {
       {user?.displayName ? (
         <div className="film-calendar-nav">
           <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
+          {/* <FilmLocalEvents /> */}
           <FilmCalendarAccount />
         </div>
       ) : null}

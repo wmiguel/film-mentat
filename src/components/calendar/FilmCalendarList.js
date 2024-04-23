@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import { 
-  auth, 
-  db,
-   } from "../../firebase/firebase";
+import { auth, db, } from "../../firebase/firebase";
 import {
   query,
   where,
@@ -15,6 +12,7 @@ import FilmCard from "./FilmCard";
 function FilmCalendarList({ pauseScroll }) {
   const [films, setFilms] = useState([]);
   const [userLogged, setUserLogged] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const months = [
     "January",
     "February",
@@ -34,32 +32,40 @@ function FilmCalendarList({ pauseScroll }) {
 
   // Read film from firebase
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUserLogged(user.uid);
-      console.log(user.uid);
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      setUserLogged(user?.uid); // Set user ID if logged in, otherwise null
     });
 
-    const uid = userLogged;
-    console.log(uid);
-    const filmsRef = collection(db, "films");
+    return () => unsubscribeAuth(); // Unsubscribe from auth listener
+  }, []);
 
-    const q = query(
-      filmsRef,
-      where("uid", "==", uid),
-      orderBy("date"),
-      orderBy("year", "asc")
-    );
+  useEffect(() => {
+    if (userLogged) {
+      const fetchFilms = async () => {
+        const filmsRef = collection(db, "films");
+        const q = query(
+          filmsRef,
+          where("uid", "==", userLogged),
+          orderBy("date"),
+          orderBy("year", "asc")
+        );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let filmsArr = [];
-      querySnapshot.forEach((doc) => {
-        filmsArr.push({ ...doc.data(), id: doc.id });
-      });
-      setFilms(filmsArr);
-    });
-    return () => unsubscribe();
+        const unsubscribeFilms = onSnapshot(q, (querySnapshot) => {
+          let filmsArr = [];
+          querySnapshot.forEach((doc) => {
+            filmsArr.push({ ...doc.data(), id: doc.id });
+          });
+          setFilms(filmsArr);
+          setIsLoading(false); // Set loading state to false after fetching films
+        });
+
+        return () => unsubscribeFilms(); // Unsubscribe from films listener
+      };
+
+      fetchFilms();
+    }
   }, [userLogged]);
-
+  
   function parseDate(dateString) {
     const [year, month, day] = dateString.split("-");
     return {
@@ -110,6 +116,9 @@ function FilmCalendarList({ pauseScroll }) {
     return sortedFilms.map(([key, value]) => value);
   }
 
+  if (isLoading) {
+    return;
+  }
   return (
     <section id="film-calendar-list" className={`film-calendar-list ${pause}`}>
       <div className="content-wrap">

@@ -11,6 +11,7 @@ import FilmCalendarList from "./components/calendar/FilmCalendarList";
 import Protected from "./components/navbar/Protected";
 import Home from "./pages/Home";
 import Account from "./pages/Account";
+// import LocalCalendarSearch from "./pages/LocalCalendarSearch";
 
 function App() {
   const [pauseScroll, setPauseScroll] = useState(false);
@@ -42,6 +43,14 @@ function App() {
               </Protected>
             }
           />
+          {/* <Route
+            path="/local"
+            element={
+              <Protected>
+                <LocalCalendarSearch />
+              </Protected>
+            }
+          /> */}
         </Routes>
       </AuthContextProvider>
     </>
