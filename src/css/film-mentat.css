@@ -9,6 +9,7 @@
 }
 
 body {
+  background-color: var(--nebula-01);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -43,7 +44,6 @@ option:hover,  .active{
 }
 
 #mentat-site {
-  background-color: var(--nebula-01);
   color: var(--persian-03);
 
   display: grid;
@@ -91,6 +91,72 @@ h4 {
 p {
   margin: 2px 0;
 }
+
+
+
+
+
+
+.film_mentat-home {
+  display: flex;
+  height: calc(100vh - 60px);
+  height: -webkit-calc(100vh - 35px);
+
+  margin-top: 60px;
+  padding: 0 12px;
+}
+
+.home-wrap {
+  display: grid;
+}
+
+.home-signin-text {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.google-signin-button {
+  margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .film-calendar-header {
   color: var(--nebula-02);
@@ -154,58 +220,7 @@ p {
   visibility: visible;
 }
 
-.search {
-  transition: ease-in-out 0.25s;
-  
-  border: 2px solid #00E054;
-  /* padding-top: 0.2rem; */
-  margin-left: 1rem;
-  margin-right: 2px;
-  border-radius: 2rem;
 
-  width: 100%;
-  max-width: 35px;
-  height: 35px;
-
-  color: #00E054;
-  background-color: transparent;
-
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-
-}
-
-button.search svg {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@media all and (max-width: 600px) {
-  .search {
-    transition: ease-in-out 0.25s;
-  
-    border: 2px solid #00E054;
-    
-    border-radius: 2rem;
-
-    width: 100%;
-    max-width: 30px;
-    height: 30px;
-
-    color: #00E054;
-    background-color: transparent;
-
-    cursor: pointer;
-
-    box-sizing: content-box;
-    padding: 0;
-
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-  }
-}
 
 .turn-left {
   transform: rotate(0);
@@ -291,10 +306,6 @@ button.search svg {
 .film-calendar-month h2 {
   font-size: 20px;
   letter-spacing: 2px;
-}
-
-.month-wrap {
-  /* border: 1px solid green; */
 }
 
 .day-wrap {
@@ -591,4 +602,79 @@ button.search svg {
   display: grid;
   grid-template-columns: 70px 1fr;
   /* background-color: #6270EA; */
+}
+
+.film-calendar-nav {
+  display: flex;
+}
+
+.account {
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid #00E054;
+  border-radius: 2rem;
+  color: #00E054;
+  cursor: pointer;
+  display: inline-flex;
+  height: 35px;
+  margin-left: 1rem;
+  margin-right: 2px;
+  width: 35px;
+}
+
+button.account svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.local {
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid #00E054;
+  border-radius: 2rem;
+  color: #00E054;
+  cursor: pointer;
+  display: inline-flex;
+  height: 35px;
+  margin-left: 1rem;
+  margin-right: 2px;
+  width: 35px;
+}
+
+button.local svg {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search {
+  align-items: center;
+  background-color: transparent;  
+  border: 2px solid #00E054;
+  border-radius: 2rem;
+  color: #00E054;
+  cursor: pointer;
+  display: inline-flex;
+  height: 35px;
+  margin-left: 1rem;
+  margin-right: 2px;
+  transition: ease-in-out 0.25s;
+  width: 35px;
+}
+
+button.search svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media all and (max-width: 600px) {
+  .search {
+    height: 30px;
+    width: 30px;
+
+    box-sizing: content-box;
+    padding: 0;
+
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+  }
 }
