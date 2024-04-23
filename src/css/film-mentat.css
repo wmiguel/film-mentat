@@ -154,58 +154,7 @@ p {
   visibility: visible;
 }
 
-.search {
-  transition: ease-in-out 0.25s;
-  
-  border: 2px solid #00E054;
-  /* padding-top: 0.2rem; */
-  margin-left: 1rem;
-  margin-right: 2px;
-  border-radius: 2rem;
 
-  width: 100%;
-  max-width: 35px;
-  height: 35px;
-
-  color: #00E054;
-  background-color: transparent;
-
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-
-}
-
-button.search svg {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-@media all and (max-width: 600px) {
-  .search {
-    transition: ease-in-out 0.25s;
-  
-    border: 2px solid #00E054;
-    
-    border-radius: 2rem;
-
-    width: 100%;
-    max-width: 30px;
-    height: 30px;
-
-    color: #00E054;
-    background-color: transparent;
-
-    cursor: pointer;
-
-    box-sizing: content-box;
-    padding: 0;
-
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-  }
-}
 
 .turn-left {
   transform: rotate(0);
@@ -591,4 +540,86 @@ button.search svg {
   display: grid;
   grid-template-columns: 70px 1fr;
   /* background-color: #6270EA; */
+}
+
+.film-calendar-nav {
+  display: flex;
+}
+
+.account {
+  border: 2px solid #00E054;
+
+  margin-left: 1rem;
+  margin-right: 2px;
+  border-radius: 2rem;
+
+  width: 100%;
+  max-width: 35px;
+  height: 35px;
+
+  color: #00E054;
+  background-color: transparent;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+}
+
+button.account svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search {
+  transition: ease-in-out 0.25s;
+  
+  border: 2px solid #00E054;
+  /* padding-top: 0.2rem; */
+  margin-left: 1rem;
+  margin-right: 2px;
+  border-radius: 2rem;
+
+  width: 100%;
+  max-width: 35px;
+  height: 35px;
+
+  color: #00E054;
+  background-color: transparent;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+
+}
+
+button.search svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media all and (max-width: 600px) {
+  .search {
+    transition: ease-in-out 0.25s;
+  
+    border: 2px solid #00E054;
+    
+    border-radius: 2rem;
+
+    width: 100%;
+    max-width: 30px;
+    height: 30px;
+
+    color: #00E054;
+    background-color: transparent;
+
+    cursor: pointer;
+
+    box-sizing: content-box;
+    padding: 0;
+
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+  }
 }
