@@ -9,7 +9,7 @@ function FilmCalendarSearchResults({
   toggleOff,
 }) {
   const { count: countResults } = pagination;
-  // console.log(pagination);
+  console.log(pagination);
 
   return (
     <>

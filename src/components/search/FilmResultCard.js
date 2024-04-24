@@ -7,6 +7,10 @@ import { addDoc, collection } from "firebase/firestore";
 const FilmResultCard = ({ film, index, toggleOff }) => {
   const addtoCalendar = async (film) => {
     const newFavouriteList = [film];
+
+    const parts = newFavouriteList[0].release_date.split("-");
+    const release_year = parts[0];
+
     const today = new Date();
     const yyyy = today.getFullYear();
     let mm = today.getMonth() + 1; // Months start at 0!
@@ -19,14 +23,15 @@ const FilmResultCard = ({ film, index, toggleOff }) => {
 
     const { uid } = auth.currentUser;
 
-    await addDoc(collection(db, "films"), {
+    await addDoc(collection(db, "tmdbFilms"), {
       uid,
-      title: newFavouriteList[0].Title,
-      year: newFavouriteList[0].Year,
-      poster: newFavouriteList[0].Poster,
+      title: newFavouriteList[0].title,
+      year: release_year,
+      poster: newFavouriteList[0].poster_path,
+      backdrop: newFavouriteList[0].backdrop_path,
       series: "",
       format: "",
-      IMDbID: newFavouriteList[0].imdbID,
+      tmdbID: newFavouriteList[0].id,
       date: formattedToday,
       completed: false,
     });

@@ -18,21 +18,19 @@ function NavigationBar({ pauseScroll, setPauseScroll }) {
 
   const searchMovie = async (searchValue) => {
     let count = 0;
-    let results = [];
+    let tmdbResults = [];
     const response = await requestFetchMovies({ page: 1, searchValue });
-    const { Response } = response.data;
-    const hasResults = Response === "True";
-    if (hasResults) {
-      const { Search, totalResults } = response.data;
-      count = Number(totalResults);
-      results = Search;
-    }
+    console.log(response.data);
+    const { results, total_results } = response.data;
+    count = Number(total_results);
+    tmdbResults = results;
     setPagination({
       count,
       page: 1,
       totalPages: count === 0 ? 1 : Math.ceil(count / itemsPerpage),
     });
-    setResultsList(results);
+    // console.log(results);
+    setResultsList(tmdbResults);
   };
 
   // fetch results page

@@ -4,10 +4,13 @@ import FilmResultText from "./FilmResultText";
 
 
 const FilmResult = ({ film }) => {
+  const parts = film.release_date.split("-");
+  const release_year = parts[0];
+
   return (
     <div className="film-result">
-      <FilmResultPoster resultPoster={film.Poster} />
-      <FilmResultText resultTitle={film.Title} resultYear={film.Year} />
+      <FilmResultPoster resultPoster={film.poster_path} />
+      <FilmResultText resultTitle={film.title} resultYear={release_year} />
     </div>
   );
 };

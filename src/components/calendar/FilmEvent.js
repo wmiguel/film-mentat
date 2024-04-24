@@ -6,8 +6,8 @@ import FilmPoster from "./FilmPoster";
 const FilmEvent = ({ film }) => {
   return (
     <div className="film-event">
-      <FilmPoster filmID={film.IMDbID} filmPoster={film.poster} />
-      <FilmText film={film} newFilmID={film.IMDbID} />
+      <FilmPoster filmID={film.tmdbID} filmPoster={film.poster} />
+      <FilmText film={film} newFilmID={film.tmdbID} />
     </div>
   );
 };

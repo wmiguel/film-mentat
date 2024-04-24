@@ -14,12 +14,12 @@ const Movie = ({ film, filmDuration, filmDirector, filmRating, setTodoEditing })
           {(film.series && film.format) === "" ? (
             <>
               <p>directed by {filmDirector}</p>
-              <p>{filmRating} · {filmDuration}</p>
+              <p>{filmRating} · {filmDuration} mins</p>
             </>
           ) : (
             <>
               <p>directed by {filmDirector}</p>
-              <p>{filmRating} · {filmDuration} · {film.format}</p>
+              <p>{filmRating} · {filmDuration} mins · {film.format}</p>
             </>
           )}
         </div>
