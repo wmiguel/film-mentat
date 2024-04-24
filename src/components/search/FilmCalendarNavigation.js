@@ -5,6 +5,7 @@ import FilmCalendarAccount from "../buttons/FilmCalendarAccount";
 // import FilmLocalEvents from "../buttons/FilmLocalEvents";
 import { UserAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import Stack from '@mui/material/Stack';
 
 function FilmCalendarNavigation({ toggleSearch, rotateStyle }) {
   const rotate = rotateStyle ? "turn-right" : "toggle-left";
@@ -18,11 +19,13 @@ function FilmCalendarNavigation({ toggleSearch, rotateStyle }) {
         </div>
       </Link>
       {user?.displayName ? (
-        <div className="film-calendar-nav">
+        // <div className="film-calendar-nav">
+        <Stack direction="row" spacing={1}>
           <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
           {/* <FilmLocalEvents /> */}
           <FilmCalendarAccount />
-        </div>
+        </Stack>
+        // </div>
       ) : null}
     </header>
   );
