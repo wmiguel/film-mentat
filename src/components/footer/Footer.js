@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-import FilmCalendarNavigation from "./FilmCalendarNavigation";
-import FilmCalendarSearch from "./FilmCalendarSearch";
+import FilmCalendarSearch from "../search/FilmCalendarSearch";
+import { FaTicketAlt } from "react-icons/fa";
+import FilmHome from "../buttons/FilmHome";
+import FilmLocalEvents from "../buttons/FilmLocalEvents";
+import FilmToggleSearch from "../buttons/FilmToggleSearch";
+import FilmCalendarAccount from "../buttons/FilmCalendarAccount";
+import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
-function NavigationBar({ pauseScroll, setPauseScroll }) {
+function Footer({ pauseScroll, setPauseScroll }) {
   const [style, setStyle] = useState(false);
   const [rotateStyle, setRotate] = useState(false);
 
@@ -20,7 +25,7 @@ function NavigationBar({ pauseScroll, setPauseScroll }) {
     let count = 0;
     let tmdbResults = [];
     const response = await requestFetchMovies({ page: 1, searchValue });
-    console.log(response.data);
+    // console.log(response.data);
     const { results, total_results } = response.data;
     count = Number(total_results);
     tmdbResults = results;
@@ -61,23 +66,34 @@ function NavigationBar({ pauseScroll, setPauseScroll }) {
     setResultsList([]);
   };
 
+  const rotate = rotateStyle ? "turn-right" : "";
+  const { user } = UserAuth();
+  
   return (
     <>
-      <FilmCalendarNavigation
-        rotateStyle={rotateStyle}
-        toggleSearch={toggleSearch}
-      />
-      <FilmCalendarSearch
-        fetchPage={fetchPage}
-        pagination={pagination}
-        resultsList={resultsList}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        style={style}
-        toggleOff={toggleSearch}
-      />
+      {user?.displayName ? (
+        <>
+          <FilmCalendarSearch
+            fetchPage={fetchPage}
+            pagination={pagination}
+            resultsList={resultsList}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            style={style}
+            toggleOff={toggleSearch}
+          />
+          <footer className="film-calendar-footer">
+            <div className="footer-wrap">
+              <FilmHome />
+              <FilmLocalEvents />
+              <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
+              <FaTicketAlt color="white" />
+              <FilmCalendarAccount />
+            </div>
+          </footer>
+        </>
+      ) : null}
     </>
   );
-};
-
-export default NavigationBar;
+}
+export default Footer;

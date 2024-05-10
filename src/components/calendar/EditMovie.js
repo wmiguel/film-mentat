@@ -14,7 +14,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
     if (editingDate === "") {
       return;
     }
-    await updateDoc(doc(db, "films", film.id), {
+    await updateDoc(doc(db, "tmdbFilms", film.id), {
       date: editingDate,
       format: editingFormat,
       series: editingSeries,
@@ -27,7 +27,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
 
   // Delete Film
   const deleteFilm = async () => {
-    await deleteDoc(doc(db, "films", film.id));
+    await deleteDoc(doc(db, "tmdbFilms", film.id));
     setTodoEditing(null);
     setEditingDate("");
     setEditingFormat("");
@@ -45,13 +45,14 @@ const EditMovie = ({ film, setTodoEditing }) => {
   return (
     <>
       <div className="film-info film-edit show">
-        <div className="film-title-year">
-          <h4>{film.title}</h4>
-          <span>{film.year}</span>
+        <div className="film-title-year flex">
+          <h4>
+            {film.title} <span>{film.year}</span>
+          </h4>
         </div>
 
-        <form onSubmit={updateFilm} className="film-edit-form">
-          <div className="edit-film-date">
+        <form onSubmit={updateFilm} className="film-edit-form flex">
+          <div className="edit-film-date grid">
             <label>Date</label>
             <input
               value={editingDate}
@@ -61,7 +62,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
               required
             />
           </div>
-          <div className="edit-film-format">
+          <div className="edit-film-format grid">
             <label>Format</label>
             <input
               value={editingFormat}
@@ -69,11 +70,15 @@ const EditMovie = ({ film, setTodoEditing }) => {
               type="text"
               list="format-options"
             />
-            {/* <datalist id="format-options">
-                <option key={index} value={film.format}></option>
-            </datalist> */}
+            <datalist id="format-options">
+              <option>{film.format}</option>
+              {/* {film.format.map((option) => (
+                
+                // <option key={formats.id} value={formats.format}></option>
+              ))} */}
+            </datalist>
           </div>
-          <div className="edit-film-series">
+          <div className="edit-film-series grid">
             <label>Series</label>
             <input
               value={editingSeries}

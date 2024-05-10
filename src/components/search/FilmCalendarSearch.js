@@ -1,6 +1,8 @@
 import React from "react";
 import FilmCalendarSearchBox from "./FilmCalendarSearchBox";
 import FilmCalendarSearchResults from "./FilmCalendarSearchResults";
+// import FilmSearchCancel from "./FilmSearchCancel";
+import { UserAuth } from "../../context/AuthContext";
 
 function FilmCalendarSearch({
   fetchPage,
@@ -12,21 +14,30 @@ function FilmCalendarSearch({
   toggleOff,
 }) {
   const className = style ? "toggle-on" : "toggle-off";
+  const { user } = UserAuth();
 
   return (
-    <section className={`film-calendar-search ${className}`} id="scrollableDiv">
-      <FilmCalendarSearchBox
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-      <FilmCalendarSearchResults
-        fetchPage={fetchPage}
-        pagination={pagination}
-        resultsList={resultsList}
-        searchValue={searchValue}
-        toggleOff={toggleOff}
-      />
-    </section>
+    <>
+      {user?.displayName ? (
+        <section
+          className={`film-calendar-search ${className}`}
+          id="scrollableDiv"
+        >
+          {/* <FilmSearchCancel toggleOff={toggleOff}/> */}
+          <FilmCalendarSearchBox
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+          <FilmCalendarSearchResults
+            fetchPage={fetchPage}
+            pagination={pagination}
+            resultsList={resultsList}
+            searchValue={searchValue}
+            toggleOff={toggleOff}
+          />
+        </section>
+      ) : null}
+    </>
   );
 }
 

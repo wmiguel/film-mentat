@@ -6,10 +6,21 @@
   --persian-03:   #293BE2;
   --persian-04:   #090E40;
   --malachite-01: #00E054;
+  
+  --nero: #161616;
+  --burnt-orange: #FF692E;
+  --sinbad: #A7CBCE;
+  --fountain-blue: #65A4AA;
+  --travertine: #E5E3D0;
+  --alabaster: #F3F2EA;
 }
 
+
+
+
+
 body {
-  background-color: var(--nebula-01);
+  background-color: var(--alabaster);
 }
 
 datalist {
@@ -28,43 +39,47 @@ option:hover,  .active{
 
 #mentat-site {
   /* color: var(--persian-03); */
-  color: var(--nebula-02);
+  color: var(--nero);
 }
 
 /* Navigation */
 
 .film-calendar-header {
   color: var(--nebula-02);
-  background-color: var(--persian-04);
+  background-color: var(--burnt-orange);
 }
 
 /* Sign-Up & Home */
 
 .film_mentat-home {
-  background-color: var(--persian-04);
+  background-color: var(--alabaster);
 }
 
 /* Search Functions */
 
 .film-calendar-search {
-  background-color: var(--persian-03);
+  background-color: var(--sinbad);
 }
 
 .film-calendar-search-box {
-  background-color: var(--persian-03);
+  background-color: var(--sinbad);
 }
 
 .search-results-number {
   color: var(--nebula-02);
-  background-color: var(--persian-03);
+  background-color: var(--sinbad);
 }
 
 /* Search Result Card */
 
+.film-calendar-search-box {
+  border-bottom: 1px solid var(--fountain-blue);
+}
+
 .search-result-card {
   background-color: transparent;
-  border: 1px solid var(--persian-04);
-  /* border-bottom: 1px solid var(--persian-04); */
+  /* border: 1px solid var(--persian-04); */
+  border-bottom: 1px solid var(--fountain-blue);
 }
 
 .film-result {
@@ -86,63 +101,69 @@ option:hover,  .active{
   background-color: var(--malachite-01);
 } */
 
+.film-title-year h4 {
+  color: var(--nero);
+}
+
 .film-title-year span {
-  color: var(--nebula-02);
+  color: var(--nero);
 }
 
 /* Film Calendar List */
 
-.pause-scroll {
-  background-color: var(--nebula-01);
+.film-calendar-month {
+  background-color: var(--sinbad);
+  color: var(--nebula-02);
 }
 
-.film-calendar-month {
-  background-color: var(--persian-03);
-  color: var(--nebula-02);
-  background-color: var(--persian-03);
+.film-calendar-month h2 { 
+  color: var(--nero);
 }
 
 .film-date-border {
-  border: 1.5px solid var(--persian-03);
-  color: var(--persian-03);
+  border: 1.5px solid var(--burnt-orange);
+  color: var(--burnt-orange);
 }
 
 /* Film Event Card */
 
 .film-series {
-  background-color: var(--persian-04);
-  color: var(--nebula-02);
+  /* background-color: var(--persian-04); */
+  color: var(--burnt-orange);
 }
 
 .film-event {
-  background-color: var(--nebula-02);
+  background-color: var(--travertine);
   /* border-bottom: 1px solid var(--persian-03); */
 }
 
 .edit {
-  background-color: transparent;  
-  border: 2px solid var(--persian-01);
-  color: var(--persian-01);
+  background-color: transparent; 
+  border: none; 
+  /* border: 2px solid var(--persian-01); */
+  color: var(--burnt-orange);
 }
 
 /* Buttons */
 
 .search {
-  background-color: transparent;
-  border: 2px solid var(--malachite-01);
-  color: var(--malachite-01);
+  background-color: var(--burnt-orange);
+  border: none;
+  color: var(--nero);
 }
 
 .account {
   background-color: transparent;
-  border: 2px solid var(--malachite-01);
-  color: var(--malachite-01);
+  /* border: 2px solid var(--malachite-01); */
+  border: none;
+  color: var(--travertine);
 }
 
 .local {
   background-color: transparent;
-  border: 2px solid var(--malachite-01);
-  color: var(--malachite-01);
+  /* border: 2px solid var(--malachite-01); */
+  border: none;
+  color: var(--travertine);
 }
 
 .save {
@@ -167,8 +188,8 @@ option:hover,  .active{
 /* Film Event Editor */
 
 .film-edit-form input {
-  background-color: var(--nebula-01);
-  color: var(--persian-04);
+  background-color: var(--alabaster);
+  color: var(--nero);
 }
 
 .film-update-buttons > button {

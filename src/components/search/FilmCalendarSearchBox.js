@@ -8,7 +8,7 @@ const FilmCalendarSearchBox = ({ searchValue, setSearchValue }) => {
   return (
     <div className="film-calendar-search-box">
       <form
-        className="search-form"
+        className="search-form flex"
         onSubmit={(e) => {
           e.preventDefault();
         }}

@@ -1,59 +1,48 @@
 import React, { useState } from "react";
-import "./css/App.css";
-import "./css/film-mentat.css";
-import "./css/themes/nebula.css";
-
 import { AuthContextProvider } from "./context/AuthContext";
 import { Route, Routes } from "react-router-dom";
-
-import NavigationBar from "./components/search/NavigationBar";
-import FilmCalendarList from "./components/calendar/FilmCalendarList";
 import Protected from "./components/navbar/Protected";
+import Navigation from "./components/navbar/Navigation";
 import Home from "./pages/Home";
+import Calendar from "./pages/Calendar";
 import Account from "./pages/Account";
-// import LocalCalendarSearch from "./pages/LocalCalendarSearch";
+import Local from "./pages/Local";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const [pauseScroll, setPauseScroll] = useState(false);
   return (
-    <>
-      <AuthContextProvider>
-        {/* Displayed in every page */}
-        <NavigationBar
-          setPauseScroll={setPauseScroll}
-          pauseScroll={pauseScroll}
+    <AuthContextProvider>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/calendar"
+          element={
+            <Protected>
+              <Calendar pauseScroll={pauseScroll} />
+            </Protected>
+          }
         />
-
-        {/* Each route path leads to this page */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/calendar"
-            element={
-              <Protected>
-                <FilmCalendarList pauseScroll={pauseScroll} />
-              </Protected>
-            }
-          />
-          <Route
-            path="/account"
-            element={
-              <Protected>
-                <Account />
-              </Protected>
-            }
-          />
-          {/* <Route
-            path="/local"
-            element={
-              <Protected>
-                <LocalCalendarSearch />
-              </Protected>
-            }
-          /> */}
-        </Routes>
-      </AuthContextProvider>
-    </>
+        <Route
+          path="/account"
+          element={
+            <Protected>
+              <Account />
+            </Protected>
+          }
+        />
+        <Route
+          path="/local"
+          element={
+            <Protected>
+              <Local />
+            </Protected>
+          }
+        />
+      </Routes>
+      <Footer setPauseScroll={setPauseScroll} pauseScroll={pauseScroll} />
+    </AuthContextProvider>
   );
 }
 export default App;

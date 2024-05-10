@@ -10,7 +10,7 @@ const FilmEventDate = ({ filmEventDate }) => {
 
   return (
     <div className="film-date">
-      <div className="film-date-border">
+      <div className="film-date-border grid">
         <span>{dayName}</span>
         <h3>{dayDate}</h3>
       </div>

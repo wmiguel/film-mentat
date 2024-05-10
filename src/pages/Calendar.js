@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, db, } from "../../firebase/firebase";
+import { auth, db, } from "../firebase/firebase";
 import {
   query,
   where,
@@ -7,7 +7,7 @@ import {
   collection,
   onSnapshot
 } from "firebase/firestore";
-import FilmCard from "./FilmCard";
+import FilmCard from "../components/calendar/FilmCard";
 
 function FilmCalendarList({ pauseScroll }) {
   const [films, setFilms] = useState([]);
@@ -29,6 +29,7 @@ function FilmCalendarList({ pauseScroll }) {
   ];
   const organizedFilms = organizeFilmsByMonth(films);
   const pause = pauseScroll ? "pause-scroll" : "";
+  // console.log(films);
 
   // Read film from firebase
   useEffect(() => {
@@ -120,17 +121,43 @@ function FilmCalendarList({ pauseScroll }) {
     return;
   }
   return (
-    <section id="film-calendar-list" className={`film-calendar-list ${pause}`}>
+    <section
+      id="film-calendar-list"
+      className={`film-calendar-list flex ${pause}`}
+    >
       <div className="content-wrap">
+        <div className="dates-list">
+          <div
+            style={{
+              // backgroundColor: "blue",
+              marginRight: "12px",
+              padding: "6px 12px",
+            }}
+          >
+            <p>All</p>
+          </div>
+          {films.map((filmDates, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: "blue",
+                marginRight: "12px",
+                padding: "6px 12px",
+              }}
+            >
+              <p>{filmDates.date}</p>
+            </div>
+          ))}
+        </div>
         {organizedFilms.map((monthData, index) => (
           <div key={index} className="month-wrap">
-            <div className="film-calendar-month">
+            <div className="film-calendar-month flex">
               <h2>{monthData.month}</h2>
             </div>
             {Object.entries(monthData.days).map(([day, films]) => (
-              <div key={day} className="day-wrap">
+              <div key={day} className="day-wrap grid">
                 <div className="film-calendar-day film-date">
-                  <div className="film-date-border">
+                  <div className="film-date-border grid">
                     <span></span>
                     <h3>{day}</h3>
                   </div>

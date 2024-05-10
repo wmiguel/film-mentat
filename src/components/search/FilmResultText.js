@@ -1,16 +1,18 @@
 import React from "react";
-// import Movie from "./Movie";+
+// import Movie from "./Movie";
 
-const FilmText = ({ resultTitle, resultYear }) => {
+const FilmResultText = ({ resultTitle, resultYear }) => {
   return (
-    <div className="film-text">
+    <div className="film-text grid">
       <div className="film-info">
-        <div className="film-title-year">
-          <h4>{resultTitle} </h4>
-          <span style={{ color: "white" }}>{resultYear}</span>
+        <div className="film-title-year flex">
+          <h4>
+            {resultTitle} 
+            {/* <span style={{ color: "white" }}>{resultYear}</span> */}
+          </h4>
         </div>
       </div>
     </div>
   );
 };
-export default FilmText;
+export default FilmResultText;

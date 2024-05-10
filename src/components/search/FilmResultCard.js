@@ -5,23 +5,22 @@ import { auth, db } from "../../firebase/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
 const FilmResultCard = ({ film, index, toggleOff }) => {
+  
   const addtoCalendar = async (film) => {
     const newFavouriteList = [film];
+    const { uid } = auth.currentUser;
 
     const parts = newFavouriteList[0].release_date.split("-");
     const release_year = parts[0];
-
     const today = new Date();
     const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
+    let mm = today.getMonth() + 1;
     let dd = today.getDate();
 
     if (dd < 10) dd = "0" + dd;
     if (mm < 10) mm = "0" + mm;
 
     const formattedToday = yyyy + "-" + mm + "-" + dd;
-
-    const { uid } = auth.currentUser;
 
     await addDoc(collection(db, "tmdbFilms"), {
       uid,

@@ -1,11 +1,11 @@
 import React from "react";
-import { MdEdit } from "react-icons/md";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const FilmEditEvent = ({ filmID, setTodoEditing }) => {
   return (
-    <div className="film-edit-button">
-      <button className="edit">
-        {<MdEdit onClick={() => setTodoEditing(filmID)} size={20} />}
+    <div className="film-edit-button flex">
+      <button className="edit inline-flex">
+        <HiDotsHorizontal onClick={() => setTodoEditing(filmID)} size={20} />
       </button>
     </div>
   );

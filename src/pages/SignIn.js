@@ -26,17 +26,17 @@ const SignIn = () => {
     <>
       <section
         id="sign-in"
-        className={"film-calendar-list film-calendar-home"}
+        className="film-calendar-list flex film-calendar-home"
       >
         <div className="content-wrap">
           <div className="month-wrap">
-            <div className="film-calendar-month">
+            <div className="film-calendar-month flex">
               <h2>SignIn</h2>
             </div>
 
-            <div key="5" className="day-wrap">
+            <div key="5" className="day-wrap grid">
               <div className="film-calendar-day film-date">
-                <div className="film-date-border">
+                <div className="film-date-border film-date-border grid">
                   <span></span>
                   <h3>5</h3>
                 </div>
@@ -44,8 +44,8 @@ const SignIn = () => {
 
               <div className="film-calendar-event">
                 <div className="film-card">
-                  <div className="film-event">
-                    <div className="film-text">
+                  <div className="film-event grid">
+                    <div className="film-text grid">
                       <div className="film-info show">
                         <GoogleButton onClick={handleGoogleSignIn} />
                       </div>

@@ -1,8 +1,6 @@
 import axios from "axios";
 const OMDB_API = process.env.REACT_APP_OMDB_APIKEY;
-const tmdb_apiKey = "276c1cf8bcdd1f7d884c8fecfa7c3e8d";
-// const tmdb_token =
-//   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNzZjMWNmOGJjZGQxZjdkODg0YzhmZWNmYTdjM2U4ZCIsInN1YiI6IjVlYzBkOTUyOGUyZTAwMDAxZjE0Yjg5OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.s-LztF6Zww_tOjSBv9YXZSAXZIaVLHPWFry8Er-1WqU";
+const tmdb_apiKey = process.env.REACT_APP_TMDB_APIKEY;
 const apiUrl = `https://www.omdbapi.com/?apikey=${OMDB_API}`;
 const tmdb_url = `https://api.themoviedb.org/3/search/movie?api_key=${tmdb_apiKey}`;
 
@@ -19,7 +17,6 @@ export async function requestFetchMovies(params) {
     const response = await axios.get(tmdb_url, {
       params: {
         query: searchValue,
-        // type: "movie",
         page: page,
       },
     });

@@ -12,9 +12,9 @@ const Account = () => {
   };
 
   return (
-    <section id="home" className="film_mentat-home">
+    <section id="home" className="film_mentat-home flex">
       <div className="content-wrap">
-        <div className="home-wrap">
+        <div className="home-wrap grid">
           <div className="home-signin-text">
             <h1>Account</h1>
             <br />

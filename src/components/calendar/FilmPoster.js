@@ -1,17 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { requestFetchMovie } from "../../api/moviesRequests";
+import React from "react";
 
-const FilmPoster = ({ filmPoster, filmID }) => {
-  const [filmPosterID, setFilmPosterID] = useState("");
-  const tmdbID = filmID;
-  const filmPosterIDURL = async (tmdbID) => {
-    const response = await requestFetchMovie({ tmdbID });
-    const poster = response.data.poster_path;
-    setFilmPosterID(poster);
-  };
-  useEffect(() => {
-    filmPosterIDURL(tmdbID);
-  }, [tmdbID]);
+const FilmPoster = ({ filmPoster }) => {
 
   return (
     <div className="film-poster">
@@ -19,13 +8,15 @@ const FilmPoster = ({ filmPoster, filmID }) => {
         <div
           className="film-poster-img"
           style={{
-            backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmPoster}")`,
+            backgroundImage: `url("")`,
           }}
         ></div>
       ) : (
         <div
           className="film-poster-img"
-          style={{ backgroundImage: `url("${filmPosterID}")` }}
+          style={{
+            backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmPoster}")`,
+          }}
         ></div>
       )}
     </div>
