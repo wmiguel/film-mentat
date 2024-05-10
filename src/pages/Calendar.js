@@ -43,7 +43,7 @@ function FilmCalendarList({ pauseScroll }) {
   useEffect(() => {
     if (userLogged) {
       const fetchFilms = async () => {
-        const filmsRef = collection(db, "tmdbFilms");
+        const filmsRef = collection(db, "films");
         const q = query(
           filmsRef,
           where("uid", "==", userLogged),

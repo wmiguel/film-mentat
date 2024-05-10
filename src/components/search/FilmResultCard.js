@@ -22,7 +22,7 @@ const FilmResultCard = ({ film, index, toggleOff }) => {
 
     const formattedToday = yyyy + "-" + mm + "-" + dd;
 
-    await addDoc(collection(db, "tmdbFilms"), {
+    await addDoc(collection(db, "films"), {
       uid,
       title: newFavouriteList[0].title,
       year: release_year,

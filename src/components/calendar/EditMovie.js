@@ -14,7 +14,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
     if (editingDate === "") {
       return;
     }
-    await updateDoc(doc(db, "tmdbFilms", film.id), {
+    await updateDoc(doc(db, "films", film.id), {
       date: editingDate,
       format: editingFormat,
       series: editingSeries,
@@ -27,7 +27,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
 
   // Delete Film
   const deleteFilm = async () => {
-    await deleteDoc(doc(db, "tmdbFilms", film.id));
+    await deleteDoc(doc(db, "films", film.id));
     setTodoEditing(null);
     setEditingDate("");
     setEditingFormat("");
