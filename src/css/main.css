@@ -78,6 +78,8 @@ option {
 
 .film-search-cancel {
   display: flex;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
 }
 
 .film-search-cancel > button {
@@ -108,13 +110,13 @@ option {
   overflow: scroll;
   z-index: 11;
 
-  /* height: calc(100vh - 106px); */
+  height: calc(100vh - 65px);
   /* height: 100vh; */
   
-  /* transform-origin: 0 100%; */
+  transform-origin: 0 100%;
 
-  transition: ease-in-out 0.5s;
-  /* transition: transform 0.5s; */
+  /* transition: ease-in-out 0.5s; */
+  transition: transform 0.65s ease-in-out;
 }
 
 .film-calendar-search > div {
@@ -122,10 +124,10 @@ option {
 }
 
 .toggle-off {
-  /* transform: scaleY(0); */
-  margin-top: 0px;
-  height: 0px;
-  visibility: hidden;
+  transform: scaleY(0);
+  /* margin-top: 0px; */
+  /* height: 0px; */
+  /* visibility: hidden; */
 }
 
 .toggle-off > div {
@@ -133,12 +135,12 @@ option {
 }
 
 .toggle-on {
-  /* transform: scaleY(1); */
+  transform: scaleY(1);
 
-  margin-top: 60px;
-  height: calc(100vh - 124px);
+  /* margin-top: 60px; */
+  /* height: calc(100vh - 124px); */
   /* height: 100vh; */
-  visibility: visible;
+  /* visibility: visible; */
 }
 
 .toggle-on > div {
@@ -146,9 +148,9 @@ option {
 }
 
 .film-calendar-search-box {
-  height: 60px;
+  /* height: 60px; */
   margin-top: -32px;
-  padding: 24px 0;
+  padding: 32px 0 16px;
 
   position: sticky;
   z-index: 20;
@@ -237,6 +239,24 @@ option {
 
 /* Film Calendar List */
 
+.dash-border {
+  /* height: 100%; */
+  flex-grow: 1;
+  margin: 24px;
+  display: flex;
+}
+
+.empty-text {
+  text-align: center;
+  margin: auto;
+  line-height: 2;
+}
+
+.empty-ticket {
+  width: 124px;
+  margin: auto;
+}
+
 .film-calendar-list {
 
   margin-top: 36px;
@@ -246,6 +266,15 @@ option {
 .pause-scroll {
   position: fixed;
   width: inherit;
+}
+
+.empty-wrap {
+  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-flow: column;
+  height: calc(100vh - 138px);
 }
 
 .content-wrap {
@@ -539,6 +568,13 @@ button.local svg {
 
 .google-signin-button {
   margin: auto;
+}
+
+/* Letterboxd Page */
+
+.film-letterboxd {
+  margin-top: 36px;
+  padding-top: 24px;
 }
 
 /* Footer */

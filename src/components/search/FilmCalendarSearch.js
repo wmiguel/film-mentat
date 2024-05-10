@@ -1,7 +1,6 @@
 import React from "react";
 import FilmCalendarSearchBox from "./FilmCalendarSearchBox";
 import FilmCalendarSearchResults from "./FilmCalendarSearchResults";
-// import FilmSearchCancel from "./FilmSearchCancel";
 import { UserAuth } from "../../context/AuthContext";
 
 function FilmCalendarSearch({
@@ -23,10 +22,10 @@ function FilmCalendarSearch({
           className={`film-calendar-search ${className}`}
           id="scrollableDiv"
         >
-          {/* <FilmSearchCancel toggleOff={toggleOff}/> */}
           <FilmCalendarSearchBox
             searchValue={searchValue}
             setSearchValue={setSearchValue}
+            toggleOff={toggleOff}
           />
           <FilmCalendarSearchResults
             fetchPage={fetchPage}

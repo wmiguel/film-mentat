@@ -8,6 +8,7 @@ import {
   onSnapshot
 } from "firebase/firestore";
 import FilmCard from "../components/calendar/FilmCard";
+import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg'
 
 function FilmCalendarList({ pauseScroll }) {
   const [films, setFilms] = useState([]);
@@ -29,7 +30,6 @@ function FilmCalendarList({ pauseScroll }) {
   ];
   const organizedFilms = organizeFilmsByMonth(films);
   const pause = pauseScroll ? "pause-scroll" : "";
-  // console.log(films);
 
   // Read film from firebase
   useEffect(() => {
@@ -120,60 +120,81 @@ function FilmCalendarList({ pauseScroll }) {
   if (isLoading) {
     return;
   }
-  return (
-    <section
-      id="film-calendar-list"
-      className={`film-calendar-list flex ${pause}`}
-    >
-      <div className="content-wrap">
-        <div className="dates-list">
-          <div
-            style={{
-              // backgroundColor: "blue",
-              marginRight: "12px",
-              padding: "6px 12px",
-            }}
-          >
-            <p>All</p>
-          </div>
-          {films.map((filmDates, index) => (
+  
+  if (films.length !== 0) {
+    return (
+      <section
+        id="film-calendar-list"
+        className={`film-calendar-list flex ${pause}`}
+      >
+        <div className="content-wrap">
+          {/* <div className="dates-list">
             <div
-              key={index}
               style={{
-                backgroundColor: "blue",
+                // backgroundColor: "blue",
                 marginRight: "12px",
                 padding: "6px 12px",
               }}
             >
-              <p>{filmDates.date}</p>
+              <p>All</p>
+            </div>
+            {films.map((filmDates, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: "blue",
+                  marginRight: "12px",
+                  padding: "6px 12px",
+                }}
+              >
+                <p>{filmDates.date}</p>
+              </div>
+            ))}
+          </div> */}
+          {organizedFilms.map((monthData, index) => (
+            <div key={index} className="month-wrap">
+              <div className="film-calendar-month flex">
+                <h2>{monthData.month}</h2>
+              </div>
+              {Object.entries(monthData.days).map(([day, films]) => (
+                <div key={day} className="day-wrap grid">
+                  <div className="film-calendar-day film-date">
+                    <div className="film-date-border grid">
+                      <span></span>
+                      <h3>{day}</h3>
+                    </div>
+                  </div>
+
+                  <div className="film-calendar-event">
+                    {films.map((film, index) => (
+                      <FilmCard key={index} film={film} />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
         </div>
-        {organizedFilms.map((monthData, index) => (
-          <div key={index} className="month-wrap">
-            <div className="film-calendar-month flex">
-              <h2>{monthData.month}</h2>
+      </section>
+    );
+  } else {
+    return (
+      <section
+        id="film-calendar-list"
+        className={`film-calendar-list flex ${pause}`}
+      > 
+        <div className="empty-wrap">
+          <div className="dash-border">
+            <div className="empty-text">
+              <div className="empty-ticket"><TicketSVG/></div>
+              <h1>No Movies Scheduled!</h1>
+              <h3>Add your next movie event.</h3>
             </div>
-            {Object.entries(monthData.days).map(([day, films]) => (
-              <div key={day} className="day-wrap grid">
-                <div className="film-calendar-day film-date">
-                  <div className="film-date-border grid">
-                    <span></span>
-                    <h3>{day}</h3>
-                  </div>
-                </div>
-
-                <div className="film-calendar-event">
-                  {films.map((film, index) => (
-                    <FilmCard key={index} film={film} />
-                  ))}
-                </div>
-              </div>
-            ))}
           </div>
-        ))}
-      </div>
-    </section>
-  );
+        </div>
+      </section>
+    );
+  }
+  
 }
 export default FilmCalendarList;

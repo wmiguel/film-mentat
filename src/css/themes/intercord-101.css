@@ -13,6 +13,7 @@
   --fountain-blue: #65A4AA;
   --travertine: #E5E3D0;
   --alabaster: #F3F2EA;
+  --green-mist : #C8C49F;
 }
 
 
@@ -65,6 +66,10 @@ option:hover,  .active{
   background-color: var(--sinbad);
 }
 
+.film-search-cancel {
+  border-bottom: 1px solid var(--fountain-blue);
+}
+
 .search-results-number {
   color: var(--nebula-02);
   background-color: var(--sinbad);
@@ -88,13 +93,11 @@ option:hover,  .active{
 }
 
 .film-poster {
-  background-color: var(--persian-03);
-  background-color: var(--malachite-01);
+  background-color: var(--fountain-blue);
 }
 
 .film-poster-img {
-  background-color: var(--persian-03);
-  background-color: var(--malachite-01);
+  background-color: var(--green-mist);
 }
 
 /* .film-text{
@@ -110,6 +113,19 @@ option:hover,  .active{
 }
 
 /* Film Calendar List */
+
+.dash-border {
+  background-image: repeating-linear-gradient(-1deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(89deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(179deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(269deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px); 
+  /* border-radius: 8px; */
+  background-size: 3px 100%, 100% 3px, 3px 100% , 100% 3px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat; 
+}
+
+.empty-text h1 {
+  color: var(--burnt-orange);
+  font-weight: bold;
+}
 
 .film-calendar-month {
   background-color: var(--sinbad);

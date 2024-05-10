@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import FilmCalendarSearch from "../search/FilmCalendarSearch";
-import { FaTicketAlt } from "react-icons/fa";
 import FilmHome from "../buttons/FilmHome";
 import FilmLocalEvents from "../buttons/FilmLocalEvents";
 import FilmToggleSearch from "../buttons/FilmToggleSearch";
 import FilmCalendarAccount from "../buttons/FilmCalendarAccount";
+import FilmLetterboxd from "../buttons/FilmLetterboxd";
 import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
@@ -19,34 +19,33 @@ function Footer({ pauseScroll, setPauseScroll }) {
     page: 1,
     totalPages: 1,
   });
-  const itemsPerpage = 10;
+  // const itemsPerpage = 10;
 
   const searchMovie = async (searchValue) => {
     let count = 0;
     let tmdbResults = [];
     const response = await requestFetchMovies({ page: 1, searchValue });
-    // console.log(response.data);
-    const { results, total_results } = response.data;
+    const { results, total_results, total_pages } = response.data;
     count = Number(total_results);
     tmdbResults = results;
     setPagination({
       count,
       page: 1,
-      totalPages: count === 0 ? 1 : Math.ceil(count / itemsPerpage),
+      totalPages: total_pages,
+      // totalPages: count === 0 ? 1 : Math.ceil(count / itemsPerpage),
     });
-    // console.log(results);
     setResultsList(tmdbResults);
   };
 
   // fetch results page
   const fetchPage = async (pageNum) => {
     const response = await requestFetchMovies({ page: pageNum, searchValue });
-    const { Search: results } = response.data;
+    // const { Search: results } = response.data;
     setPagination({
       ...pagination,
       page: pageNum,
     });
-    setResultsList(resultsList.concat(results));
+    setResultsList(resultsList.concat(response.data.results));
   };
 
   // get results when searchValue change
@@ -87,7 +86,7 @@ function Footer({ pauseScroll, setPauseScroll }) {
               <FilmHome />
               <FilmLocalEvents />
               <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
-              <FaTicketAlt color="white" />
+              <FilmLetterboxd />
               <FilmCalendarAccount />
             </div>
           </footer>

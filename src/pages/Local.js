@@ -3,8 +3,9 @@ import axios from "axios";
 import { auth, db } from "../firebase/firebase";
 import { addDoc, collection } from "firebase/firestore";
 
-function FilmCalendarList() {
+function FilmCalendarList({ pauseScroll }) {
   const [screening, setScreening] = useState([]);
+  const pause = pauseScroll ? "pause-scroll" : "";
 
   const addtoCalendar = async (screen) => {
     const screeningInfo = [screen];
@@ -38,46 +39,92 @@ function FilmCalendarList() {
     };
 
     const getScreeningRequest = async () => {
-      await axios.request(config).then((response) => {
-        const results = response.data.data.listings;
-        // console.log(results);
-        setScreening(results);
-      }).catch((error) => {
-        console.log(error);
-      });
+      await axios
+        .request(config)
+        .then((response) => {
+          const results = response.data.data.listings;
+          setScreening(results);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     getScreeningRequest();
   }, []);
 
-
-
-
   return (
-    <section style={{ marginTop: "80px" }}>
-      {screening.map((screen, index) => (
-        <div
-          key={index}
-          style={{
-            color: "black",
-            border: "1px solid black",
-            marginBottom: "24px",
-            width: "800px",
-            cursor: "pointer",
-            backgroundColor: "white"
-          }}
-          onClick={() => addtoCalendar(screen)}
-        >
-          <p>{new Date(screen.startDate).toISOString().split("T")[0]}</p>
-          <p>{new Date(screen.startDate).toISOString().split("T")[1]}</p>
-          {/* <p>{screen.startDate}</p> */}
-          <h1 style={{ fontSize: "24px" }}>
-            <strong>{screen.name}</strong>
-          </h1>
-          <p>{screen.place.name}</p>
-          <p>{screen.place.address}</p>
-          <a href={screen.url}>Event Info</a>
+    <section
+      className={`film-calendar-list flex ${pause}`}
+    >
+      <div className="content-wrap">
+        <div className="film-calendar-event">
+          <div className="month-wrap">
+            <div className="film-calendar-month flex">
+              {/* <h2>May 2024</h2> */}
+            </div>
+            <div className="day-wrap grid">
+              <div className="film-calendar-day film-date">
+                <div className="film-date-border grid">
+                  <span></span>
+                  {/* <h3>23</h3> */}
+                </div>
+              </div>
+              <div className="film-calendar-event">
+                {screening.map((screen, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      // color: "black",
+                      // border: "1px solid black",
+                      // marginBottom: "24px",
+                      cursor: "pointer",
+                      // backgroundColor: "white",
+                    }}
+                    onClick={() => addtoCalendar(screen)}
+                    className="film-card"
+                  >
+                    <div className="film-event grid cover-image">
+                      <div className="film-poster">
+                        <div className="film-poster-img"></div>
+                      </div>
+                      <div className="film-text grid">
+                        <div className="film-info">
+                          <div className="film-title-year flex">
+                            <h4>
+                              {screen.name}
+                              <span></span>
+                            </h4>
+                          </div>
+                          <div className="film-series-format">
+                            <p>
+                              {
+                                new Date(screen.startDate)
+                                  .toISOString()
+                                  .split("T")[0]
+                              }
+                            </p>
+                            <p>
+                              {
+                                new Date(screen.startDate)
+                                  .toISOString()
+                                  .split("T")[1]
+                              }
+                            </p>
+                            <p>{screen.place.name}</p>
+                            <p>{screen.place.address}</p>
+                            {/* <a href={screen.url}>Event Info</a> */}
+                            {/* <p>{screen.startDate}</p> */}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
+      </div>
     </section>
   );
 }
