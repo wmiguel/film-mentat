@@ -3,7 +3,7 @@ import { FaTicketAlt } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 
-const FilmLetterboxd = () => {
+const Letterboxd = () => {
   return (
     <Link to="/letterboxd">
       <button className="local inline-flex">
@@ -13,4 +13,4 @@ const FilmLetterboxd = () => {
   );
 };
 
-export default FilmLetterboxd;
+export default Letterboxd;

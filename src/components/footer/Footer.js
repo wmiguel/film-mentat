@@ -3,8 +3,8 @@ import FilmCalendarSearch from "../search/FilmCalendarSearch";
 import FilmHome from "../buttons/FilmHome";
 import FilmLocalEvents from "../buttons/FilmLocalEvents";
 import FilmToggleSearch from "../buttons/FilmToggleSearch";
-import FilmCalendarAccount from "../buttons/FilmCalendarAccount";
-import FilmLetterboxd from "../buttons/FilmLetterboxd";
+import AccountButton from "../buttons/Account";
+import LetterboxdButton from "../buttons/Letterboxd";
 import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
@@ -86,8 +86,8 @@ function Footer({ pauseScroll, setPauseScroll }) {
               <FilmHome />
               <FilmLocalEvents />
               <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
-              <FilmLetterboxd />
-              <FilmCalendarAccount />
+              <LetterboxdButton />
+              <AccountButton />
             </div>
           </footer>
         </>

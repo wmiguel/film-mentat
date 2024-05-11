@@ -2,7 +2,7 @@ import React from "react";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const FilmCalendarAccount = () => {
+const ButtonAccount = () => {
   return (
     <Link to="/account">
       <button className="account inline-flex">
@@ -12,4 +12,4 @@ const FilmCalendarAccount = () => {
   );
 };
 
-export default FilmCalendarAccount;
+export default ButtonAccount;

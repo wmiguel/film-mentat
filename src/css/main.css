@@ -289,9 +289,9 @@ option {
   overflow: scroll;
 }
 
-.month-wrap {
+/* .month-wrap {
   padding-bottom: 42px;
-}
+} */
 
 .film-calendar-month {
   position: sticky;
