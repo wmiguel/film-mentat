@@ -92,10 +92,6 @@ option:hover,  .active{
 
 /* Film Calendar List */
 
-.pause-scroll {
-  background-color: var(--nebula-01);
-}
-
 .film-calendar-month {
   background-color: var(--persian-03);
   color: var(--nebula-02);

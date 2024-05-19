@@ -1,29 +1,38 @@
 import React  from "react";
-import FilmEditEvent from "../buttons/FilmEditEvent";
-import FilmSeries from "./FilmSeries";
 
-const Movie = ({ film, filmDuration, filmDirector, filmRating, setTodoEditing }) => {
+const Movie = ({ film, filmDuration, filmDirector, filmRating }) => {
   return (
     <>
-      <div className="film-info show">
-        {film.series === "" ? <></> : <FilmSeries series={film.series} />}
-        <div className="film-title-year flex">
-          <h4>
-            {film.title} <span>{film.year}</span>
-          </h4>
+      {film.series === "" ? (
+        <></>
+      ) : (
+        <div className="film-series flex">
+          <span>{film.series}</span>
         </div>
-
-        <div className="film-series-format">
-          <p>directed by {filmDirector}</p>
-          <p>
-            {filmRating === "" ? "" : filmRating + " · "}
-            {filmDuration} mins
-            {film.format === "" ? "" : " · " + film.format}
-          </p>
+      )}
+      <div className="title-year show">
+        <div className="title">
+          {/* <h4> */}
+          {film.title}
+          {/* </h4> */}
+        </div>
+        <div className="year">
+          {/* <span> */}
+          {film.year}
+          {/* </span> */}
         </div>
       </div>
+      <div className="director">
+        <p>directed by {filmDirector}</p>
+      </div>
 
-      <FilmEditEvent filmID={film.id} setTodoEditing={setTodoEditing} />
+      <div className="rating-duration-location">
+        <p>
+          {filmRating === "" ? "" : filmRating + " · "}
+          {filmDuration} mins
+          {film.format === "" ? "" : " · " + film.format}
+        </p>
+      </div>
     </>
   );
 };

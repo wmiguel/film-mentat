@@ -3,6 +3,7 @@ const OMDB_API = process.env.REACT_APP_OMDB_APIKEY;
 const tmdb_apiKey = process.env.REACT_APP_TMDB_APIKEY;
 const apiUrl = `https://www.omdbapi.com/?apikey=${OMDB_API}`;
 const tmdb_url = `https://api.themoviedb.org/3/search/movie?api_key=${tmdb_apiKey}`;
+const tmdb_NowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb_apiKey}`;
 
 /**
  * get movies by title
@@ -18,6 +19,25 @@ export async function requestFetchMovies(params) {
       params: {
         query: searchValue,
         page: page,
+      },
+    });
+    return response;
+  } catch (err) {
+    return err.response;
+  }
+}
+
+/** get Now Playing
+/* @param {number} params.page
+*/
+export async function requestNowPlaying(params) {
+  const { page, region } = params;
+  try {
+    const response = await axios.get(tmdb_NowPlaying, {
+      params: {
+        language: "en-US",
+        page: page,
+        region: region,
       },
     });
     return response;

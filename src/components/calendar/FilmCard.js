@@ -1,65 +1,80 @@
 import React, { useState, useEffect } from "react";
-// import FilmSeries from "./FilmSeries";
-import EditMovie from "./EditMovie";
 import Movie from "./Movie";
-
+// import FilmModal from "./FilmModal";
+import CardTicket from "../../images/card-ticket.svg";
 const tmdb_apiKey = process.env.REACT_APP_TMDB_APIKEY;
 
-const FilmCard = ({ film, index }) => {
-  const filmID = film.tmdbID;
-  
+const FilmCard = ({
+  film,
+  index,
+  pauseScroll,
+  setPauseScroll,
+  openModal,
+  setOpenModal,
+  openFilmDetails,
+  setTodoEditing,
+}) => {
   const [filmDuration, setFilmDuration] = useState([]);
   const [filmDirector, setFilmDirector] = useState([]);
   const [filmRating, setFilmRating] = useState([]);
-  const [todoEditing, setTodoEditing] = useState(null);
+  // const [todoEditing, setTodoEditing] = useState(null);
+  // const [filmDetails, setFilmDetails] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
+  const filmID = film.tmdbID;
 
   useEffect(() => {
     const getFilmRequest = async (filmID) => {
       const url = `https://api.themoviedb.org/3/movie/${filmID}?api_key=${tmdb_apiKey}&append_to_response=release_dates,credits,watch/providers`;
       const response = await fetch(url);
       const responseJson = await response.json();
-
       const director = responseJson.credits.crew.find(
         (element) => element.job === "Director"
       );
-      const certification = responseJson.release_dates.results.find(
-        (country) => country.iso_3166_1 === "US"
-      );
-      const pickRating = certification.release_dates.find(
-        (rates) => rates.type === 3 || rates.type === 5 || rates.type === 4
-      );
-      setFilmRating(pickRating.certification);
+
+      try {
+        const certification = responseJson.release_dates.results.find(
+          (country) => country.iso_3166_1 === "US"
+        );
+        const pickRating = certification.release_dates.find(
+          (rates) => rates.type === 3 || rates.type === 5 || rates.type === 4
+        );
+        setFilmRating(pickRating.certification);
+      } catch (error) {
+        setFilmRating("NR");
+      }
+
       setFilmDirector(director.name);
       setFilmDuration(responseJson.runtime);
     };
     getFilmRequest(filmID);
   }, [filmID]);
 
+  // const openFilmDetails = () => {
+  //   setPauseScroll(!pauseScroll);
+  //   setTodoEditing(film.id);
+  //   setOpenModal(!openModal);
+  // };
+  // console.log(filmDetails);
+
   return (
-    <div className="film-card" key={index}>
-      {/* {film.series === "" ? <></> : <FilmSeries series={film.series} />} */}
-      <div className="film-event grid cover-image">
-        <div className="film-poster">
+    <>
+      <div
+        className="fm-movie-card"
+        key={index}
+        style={{ backgroundImage: `url(${CardTicket})` }}
+        onClick={() => openFilmDetails(film.id)}
+      >
+        <div className="container">
           {film.poster === "" ? (
-            <div
-              className="film-poster-img"
-              style={{
-                backgroundImage: `url("")`,
-              }}
-            ></div>
+            <figure></figure>
           ) : (
-            <div
-              className="film-poster-img"
+            <figure
               style={{
                 backgroundImage: `url("https://image.tmdb.org/t/p/w1280${film.poster}")`,
               }}
-            ></div>
+            ></figure>
           )}
-        </div>
-        <div className="film-text grid">
-          {todoEditing === film.id ? (
-            <EditMovie film={film} setTodoEditing={setTodoEditing} />
-          ) : (
+          <div className="details">
             <Movie
               film={film}
               filmDuration={filmDuration}
@@ -67,10 +82,10 @@ const FilmCard = ({ film, index }) => {
               filmRating={filmRating}
               setTodoEditing={setTodoEditing}
             />
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

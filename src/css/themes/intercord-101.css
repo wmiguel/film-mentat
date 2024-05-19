@@ -1,36 +1,25 @@
 :root {
-  --nebula-01:    #D8E3DF;
-  --nebula-02:    #EEF2F1;
-  --persian-01:   #9DA6F2;
-  --persian-02:   #6270EA;
-  --persian-03:   #293BE2;
-  --persian-04:   #090E40;
-  --malachite-01: #00E054;
-  
-  --nero: #161616;
-  --burnt-orange: #FF692E;
+  --alabaster: #F3F2EA;
+  --travertine: #E5E3D0;
+  --green-mist : #C8C49F;
   --sinbad: #A7CBCE;
   --fountain-blue: #65A4AA;
-  --travertine: #E5E3D0;
-  --alabaster: #F3F2EA;
-  --green-mist : #C8C49F;
+  --karry: #FFD6C6;
+  --burnt-orange: #FF692E;
+  --nero: #161616;
 }
-
-
-
-
 
 body {
   background-color: var(--alabaster);
 }
 
 datalist {
-  background-color: var(--nebula-02);
+  background-color: var(--alabaster);
   border: 1px solid blue;
 }
 
 option {
-  background-color: var(--nebula-02);
+  background-color: var(--alabaster);
   color: blue;
 }
 
@@ -39,14 +28,13 @@ option:hover,  .active{
 }
 
 #mentat-site {
-  /* color: var(--persian-03); */
   color: var(--nero);
 }
 
 /* Navigation */
 
 .film-calendar-header {
-  color: var(--nebula-02);
+  color: var(--alabaster);
   background-color: var(--burnt-orange);
 }
 
@@ -71,7 +59,7 @@ option:hover,  .active{
 }
 
 .search-results-number {
-  color: var(--nebula-02);
+  color: var(--alabaster);
   background-color: var(--sinbad);
 }
 
@@ -83,12 +71,11 @@ option:hover,  .active{
 
 .search-result-card {
   background-color: transparent;
-  /* border: 1px solid var(--persian-04); */
   border-bottom: 1px solid var(--fountain-blue);
 }
 
 .film-result {
-  color: var(--nebula-02);
+  color: var(--alabaster);
   background-color: transparent;
 }
 
@@ -99,10 +86,6 @@ option:hover,  .active{
 .film-poster-img {
   background-color: var(--green-mist);
 }
-
-/* .film-text{
-  background-color: var(--malachite-01);
-} */
 
 .film-title-year h4 {
   color: var(--nero);
@@ -116,7 +99,6 @@ option:hover,  .active{
 
 .dash-border {
   background-image: repeating-linear-gradient(-1deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(89deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(179deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px), repeating-linear-gradient(269deg, var(--green-mist), var(--green-mist) 18px, transparent 18px, transparent 35px, var(--green-mist) 35px); 
-  /* border-radius: 8px; */
   background-size: 3px 100%, 100% 3px, 3px 100% , 100% 3px;
   background-position: 0 0, 0 0, 100% 0, 0 100%;
   background-repeat: no-repeat; 
@@ -129,7 +111,7 @@ option:hover,  .active{
 
 .film-calendar-month {
   background-color: var(--sinbad);
-  color: var(--nebula-02);
+  color: var(--alabaster);
 }
 
 .film-calendar-month h2 { 
@@ -144,19 +126,16 @@ option:hover,  .active{
 /* Film Event Card */
 
 .film-series {
-  /* background-color: var(--persian-04); */
   color: var(--burnt-orange);
 }
 
 .film-event {
   background-color: var(--travertine);
-  /* border-bottom: 1px solid var(--persian-03); */
 }
 
 .edit {
   background-color: transparent; 
   border: none; 
-  /* border: 2px solid var(--persian-01); */
   color: var(--burnt-orange);
 }
 
@@ -170,35 +149,36 @@ option:hover,  .active{
 
 .account {
   background-color: transparent;
-  /* border: 2px solid var(--malachite-01); */
   border: none;
   color: var(--travertine);
 }
 
 .local {
   background-color: transparent;
-  /* border: 2px solid var(--malachite-01); */
   border: none;
   color: var(--travertine);
 }
 
 .save {
-  background-color: var(--persian-03);
+  background-color: var(--burnt-orange);
 }
 .save:hover {
-  background-color: var(--persian-04);
+  color: var(--burnt-orange);
+  background-color: var(--karry);
 }
 .delete {
-  background-color: var(--persian-02);
+  color: var(--burnt-orange) !important;
+  background-color: var(--karry);
 }
 .delete:hover {
-  background-color: var(--persian-03);
+  background-color: var(--travertine);
 }
 .cancel {
-  background-color: var(--persian-01);
+  color: var(--burnt-orange) !important;
+  background-color: var(--travertine);
 }
 .cancel:hover {
-  background-color: var(--persian-02);
+  background-color: var(--alabaster);
 }
 
 /* Film Event Editor */
@@ -209,5 +189,5 @@ option:hover,  .active{
 }
 
 .film-update-buttons > button {
-  color: var(--nebula-02);
+  color: var(--alabaster);
 }

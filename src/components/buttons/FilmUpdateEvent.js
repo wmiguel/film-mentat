@@ -1,7 +1,7 @@
 import React from "react";
 
 const FilmUpdateEvent = ({
-  filmID,
+  // filmID,
   updateFilm,
   deleteFilm,
   cancelEditFilm,
@@ -9,8 +9,8 @@ const FilmUpdateEvent = ({
   return (
     <div className="film-update-buttons">
       <button className="save" onClick={(f) => updateFilm(f)}>Save</button>
-      <button className="delete" onClick={() => deleteFilm(filmID)}>Delete</button>
-      <button className="cancel" onClick={() => cancelEditFilm(null)}>Cancel</button>
+      <button className="delete" onClick={() => deleteFilm()}>Delete</button>
+      <button className="cancel" onClick={() => cancelEditFilm()}>Cancel</button>
     </div>
   );
 };

@@ -3,10 +3,18 @@ import FilmUpdateEvent from "../buttons/FilmUpdateEvent";
 import { db } from "../../firebase/firebase";
 import { updateDoc, deleteDoc, doc } from "firebase/firestore";
 
-const EditMovie = ({ film, setTodoEditing }) => {
-  const [editingDate, setEditingDate] = useState(film.date);
-  const [editingFormat, setEditingFormat] = useState(film.format);
-  const [editingSeries, setEditingSeries] = useState(film.series);
+const EditMovie = ({
+  film,
+  filmData,
+  setTodoEditing,
+  setOpenModal,
+  setPauseScroll,
+  handleCloseModal,
+}) => {
+  const [editingDate, setEditingDate] = useState(filmData.date);
+  const [editingFormat, setEditingFormat] = useState(filmData.format);
+  const [editingSeries, setEditingSeries] = useState(filmData.series);
+
 
   // Update Film
   const updateFilm = async (f) => {
@@ -14,32 +22,41 @@ const EditMovie = ({ film, setTodoEditing }) => {
     if (editingDate === "") {
       return;
     }
-    await updateDoc(doc(db, "films", film.id), {
+    await updateDoc(doc(db, "films", film), {
       date: editingDate,
       format: editingFormat,
       series: editingSeries,
     });
+    setOpenModal(false);
     setTodoEditing(null);
     setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
+    setPauseScroll(false);
+    handleCloseModal();
   };
 
   // Delete Film
   const deleteFilm = async () => {
-    await deleteDoc(doc(db, "films", film.id));
+    await deleteDoc(doc(db, "films", film));
+    setOpenModal(false);
     setTodoEditing(null);
     setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
+    setPauseScroll(false);
+    handleCloseModal();
   };
 
   // Cancel Edit
   const cancelEditFilm = () => {
+    setOpenModal(false);
     setTodoEditing(null);
     setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
+    setPauseScroll(false);
+    handleCloseModal();
   };
 
   return (
@@ -47,7 +64,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
       <div className="film-info film-edit show">
         <div className="film-title-year flex">
           <h4>
-            {film.title} <span>{film.year}</span>
+            {filmData.title} <span>{filmData.year}</span>
           </h4>
         </div>
 
@@ -71,7 +88,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
               list="format-options"
             />
             <datalist id="format-options">
-              <option>{film.format}</option>
+              <option>{filmData.format}</option>
               {/* {film.format.map((option) => (
                 
                 // <option key={formats.id} value={formats.format}></option>
@@ -89,7 +106,7 @@ const EditMovie = ({ film, setTodoEditing }) => {
         </form>
       </div>
       <FilmUpdateEvent
-        filmID={film.id}
+        filmID={film}
         updateFilm={updateFilm}
         deleteFilm={deleteFilm}
         cancelEditFilm={cancelEditFilm}
