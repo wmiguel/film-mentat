@@ -8,7 +8,7 @@ import {
   onSnapshot
 } from "firebase/firestore";
 import FilmCard from "../components/calendar/FilmCard";
-import EventDates from "../components/local/CalendarDates";
+import CalendarDates from "../components/local/CalendarDates";
 // import EventPlaces from "../components/local/EventPlaces";
 import CalendarSeries from "../components/local/CalendarSeries";
 import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
@@ -182,8 +182,9 @@ function FilmCalendarList({
         id="film-calendar-list"
         className={`film-calendar-list flex ${pause}`}
       >
-        <EventDates
+        <CalendarDates
           dateHighlight={dateHighlight}
+          setDateHighlight={setDateHighlight}
           // dateSelectedFormating={dateSelectedFormating}
           modifiedScreeningDates={screeningDates}
           // startOfDayISO={startOfDayISO}

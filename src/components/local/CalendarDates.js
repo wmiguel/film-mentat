@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 function EventDates({
   dateHighlight,
   dateSelectedFormating,
+  setDateHighlight,
   modifiedScreeningDates,
   startOfDayISO,
   tomorrowStartISO,
