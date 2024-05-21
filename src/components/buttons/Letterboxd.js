@@ -1,15 +1,18 @@
 import React from "react";
 import { FaTicketAlt } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Letterboxd = () => {
   return (
-    <Link to="/letterboxd">
+    <NavLink
+      to="/letterboxd"
+      className={({ isActive }) => (isActive ? "highlight" : "")}
+    >
       <button className="local inline-flex">
         <FaTicketAlt size={18} />
       </button>
-    </Link>
+    </NavLink>
   );
 };
 

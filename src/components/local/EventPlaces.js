@@ -1,19 +1,46 @@
-function EventPlaces({ placeSelected, placeHighlight, screeningPlaces }) {
+import React from "react";
+import dayjs from "dayjs";
+
+function EventPlaces({
+  places,
+  highlight,
+  highlightPlace,
+  date,
+  zeitgeistsRequest,
+}) {
+  const placeSelected = (place, index) => {
+    highlightPlace(index);
+    if (place == null) {
+      if (date == null) {
+        zeitgeistsRequest(date, date, place);
+      } else {
+        const startofDay = dayjs(date).startOf("day").format();
+        const endofDay = dayjs(date).endOf("day").format();
+        zeitgeistsRequest(startofDay, endofDay, place);
+      }
+    } else {
+      if (date == null) {
+        zeitgeistsRequest(date, date, place);
+      } else {
+        const startofDay = dayjs(date).startOf("day").format();
+        const endofDay = dayjs(date).endOf("day").format();
+        zeitgeistsRequest(startofDay, endofDay, place);
+      }
+    }
+  };
   return (
     <div className="event-places">
       <div
         onClick={() => placeSelected(null, null)}
-        className={`${placeHighlight == null ? "highlight" : ""}`}
-        style={{ cursor: "pointer" }}
+        className={`${highlight == null ? "highlight" : ""}`}
       >
         <p>All</p>
       </div>
-      {screeningPlaces.map((place, index) => (
+      {places.map((place, index) => (
         <div
           key={index}
-          className={`${placeHighlight === index ? "highlight" : ""}`}
+          className={`${highlight === index ? "highlight" : ""}`}
           onClick={() => placeSelected(place, index)}
-          style={{ cursor: "pointer" }}
         >
           <p>{place}</p>
         </div>

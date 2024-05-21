@@ -20,8 +20,15 @@ const Account = () => {
             <br />
             <h2>Sign In to Access Your Calendar</h2>
           </div>
-          <div className="google-signin-button">
-            <button onClick={handleSignOut}>Log Out</button>
+          <div
+            className="google-signin-button"
+          >
+            <button
+              style={{ backgroundColor: "var(--fountain-blue)", color: "white", border: "none", borderRadius: "4px", lineHeight: "12px", padding: "9px 12px 8px", cursor: "pointer" }}
+              onClick={handleSignOut}
+            >
+              Log Out
+            </button>
           </div>
         </div>
       </div>

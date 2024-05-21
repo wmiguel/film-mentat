@@ -17,11 +17,19 @@ function App() {
   const [todoEditing, setTodoEditing] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [filmPicked, setFilmPicked] = useState([]);
+  const [eventPicked, setEventPicked] = useState([]);
 
   const openFilmDetails = (filmPicked) => {
     setFilmPicked(filmPicked);
     setPauseScroll(!pauseScroll);
     setTodoEditing(filmPicked);
+    setOpenModal(!openModal);
+  };
+  const openEventDetails = (eventPicked) => {
+    console.log(eventPicked);
+    setEventPicked(eventPicked);
+    setPauseScroll(!pauseScroll);
+    // setTodoEditing(eventPicked);
     setOpenModal(!openModal);
   };
   return (
@@ -34,10 +42,7 @@ function App() {
           element={
             <Protected>
               <Calendar
-                todoEditing={todoEditing}
-                setTodoEditing={setTodoEditing}
                 pauseScroll={pauseScroll}
-                setPauseScroll={setPauseScroll}
                 openFilmDetails={openFilmDetails}
               />
             </Protected>
@@ -55,7 +60,10 @@ function App() {
           path="/local"
           element={
             <Protected>
-              <Local />
+              <Local
+                pauseScroll={pauseScroll}
+                openEventDetails={openEventDetails}
+              />
               {/* <NowPlaying /> */}
             </Protected>
           }
@@ -72,6 +80,7 @@ function App() {
       <Protected>
         <FilmModal
           film={filmPicked}
+          event={eventPicked}
           todoEditing={todoEditing}
           setTodoEditing={setTodoEditing}
           openModal={openModal}
@@ -79,6 +88,7 @@ function App() {
           pauseScroll={pauseScroll}
           setPauseScroll={setPauseScroll}
           openFilmDetails={openFilmDetails}
+          openEventDetails={openEventDetails}
         />
       </Protected>
 

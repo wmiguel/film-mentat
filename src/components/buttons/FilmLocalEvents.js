@@ -1,14 +1,17 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const FilmLocalEvents = () => {
   return (
-    <Link to="/local">
+    <NavLink
+      to="/local"
+      className={({ isActive }) => (isActive ? "highlight" : "")}
+    >
       <button className="local inline-flex">
         <FaMapMarkerAlt size={18} />
       </button>
-    </Link>
+    </NavLink>
   );
 };
 

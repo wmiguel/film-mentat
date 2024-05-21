@@ -7,19 +7,12 @@ const tmdb_apiKey = process.env.REACT_APP_TMDB_APIKEY;
 const FilmCard = ({
   film,
   index,
-  pauseScroll,
-  setPauseScroll,
-  openModal,
-  setOpenModal,
   openFilmDetails,
-  setTodoEditing,
 }) => {
   const [filmDuration, setFilmDuration] = useState([]);
   const [filmDirector, setFilmDirector] = useState([]);
   const [filmRating, setFilmRating] = useState([]);
-  // const [todoEditing, setTodoEditing] = useState(null);
   // const [filmDetails, setFilmDetails] = useState(false);
-  // const [openModal, setOpenModal] = useState(false);
   const filmID = film.tmdbID;
 
   useEffect(() => {
@@ -49,13 +42,6 @@ const FilmCard = ({
     getFilmRequest(filmID);
   }, [filmID]);
 
-  // const openFilmDetails = () => {
-  //   setPauseScroll(!pauseScroll);
-  //   setTodoEditing(film.id);
-  //   setOpenModal(!openModal);
-  // };
-  // console.log(filmDetails);
-
   return (
     <>
       <div
@@ -80,7 +66,6 @@ const FilmCard = ({
               filmDuration={filmDuration}
               filmDirector={filmDirector}
               filmRating={filmRating}
-              setTodoEditing={setTodoEditing}
             />
           </div>
         </div>

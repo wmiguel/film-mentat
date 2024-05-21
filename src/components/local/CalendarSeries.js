@@ -1,29 +1,53 @@
-function CalendarSeries({ calendarSeries }) {
+function CalendarSeries({
+  filterSeries,
+  highlight,
+  highlightSeries,
+  dateSelected,
+  setFilterFilms,
+}) {
+  const testFilter = new Set(filterSeries.map((movie) => movie.series));
+  const arraytestFilter = [...testFilter];
 
-  // console.log(calendarSeries);
+  const seriesSelected = (series, index) => {
+    highlightSeries(index);
+    if (series == null) {
+      
+      if (dateSelected == null) {
+        setFilterFilms(filterSeries);
+      } else {
+        setFilterFilms(filterSeries);
+      }
+    } else {
+      
+      const filterDate = filterSeries.filter((movie) => {
+        const seriesSelected = movie.series === series;
+        return seriesSelected;
+      });
+      if (dateSelected == null) {
+        setFilterFilms(filterDate);
+      } else {
+        setFilterFilms(filterDate);
+      }
+    }
+  };
 
   return (
-    <div className="event-dates">
+    <div className="event-places">
       <div
-      // className={`${dateHighlight === null ? "highlight" : ""}`}
-      // onClick={() => dateSelectedFormating(null, null)}
-      // style={{ cursor: "pointer" }}
+        onClick={() => seriesSelected(null, null)}
+        className={`${highlight === null ? "highlight" : ""}`}
       >
         <p>All</p>
       </div>
-      {calendarSeries.map((series, index) => {
-        // if (date < startOfDayISO) {
-        //   return null;
-        // }
+      {arraytestFilter.map((series, index) => {
         if (series === "") {
           return null;
         }
         return (
           <div
             key={index}
-            // className={`${dateHighlight === index ? "highlight" : ""}`}
-            // onClick={() => dateSelectedFormating(date, index)}
-            // style={{ cursor: "pointer" }}
+            className={`${highlight === index ? "highlight" : ""}`}
+            onClick={() => seriesSelected(series, index)}
           >
             <p>{series}</p>
           </div>

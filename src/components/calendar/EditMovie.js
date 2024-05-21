@@ -52,22 +52,19 @@ const EditMovie = ({
   const cancelEditFilm = () => {
     setOpenModal(false);
     setTodoEditing(null);
-    setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
     setPauseScroll(false);
-    handleCloseModal();
+    setTimeout(function () {
+      handleCloseModal();
+    }, 250);
+
+    // handleCloseModal();
   };
 
   return (
     <>
       <div className="film-info film-edit show">
-        <div className="film-title-year flex">
-          <h4>
-            {filmData.title} <span>{filmData.year}</span>
-          </h4>
-        </div>
-
         <form onSubmit={updateFilm} className="film-edit-form flex">
           <div className="edit-film-date grid">
             <label>Date</label>

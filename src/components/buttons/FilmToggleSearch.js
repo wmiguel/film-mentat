@@ -1,9 +1,9 @@
 import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const FilmToggleSearch = ({ rotate, toggleSearch }) => {
+const FilmToggleSearch = ({ toggleSearch }) => {
   return (
-    <button className={`search inline-flex ${rotate}`} onClick={toggleSearch}>
+    <button className="search inline-flex" onClick={toggleSearch}>
       <AiOutlinePlus size={20} />
     </button>
   );

@@ -1,51 +1,63 @@
+import React, { useState } from "react";
 import dayjs from "dayjs";
+var utc = require("dayjs/plugin/utc");
+dayjs.extend(utc);
 
 function EventDates({
-  dateHighlight,
-  dateSelectedFormating,
-  modifiedScreeningDates,
-  startOfDayISO,
-  tomorrowStartISO,
+  dates,
+  highlightPlace,
+  setDate,
+  setDisplayAll,
+  zeitgeistsRequest,
 }) {
-  const calendarDate = (dateString) => {
-    const date = dayjs(dateString).format("ddd M/D");
-    return date;
-  };
+  const today = dayjs().format("YYYY-MM-DD");
+  const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
+  const [highlight, highlightDate] = useState(null);
 
-  // console.log(startOfDayISO);
+  const dateSelected = (date, index) => {
+    highlightDate(index);
+    highlightPlace(null);
+    setDate(date);
+    if (date == null) {
+      setDisplayAll(true);
+      zeitgeistsRequest();
+    } else {
+      const startofDay = dayjs(date).startOf("day").format();
+      const endofDay = dayjs(date).endOf("day").format();
+      setDisplayAll(false);
+      zeitgeistsRequest(startofDay, endofDay);
+    }
+  };
 
   return (
     <div className="event-dates">
       <div
-        className={`${dateHighlight === null ? "highlight" : ""}`}
-        onClick={() => dateSelectedFormating(null, null)}
-        style={{ cursor: "pointer" }}
+        className={`${highlight === null ? "highlight" : ""}`}
+        onClick={() => dateSelected(null, null)}
       >
         <p>All</p>
       </div>
-      {modifiedScreeningDates.map((date, index) => {
-        // if (date < startOfDayISO) {
-        //   return null;
-        // }
-        if (date === startOfDayISO) {
+      {dates.map((date, index) => {
+        if (date < today) {
+          return null;
+        }
+        if (date === today) {
           return (
             <div
               key={index}
-              className={`${dateHighlight === index ? "highlight" : ""}`}
-              onClick={() => dateSelectedFormating(date, index)}
-              style={{ cursor: "pointer" }}
+              className={`${highlight === index ? "highlight" : ""}`}
+              onClick={() => dateSelected(date, index)}
             >
               <p>Today</p>
             </div>
           );
         }
-        if (date === tomorrowStartISO) {
+        if (date === tomorrow) {
           return (
             <div
               key={index}
-              className={`${dateHighlight === index ? "highlight" : ""}`}
-              onClick={() => dateSelectedFormating(date, index)}
-              style={{ cursor: "pointer" }}
+              className={`${highlight === index ? "highlight" : ""}`}
+              onClick={() => dateSelected(date, index)}
             >
               <p>Tomorrow</p>
             </div>
@@ -54,11 +66,10 @@ function EventDates({
         return (
           <div
             key={index}
-            className={`${dateHighlight === index ? "highlight" : ""}`}
-            onClick={() => dateSelectedFormating(date, index)}
-            style={{ cursor: "pointer" }}
+            className={`${highlight === index ? "highlight" : ""}`}
+            onClick={() => dateSelected(date, index)}
           >
-            <p>{calendarDate(date)}</p>
+            <p>{dayjs(date).format("ddd M/D")}</p>
           </div>
         );
       })}

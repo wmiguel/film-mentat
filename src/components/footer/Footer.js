@@ -10,7 +10,6 @@ import { requestFetchMovies } from "../../api/moviesRequests";
 
 function Footer({ pauseScroll, setPauseScroll }) {
   const [style, setStyle] = useState(false);
-  const [rotateStyle, setRotate] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
   const [resultsList, setResultsList] = useState([]);
@@ -59,13 +58,11 @@ function Footer({ pauseScroll, setPauseScroll }) {
 
   const toggleSearch = () => {
     setStyle(!style);
-    setRotate(!rotateStyle);
     setPauseScroll(!pauseScroll);
     setSearchValue("");
     setResultsList([]);
   };
 
-  const rotate = rotateStyle ? "turn-right" : "";
   const { user } = UserAuth();
   
   return (
@@ -83,9 +80,9 @@ function Footer({ pauseScroll, setPauseScroll }) {
           />
           <footer className="film-calendar-footer">
             <div className="footer-wrap">
-              <FilmHome />
-              <FilmLocalEvents />
-              <FilmToggleSearch rotate={rotate} toggleSearch={toggleSearch} />
+              <FilmHome/>
+              <FilmLocalEvents/>
+              <FilmToggleSearch toggleSearch={toggleSearch} />
               <LetterboxdButton />
               <AccountButton />
             </div>

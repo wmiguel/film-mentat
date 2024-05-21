@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { requestNowPlaying } from "../api/moviesRequests";
 
-function FilmCalendarList() {
+function NowPlaying() {
   const [resultsList, setResultsList] = useState([]);
   // const [pagination, setPagination] = useState(1);
 
@@ -113,4 +113,4 @@ function FilmCalendarList() {
     </section>
   );
 }
-export default FilmCalendarList;
+export default NowPlaying;

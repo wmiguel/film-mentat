@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth, db, } from "../firebase/firebase";
+import dayjs from "dayjs";
 import {
   query,
   where,
@@ -9,48 +10,30 @@ import {
 } from "firebase/firestore";
 import FilmCard from "../components/calendar/FilmCard";
 import CalendarDates from "../components/local/CalendarDates";
-// import EventPlaces from "../components/local/EventPlaces";
 import CalendarSeries from "../components/local/CalendarSeries";
 import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
 
-function FilmCalendarList({
-  pauseScroll,
-  setPauseScroll,
-  openModal,
-  setOpenModal,
-  openFilmDetails,
-}) {
+function Calendar({ pauseScroll, openFilmDetails }) {
   const [films, setFilms] = useState([]);
+  const [filterFilms, setFilterFilms] = useState([]);
+  const [filterSeries, setFilterSeries] = useState([]);
   const [userLogged, setUserLogged] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [screeningDates, setScreeningDates] = useState([]);
-  const [calendarSeries, setCalendarSeries] = useState([]);
-  const [dateHighlight, setDateHighlight] = useState(null);
-  const allMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const pause = pauseScroll ? "pause-scroll" : "";
 
-  // Read film from firebase
+  const [dateSelected, setDateSelected] = useState(null);
+  const [highlight, highlightSeries] = useState(null);
+  const [allDates, setAllDates] = useState([]);
+  const pause = pauseScroll ? "pause-scroll" : "";
+  const newDate = new Date();
+  const today = dayjs(newDate).startOf("day").format("YYYY-MM-DD");
+
+  // Authorize firebase read with UserLogged
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
-      setUserLogged(user?.uid); // Set user ID if logged in, otherwise null
+      setUserLogged(user?.uid);
     });
-
-    return () => unsubscribeAuth(); // Unsubscribe from auth listener
+    return () => unsubscribeAuth();
   }, []);
-
   useEffect(() => {
     if (userLogged) {
       const fetchFilms = async () => {
@@ -58,6 +41,7 @@ function FilmCalendarList({
         const q = query(
           filmsRef,
           where("uid", "==", userLogged),
+          where("date", ">=", today),
           orderBy("date"),
           orderBy("year", "asc")
         );
@@ -66,43 +50,18 @@ function FilmCalendarList({
           querySnapshot.forEach((doc) => {
             filmsArr.push({ ...doc.data(), id: doc.id });
           });
-          // console.log(filmsArr);
-
-          const today = new Date();
-          const yesterday = new Date(today);
-          yesterday.setDate(today.getDate() - 1);
-          yesterday.setHours(0,0,0,0);
-          const futureDates = filmsArr.filter((movie) => {
-            const theMovie = new Date(movie.date);
-            return theMovie >= yesterday;
-          });
-
-          const resultScreeningDates = new Set(
-            futureDates.map((movie) => movie.date)
-          );
-          const sortedDates = [...resultScreeningDates].sort(
-            (a, b) => new Date(a) - new Date(b)
-          );
-          setScreeningDates(sortedDates);
-
-          const resultSeries = new Set(
-            futureDates.map((movie) => movie.series)
-          );
-          const sortedSeries = [...resultSeries].sort();
-          setCalendarSeries([...sortedSeries]);
-
-          setFilms(futureDates);
-          setIsLoading(false); // Set loading state to false after fetching films
+          setFilms(filmsArr);
+          setFilterFilms(filmsArr);
+          setFilterSeries(filmsArr);
+          const filmDates = new Set(filmsArr.map((movie) => movie.date));
+          setAllDates([...filmDates]);
+          setIsLoading(false);
         });
-
-        return () => unsubscribeFilms(); // Unsubscribe from films listener
+        return () => unsubscribeFilms();
       };
       fetchFilms();
     }
-  }, [userLogged]);
-
-  // console.log(calendarSeries);
-  // console.log(screeningDates);
+  }, [today, userLogged]);
 
   function parseDate(dateString) {
     const [year, month, day] = dateString.split("-");
@@ -124,7 +83,7 @@ function FilmCalendarList({
       const monthKey = `${year}-${month}`;
       if (!groupedFilms[monthKey]) {
         groupedFilms[monthKey] = {
-          month: allMonths[month - 1],
+          month: dayjs([month]).format("MMM"),
           year: year,
           days: {},
         };
@@ -171,33 +130,34 @@ function FilmCalendarList({
     return organizedFilms;
   }
 
-  const organizedFilms = organizeFilmsByMonth(films);
+  const organizedFilms = organizeFilmsByMonth(filterFilms);
 
   if (isLoading) {
     return;
   }
-  if (films.length !== 0) {
+  if (filterFilms.length !== 0) {
     return (
       <section
         id="film-calendar-list"
         className={`film-calendar-list flex ${pause}`}
       >
-        <CalendarDates
-          dateHighlight={dateHighlight}
-          setDateHighlight={setDateHighlight}
-          // dateSelectedFormating={dateSelectedFormating}
-          modifiedScreeningDates={screeningDates}
-          // startOfDayISO={startOfDayISO}
-          // tomorrowStartISO={tomorrowStartISO}
-          // calendarDate={calendarDate}
-        />
-        <CalendarSeries calendarSeries={calendarSeries} />
-        {/*
-        <EventPlaces
-          placeSelected={placeSelected}
-          placeHighlight={placeHighlight}
-          screeningPlaces={screeningPlaces}
-        /> */}
+        <div className="film-event-filter">
+          <CalendarDates
+            films={films}
+            dates={allDates}
+            setFilterFilms={setFilterFilms}
+            highlightSeries={highlightSeries}
+            setDateSelected={setDateSelected}
+            setFilterSeries={setFilterSeries}
+          />
+          <CalendarSeries
+            filterSeries={filterSeries}
+            highlight={highlight}
+            highlightSeries={highlightSeries}
+            dateSelected={dateSelected}
+            setFilterFilms={setFilterFilms}
+          />
+        </div>
         <div className="content-wrap">
           {organizedFilms.map((monthData, index) => (
             <div key={index} className="month-wrap">
@@ -220,10 +180,6 @@ function FilmCalendarList({
                       <FilmCard
                         key={index}
                         film={film}
-                        pauseScroll={pauseScroll}
-                        setPauseScroll={setPauseScroll}
-                        openModal={openModal}
-                        setOpenModal={setOpenModal}
                         openFilmDetails={openFilmDetails}
                       />
                     ))}
@@ -256,4 +212,4 @@ function FilmCalendarList({
     );
   }
 }
-export default FilmCalendarList;
+export default Calendar;
