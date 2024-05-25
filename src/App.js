@@ -12,8 +12,7 @@ import FilmModal from "./components/calendar/FilmModal";
 import Letterboxd from "./pages/Letterboxd";
 import Footer from "./components/footer/Footer";
 
-function App() {
-  const [pauseScroll, setPauseScroll] = useState(false);
+const App = () => {
   const [todoEditing, setTodoEditing] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [filmPicked, setFilmPicked] = useState([]);
@@ -21,17 +20,16 @@ function App() {
 
   const openFilmDetails = (filmPicked) => {
     setFilmPicked(filmPicked);
-    setPauseScroll(!pauseScroll);
     setTodoEditing(filmPicked);
     setOpenModal(!openModal);
   };
   const openEventDetails = (eventPicked) => {
-    console.log(eventPicked);
+    // console.log(eventPicked);
     setEventPicked(eventPicked);
-    setPauseScroll(!pauseScroll);
     // setTodoEditing(eventPicked);
     setOpenModal(!openModal);
   };
+  // console.log(eventPicked);
   return (
     <AuthContextProvider>
       <Navigation />
@@ -42,7 +40,6 @@ function App() {
           element={
             <Protected>
               <Calendar
-                pauseScroll={pauseScroll}
                 openFilmDetails={openFilmDetails}
               />
             </Protected>
@@ -61,7 +58,6 @@ function App() {
           element={
             <Protected>
               <Local
-                pauseScroll={pauseScroll}
                 openEventDetails={openEventDetails}
               />
               {/* <NowPlaying /> */}
@@ -72,7 +68,7 @@ function App() {
           path="/letterboxd"
           element={
             <Protected>
-              <Letterboxd pauseScroll={pauseScroll} />
+              <Letterboxd />
             </Protected>
           }
         />
@@ -85,14 +81,12 @@ function App() {
           setTodoEditing={setTodoEditing}
           openModal={openModal}
           setOpenModal={setOpenModal}
-          pauseScroll={pauseScroll}
-          setPauseScroll={setPauseScroll}
           openFilmDetails={openFilmDetails}
           openEventDetails={openEventDetails}
         />
       </Protected>
 
-      <Footer setPauseScroll={setPauseScroll} pauseScroll={pauseScroll} />
+      <Footer />
     </AuthContextProvider>
   );
 }

@@ -1,4 +1,4 @@
-function FilmSearchCancel({ toggleOff }) {
+const FilmSearchCancel = ({ toggleOff }) => {
   return (
     <>
       <div className="film-search-cancel">

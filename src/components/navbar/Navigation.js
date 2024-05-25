@@ -1,6 +1,6 @@
 import React from "react";
 
-function NavigationBar() {
+const NavigationBar = () => {
   return (
     <header className={`film-calendar-header flex`}>
       <div className="header-wrap">

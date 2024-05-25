@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-function EventDates({
+const EventDates = ({
   films,
   dates,
   setFilterFilms,
   highlightSeries,
   setDateSelected,
   setFilterSeries,
-}) {
+}) => {
   const today = dayjs().format("YYYY-MM-DD");
   const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
   const [highlight, highlightDate] = useState(null);

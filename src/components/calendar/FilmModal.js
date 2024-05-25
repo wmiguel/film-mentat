@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import EditMovie from "./EditMovie";
+import UserModal from "./UserModal";
+import ScreeningModal from "../local/ScreeningModal";
 import { db } from "../../firebase/firebase";
 import {
   doc, getDoc
@@ -17,9 +18,8 @@ const FilmModal = ({
   setTodoEditing,
   openModal,
   setOpenModal,
-  pauseScroll,
-  setPauseScroll,
   openFilmDetails,
+  openEventDetails,
 }) => {
   const [filmData, setFilmData] = useState(null);
   const [eventData, setEventData] = useState(null);
@@ -33,13 +33,11 @@ const FilmModal = ({
     if (!event.place || typeof event.place !== "object") {
       return;
     }
-    if (!event.worksPresented || typeof event.worksPresented !== "object") { 
+    if (!event.worksPresented || typeof event.worksPresented !== "object") {
       return;
     }
     setEventData(event);
   }, [event]);
-  // console.log(eventData);
-
   useEffect(() => {
     if (!film || typeof film !== "string") {
       return;
@@ -61,150 +59,111 @@ const FilmModal = ({
     };
     getData();
   }, [film]);
-
   const handleCloseModal = () => {
-    console.log("activated");
     setFilmData(null); // Clear filmData
     setEventData(null);
     openFilmDetails("");
+    openEventDetails("");
   };
-
-  // Cancel Edit
-  const cancelEditFilm = () => {
+  const closeModal = () => {
     setOpenModal(false);
-    setPauseScroll(false);
     setTimeout(function () {
       handleCloseModal();
     }, 250);
   };
 
-  console.log(filmData);
-
   return (
     <>
       <section
         className={`fm-details ${open}`}
-        style={{ borderRadius: "36px 36px 0 0" }}
+        style={{
+          borderRadius: "0",
+          backgroundColor: "rgba(1,1,1,0.8)",
+          overscrollBehavior: "contain",
+        }}
       >
         <div
           className={`modal-body-container ${opacityDelay}`}
           style={{
-            padding: "16px",
+            backgroundColor: "var(--sinbad)",
+            padding: "24px 24px 64px",
+            borderRadius: "48px 48px 0 0",
             boxSizing: "border-box",
+            height: "99%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "32px",
+            bottom: "0",
+            position: "absolute",
+            // opacity: "0.35",
           }}
         >
           {eventData ? (
-            <>
-              <div
-                className={`container modal-container`}
-                style={{ border: "1px solid blue" }}
-              >
-                <div className="details" style={{marginBottom: "24px"}}>
-                  <div className="film-info film-edit show">
-                    <div className="film-title-year">
-                      <h1>
-                        <strong>{eventData.name}</strong>
-                      </h1>
-                      <br />
-                      {eventData.worksPresented.map((movie, index) => (
-                        <>
-                          <div key={index} style={{ marginBottom: "24px" }}>
-                            <h1>
-                              {movie.name} <span>{movie.year}</span>
-                            </h1>
-                            <h4>directed by {movie.director}</h4>
-                            <p>
-                              {movie.duration}mins in {movie.format}
-                            </p>
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                    <div>
-                      <p>{eventData.place.name}</p>
-                      <p>{eventData.place.address}</p>
-                      <h2>
-                        {dayjs(eventData.startDate).format(
-                          "dddd, MMMM DD • h:mma"
-                        )}
-                      </h2>
-                      <br />
-                      <a
-                        href={`${eventData.url}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        Get Tickets
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="film-update-buttons">
-                  <button className="cancel" onClick={() => cancelEditFilm()}>
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </>
+            <ScreeningModal closeModal={closeModal} eventData={eventData} />
           ) : (
             <></>
           )}
           {filmData ? (
-            <>
-              <div
-                className={`fm-movie-card modal`}
-                style={{
-                  backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.backdrop}")`,
-                  borderRadius: "20px",
-                }}
-              ></div>
-
-              <div
-                className={`container modal-container`}
-                style={{ padding: "0" }}
-              >
-                <div
-                  className="film-event-details"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr",
-                    gap: "24px",
-                    marginBottom: "24px",
-                  }}
-                >
-                  <figure
-                    style={{
-                      backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.poster}")`,
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "contain",
-                      aspectRatio: "1 / 1.47",
-                      borderRadius: "20px",
-                    }}
-                  ></figure>
-                  <div className="the-details">
-                    <p>{dayjs(filmData.date).format("dddd, MMM DD YYYY")}</p>
-                    <h1>
-                      {filmData.title} <span>{filmData.year}</span>
-                    </h1>
-                    <span>{filmData.series}</span>
-                    <p>{filmData.format}</p>
-                  </div>
-                </div>
-                <div className="details">
-                  <EditMovie
-                    film={film}
-                    filmData={filmData}
-                    setTodoEditing={setTodoEditing}
-                    setOpenModal={setOpenModal}
-                    pauseScroll={pauseScroll}
-                    setPauseScroll={setPauseScroll}
-                    handleCloseModal={handleCloseModal}
-                  />
-                </div>
-              </div>
-            </>
+            <UserModal
+              film={film}
+              filmData={filmData}
+              setTodoEditing={setTodoEditing}
+              setOpenModal={setOpenModal}
+              handleCloseModal={handleCloseModal}
+            />
           ) : (
+            // <>
+            //   <div
+            //     className={`fm-movie-card modal`}
+            //     style={{
+            //       backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.backdrop}")`,
+            //       borderRadius: "20px",
+            //     }}
+            //   ></div>
+
+            //   <div
+            //     className={`container modal-container`}
+            //     style={{ padding: "0" }}
+            //   >
+            //     <div
+            //       className="film-event-details"
+            //       style={{
+            //         display: "grid",
+            //         gridTemplateColumns: "1fr 3fr",
+            //         gap: "24px",
+            //         marginBottom: "24px",
+            //       }}
+            //     >
+            //       <figure
+            //         style={{
+            //           backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.poster}")`,
+            //           backgroundPosition: "center",
+            //           backgroundRepeat: "no-repeat",
+            //           backgroundSize: "contain",
+            //           aspectRatio: "1 / 1.47",
+            //           borderRadius: "20px",
+            //         }}
+            //       ></figure>
+            //       <div className="the-details">
+            //         <p>{dayjs(filmData.date).format("dddd, MMM DD YYYY")}</p>
+            //         <h1>
+            //           {filmData.title} <span>{filmData.year}</span>
+            //         </h1>
+            //         <span>{filmData.series}</span>
+            //         <p>{filmData.format}</p>
+            //       </div>
+            //     </div>
+            //     <div className="details">
+            //       <EditMovie
+            //         film={film}
+            //         filmData={filmData}
+            //         setTodoEditing={setTodoEditing}
+            //         setOpenModal={setOpenModal}
+            //         handleCloseModal={handleCloseModal}
+            //       />
+            //     </div>
+            //   </div>
+            // </>
             <></>
           )}
         </div>

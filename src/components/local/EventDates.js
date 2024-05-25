@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
-var utc = require("dayjs/plugin/utc");
-dayjs.extend(utc);
 
-function EventDates({
+const EventDates = ({
+  screenings,
   dates,
+  setFilterFilms,
   highlightPlace,
   setDate,
+  setFilterPlaces,
   setDisplayAll,
-  zeitgeistsRequest,
-}) {
+}) => {
   const today = dayjs().format("YYYY-MM-DD");
   const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD");
   const [highlight, highlightDate] = useState(null);
@@ -19,13 +19,23 @@ function EventDates({
     highlightPlace(null);
     setDate(date);
     if (date == null) {
+      setFilterFilms(screenings);
+      setFilterPlaces(screenings);
       setDisplayAll(true);
-      zeitgeistsRequest();
     } else {
       const startofDay = dayjs(date).startOf("day").format();
       const endofDay = dayjs(date).endOf("day").format();
+      const dateScreenings = screenings.filter(
+        (movie) =>
+          dayjs(movie.startDate).startOf("day").format() >= startofDay &&
+          dayjs(movie.startDate).endOf("day").format() <= endofDay
+      );
+      dateScreenings.sort(
+        (a, b) => new Date(a.startDate) - new Date(b.startDate)
+      );
+      setFilterFilms(dateScreenings);
+      setFilterPlaces(dateScreenings);
       setDisplayAll(false);
-      zeitgeistsRequest(startofDay, endofDay);
     }
   };
 

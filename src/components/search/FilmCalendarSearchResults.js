@@ -1,13 +1,13 @@
 import React from "react";
 import FilmSearchResults from "./FilmSearchResults";
 
-function FilmCalendarSearchResults({
+const FilmCalendarSearchResults = ({
   fetchPage,
   pagination,
   resultsList,
   searchValue,
   toggleOff,
-}) {
+}) => {
   const { count: countResults } = pagination;
 
   return (

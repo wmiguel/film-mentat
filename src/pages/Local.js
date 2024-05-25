@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import CardTicket from "../images/card-ticket.svg";
+import CardTicket from "../images/card-ticket-outline.svg";
 import EventDates from "../components/local/EventDates";
 import EventPlaces from "../components/local/EventPlaces";
 import { ReactComponent as TicketSVG } from "../images/empty-ticket.svg";
@@ -10,15 +10,16 @@ import { ReactComponent as TicketSVG } from "../images/empty-ticket.svg";
 // import { addDoc, collection } from "firebase/firestore";
 const zeitgeistsAuth = process.env.REACT_APP_ZEITGEISTS_AUTHORIZATION;
 
-function Local({ pauseScroll, openEventDetails }) {
+const Local = ({ openEventDetails }) => {
   const [screenings, setScreenings] = useState([]);
+  const [filterFilms, setFilterFilms] = useState([]);
+  const [filterPlaces, setFilterPlaces] = useState([]);
+
   const [screeningDates, setScreeningDates] = useState([]);
-  const [screeningPlaces, setScreeningPlaces] = useState([]);
   const [date, setDate] = useState();
   const [highlight, highlightPlace] = useState(null);
   const [displayAll, setDisplayAll] = useState(true);
 
-  const pause = pauseScroll ? "pause-scroll" : "";
   const screeningDatesFormatted = screeningDates.map((dateStr) => {
     const date = new Date(dateStr);
     const dateFormat = dayjs(date).startOf("day").format("YYYY-MM-DD");
@@ -44,10 +45,7 @@ function Local({ pauseScroll, openEventDetails }) {
   //   });
   // };
 
-  const zeitgeistsRequest = async (startofDay, endofDay, placeSelected) => {
-    // console.log(startofDay);
-    // console.log(endofDay);
-    // console.log(placeSelected);
+  const zeitgeistsRequest = async () => {
     let page = 1;
     const allResults = [];
     const pageSize = 100;
@@ -66,8 +64,6 @@ function Local({ pauseScroll, openEventDetails }) {
         const response = await axios.request(config);
         const results = response.data.data.listings;
         allResults.push(...results);
-
-        // Check if there are more pages
         hasMorePages = results.length === pageSize;
         page += 1;
       } catch (error) {
@@ -76,7 +72,11 @@ function Local({ pauseScroll, openEventDetails }) {
       }
     }
 
-    // Get All Screening Dates for Filtering
+    const allScreenings = allResults;
+    allScreenings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    setScreenings(allScreenings);
+    setFilterFilms(allScreenings);
+    setFilterPlaces(allScreenings);
     const allScreeningDates = new Set(
       allResults.map((movie) => movie.startDate.split("T")[0])
     );
@@ -84,50 +84,6 @@ function Local({ pauseScroll, openEventDetails }) {
       (a, b) => new Date(a) - new Date(b)
     );
     setScreeningDates(sortAllScreeningDates);
-
-    //  Get All/Filtered Screenings & All Places for Filtering
-    if (startofDay == null && endofDay == null) {
-      const allScreenings = allResults;
-      allScreenings.sort(
-        (a, b) => new Date(a.startDate) - new Date(b.startDate)
-      );
-      if (placeSelected == null) {
-        const allPlaces = new Set(
-          allScreenings.map((movie) => movie.place.name)
-        );
-        const sortAllPlaces = [...allPlaces].sort();
-        setScreeningPlaces([...sortAllPlaces]);
-        setScreenings(allScreenings);
-      } else {
-        const placeScreenings = allScreenings.filter(
-          (movie) => movie.place.name === placeSelected
-        );
-        setScreenings(placeScreenings);
-      }
-    } else {
-      const allScreenings = allResults;
-      const dateScreenings = allScreenings.filter(
-        (movie) =>
-          dayjs(movie.startDate).startOf("day").format() >= startofDay &&
-          dayjs(movie.startDate).endOf("day").format() <= endofDay
-      );
-      dateScreenings.sort(
-        (a, b) => new Date(a.startDate) - new Date(b.startDate)
-      );
-      if (placeSelected == null) {
-        const datePlaces = new Set(
-          dateScreenings.map((movie) => movie.place.name)
-        );
-        const sortedPlaces = [...datePlaces].sort();
-        setScreeningPlaces([...sortedPlaces]);
-        setScreenings(dateScreenings);
-      } else {
-        const datePlaceScreenings = dateScreenings.filter(
-          (movie) => movie.place.name === placeSelected
-        );
-        setScreenings(datePlaceScreenings);
-      }
-    }
   };
 
   useEffect(() => {
@@ -168,7 +124,6 @@ function Local({ pauseScroll, openEventDetails }) {
     });
     return groupedFilms;
   }
-
   function sortFilmsByMonth(screening) {
     return Object.entries(screening).sort((a, b) => {
       const [yearA, monthA] = a[0].split().map(Number);
@@ -180,7 +135,6 @@ function Local({ pauseScroll, openEventDetails }) {
       }
     });
   }
-
   function organizeFilmsByMonth(screenings) {
     const groupedFilms = groupFilmsByMonth(screenings);
     const sortedFilms = sortFilmsByMonth(groupedFilms);
@@ -202,128 +156,161 @@ function Local({ pauseScroll, openEventDetails }) {
 
     return organizedFilms;
   }
-  const organizedFilms = organizeFilmsByMonth(screenings);
+  const organizedFilms = organizeFilmsByMonth(filterFilms);
 
-  return (
-    <section className={`film-calendar-list flex ${pause}`}>
-      <div className="film-event-filter">
-        <EventDates
-          dates={screeningDatesFormatted}
-          highlightPlace={highlightPlace}
-          setDate={setDate}
-          setDisplayAll={setDisplayAll}
-          zeitgeistsRequest={zeitgeistsRequest}
-        />
-        <EventPlaces
-          places={screeningPlaces}
-          highlight={highlight}
-          highlightPlace={highlightPlace}
-          date={date}
-          zeitgeistsRequest={zeitgeistsRequest}
-        />
-      </div>
-      <div className="content-wrap">
-        {displayAll === false ? (
-          <div style={{ padding: "24px 16px 0" }}>
-            {screenings.length ? (
-              screenings.map((screen, index) => (
-                <div
-                  key={index}
-                  style={{ backgroundImage: `url(${CardTicket})` }}
-                  onClick={() => openEventDetails(screen)}
-                  className="fm-movie-card"
-                >
-                  <div className="container">
-                    <figure></figure>
-                    <div className="details">
-                      <div className="film-series-format">
-                        <p>
-                          {dayjs(screen.startDate).format(
-                            "dddd, MMMM DD, YYYY • hh:mma"
-                          )}
-                        </p>
-                      </div>
-                      <div className="title-year show">
-                        <div className="title">{screen.name}</div>
-                      </div>
-                      <div className="rating-duration-location">
-                        <p></p>
-                        <p>{screen.place.name}</p>
+  if (filterFilms.length !== 0) {
+    return (
+      <section className={`film-calendar-list flex`}>
+        <div className="film-event-filter">
+          <EventDates
+            screenings={screenings}
+            dates={screeningDatesFormatted}
+            setFilterFilms={setFilterFilms}
+            highlightPlace={highlightPlace}
+            setDate={setDate}
+            setFilterPlaces={setFilterPlaces}
+            setDisplayAll={setDisplayAll}
+          />
+          <EventPlaces
+            filterPlaces={filterPlaces}
+            highlight={highlight}
+            highlightPlace={highlightPlace}
+            date={date}
+            setFilterFilms={setFilterFilms}
+          />
+        </div>
+        <div className="content-wrap">
+          {displayAll === false ? (
+            <div style={{ padding: "24px 16px 0" }}>
+              {filterFilms.length ? (
+                filterFilms.map((screen, index) => (
+                  <div
+                    key={index}
+                    style={{ backgroundImage: `url(${CardTicket})` }}
+                    onClick={() => openEventDetails(screen)}
+                    className="fm-movie-card"
+                  >
+                    <div className="container">
+                      <figure></figure>
+                      <div className="details">
+                        <div className="film-series-format">
+                          <p>
+                            {dayjs(screen.startDate).format(
+                              "dddd, MMMM DD, YYYY • hh:mma"
+                            )}
+                          </p>
+                        </div>
+                        <div className="title-year show">
+                          <div className="title">{screen.name}</div>
+                        </div>
+                        <div className="rating-duration-location">
+                          <p></p>
+                          <p>{screen.place.name}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="empty-wrap" style={{ height: "calc(68vh)" }}>
-                <div className="dash-border">
-                  <div className="empty-text">
-                    <div className="empty-ticket">
-                      <TicketSVG />
+                ))
+              ) : (
+                <div className="empty-wrap" style={{ height: "calc(68vh)" }}>
+                  <div className="dash-border">
+                    <div className="empty-text">
+                      <div className="empty-ticket">
+                        <TicketSVG />
+                      </div>
+                      <h1>No Movies Scheduled!</h1>
+                      <h3>Add your next movie event.</h3>
                     </div>
-                    <h1>No Movies Scheduled!</h1>
-                    <h3>Add your next movie event.</h3>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <>
-            {organizedFilms.map((monthData, index) => (
-              <div key={index} className="month-wrap">
-                <div className="film-calendar-month flex">
-                  <h2>
-                    {monthData.month} {monthData.year}
-                  </h2>
-                </div>
-                {Object.entries(monthData.days).map(([day, dayData]) => (
-                  <div key={day} className="day-wrap grid">
-                    <div className="film-calendar-day film-date">
-                      <div className="film-date-border grid">
-                        <span>{dayData.dayOfWeek}</span>
-                        <h3>{dayData.day}</h3>
+              )}
+            </div>
+          ) : (
+            <>
+              {organizedFilms.map((monthData, index) => (
+                <div key={index} className="month-wrap">
+                  <div className="film-calendar-month flex">
+                    <h2>
+                      {monthData.month} {monthData.year}
+                    </h2>
+                  </div>
+                  {Object.entries(monthData.days).map(([day, dayData]) => (
+                    <div key={day} className="day-wrap grid">
+                      <div className="film-calendar-day film-date">
+                        <div className="film-date-border grid">
+                          <span>{dayData.dayOfWeek}</span>
+                          <h3>{dayData.day}</h3>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="film-calendar-event">
-                      {dayData.screenings.map((screen, index) => (
-                        <div
-                          key={index}
-                          style={{ backgroundImage: `url(${CardTicket})` }}
-                          onClick={() => openEventDetails(screen)}
-                          className="fm-movie-card"
-                        >
-                          <div className="container">
-                            <figure></figure>
-                            <div className="details">
-                              <div className="film-series-format">
-                                <p>
-                                  {dayjs(screen.startDate).format(
-                                    "dddd, MMMM DD, YYYY • hh:mma"
+                      <div className="film-calendar-event">
+                        {dayData.screenings.map((screen, index) => (
+                          <div
+                            key={index}
+                            style={{ backgroundImage: `url(${CardTicket})` }}
+                            onClick={() => openEventDetails(screen)}
+                            className="fm-movie-card"
+                          >
+                            <div className="container">
+                              <figure></figure>
+                              <div className="details">
+                                <div className="film-series-format">
+                                  {screen.worksPresented.length > 1 ? (
+                                    screen.worksPresented.length === 2 ? (
+                                      <p>Double Feature</p>
+                                    ) : screen.worksPresented.length === 3 ? (
+                                      <p>Triple Feature</p>
+                                    ) : (
+                                      screen.worksPresented.length > 3 && (
+                                        <p>Marathon</p>
+                                      )
+                                    )
+                                  ) : (
+                                    <></>
                                   )}
-                                </p>
-                              </div>
-                              <div className="title-year show">
-                                <div className="title">{screen.name}</div>
-                              </div>
-                              <div className="rating-duration-location">
-                                <p></p>
-                                <p>{screen.place.name}</p>
+                                  <p>
+                                    {dayjs(screen.startDate).format(
+                                      "dddd, MMMM DD, YYYY • hh:mma"
+                                    )}
+                                  </p>
+                                </div>
+                                <div className="title-year show">
+                                  <div className="title">{screen.name}</div>
+                                </div>
+                                <div className="rating-duration-location">
+                                  <p></p>
+                                  <p>{screen.place.name}</p>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      </section>
+    );
+  } else {
+    return (
+      <section id="film-calendar-list" className={`film-calendar-list flex`}>
+        <div className="empty-wrap">
+          <div className="dash-border">
+            <div className="empty-text">
+              <div className="empty-ticket">
+                <TicketSVG />
               </div>
-            ))}
-          </>
-        )}
-      </div>
-    </section>
-  );
-}
+              <h1>Loading!</h1>
+              <h3>Please wait...</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+};
 export default Local;

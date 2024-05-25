@@ -64,3 +64,19 @@ export async function requestFetchMovie(params) {
     return err.response;
   }
 }
+
+/**
+ * get movie by id
+ * @param {string} filmID Movie id to fetch
+ */
+export async function getFilmData(params) {
+  const filmID = params;
+  const url = `https://api.themoviedb.org/3/movie/${filmID}?api_key=${tmdb_apiKey}&append_to_response=release_dates,credits,watch/providers`;
+  try {
+    const response = await fetch(url);
+    const responseJson = await response.json();
+    return responseJson;
+  } catch (err) {
+    return err.response;
+  }
+}

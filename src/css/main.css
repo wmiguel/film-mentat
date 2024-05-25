@@ -2,6 +2,12 @@
   margin: 0;
 }
 
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
+}
+
 datalist {
   position: absolute;
   border-radius: 0 0 5px 5px;
@@ -235,9 +241,10 @@ option {
   align-items: baseline;
 }
 
-/* .film-title-year span {
-  margin-left: 12px;
-} */
+.film--year {
+  font-size: 12px;
+  font-weight: normal;
+}
 
 /* Film Calendar List */
 
@@ -266,11 +273,11 @@ option {
   /* padding-top: 24px; */
 }
 
-.pause-scroll {
+/* .pause-scroll {
   position: fixed;
   width: inherit;
   z-index: 10;
-}
+} */
 
 .empty-wrap {
   margin: auto;
@@ -631,17 +638,22 @@ button.local svg {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  aspect-ratio: 2.85 / 1;
+  /* aspect-ratio: 2.85 / 1; */
+  aspect-ratio: 1.97 / 1;
   /* min-height: 108px; */
+  padding: 14px 24px;
+  box-sizing: border-box;
 }
 
 .fm-movie-card .container {
   display: grid;
   /* background-color: var(--travertine); */
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: 55px minmax(0, 1fr);
+  gap: 12px;
   margin: auto 0;
-  padding: 16px 24px;
+  padding: 16px 12px;
+  height: 96px;
+  border-radius: 14px;
 }
 
 .fm-movie-card figure {
@@ -657,12 +669,27 @@ button.local svg {
 }
 
 .fm-movie-card .details {
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.film-series > span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .fm-movie-card .title-year {
-  display: flex;
-  justify-content: flex-start;
+  /* display: flex; */
+  /* justify-content: flex-start; */
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .fm-movie-card .title {
@@ -705,6 +732,17 @@ button.local svg {
   visibility: visible;
 }
 
+.fm-details::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: -1;
+  border-bottom: 1px solid var(--sinbad);
+}
+
 .fm-details {
   box-sizing: border-box;
   position: fixed;
@@ -716,11 +754,13 @@ button.local svg {
   left: 0;
   right: 0;
   overflow: scroll;
+  scrollbar-width: none;
   z-index: 12;
   height: 100vh;
   margin: auto;
   transform-origin: 0 100%;
   transition: transform 0.5s ease-out;
+  width: 390px;
 }
 
 .modal-body-container {
@@ -773,9 +813,9 @@ button.local svg {
   aspect-ratio: 1.75 / 1;
 }
 
-.fm-details .container { 
-  padding: 32px;
-}
+/* .fm-details .container { 
+  padding: 32px 0px 0px;
+} */
 
 /* Events Dates Section */
 

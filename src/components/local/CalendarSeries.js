@@ -1,24 +1,22 @@
-function CalendarSeries({
+const CalendarSeries = ({
   filterSeries,
   highlight,
   highlightSeries,
   dateSelected,
   setFilterFilms,
-}) {
+}) => {
   const testFilter = new Set(filterSeries.map((movie) => movie.series));
   const arraytestFilter = [...testFilter];
 
   const seriesSelected = (series, index) => {
     highlightSeries(index);
     if (series == null) {
-      
       if (dateSelected == null) {
         setFilterFilms(filterSeries);
       } else {
         setFilterFilms(filterSeries);
       }
     } else {
-      
       const filterDate = filterSeries.filter((movie) => {
         const seriesSelected = movie.series === series;
         return seriesSelected;

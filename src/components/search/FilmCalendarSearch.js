@@ -3,7 +3,7 @@ import FilmCalendarSearchBox from "./FilmCalendarSearchBox";
 import FilmCalendarSearchResults from "./FilmCalendarSearchResults";
 import { UserAuth } from "../../context/AuthContext";
 
-function FilmCalendarSearch({
+const FilmCalendarSearch = ({
   fetchPage,
   pagination,
   resultsList,
@@ -11,7 +11,7 @@ function FilmCalendarSearch({
   setSearchValue,
   style,
   toggleOff,
-}) {
+}) => {
   const className = style ? "toggle-on" : "toggle-off";
   const { user } = UserAuth();
 

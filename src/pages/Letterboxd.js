@@ -1,6 +1,6 @@
 import { ReactComponent as TicketSVG } from "../images/empty-ticket.svg";
 
-function Letterboxd() {
+const Letterboxd = () => {
   return (
     <section className="film-letterboxd flex">
       <div className="empty-wrap">

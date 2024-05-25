@@ -8,7 +8,7 @@ import LetterboxdButton from "../buttons/Letterboxd";
 import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
-function Footer({ pauseScroll, setPauseScroll }) {
+const Footer = () => {
   const [style, setStyle] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
@@ -58,7 +58,6 @@ function Footer({ pauseScroll, setPauseScroll }) {
 
   const toggleSearch = () => {
     setStyle(!style);
-    setPauseScroll(!pauseScroll);
     setSearchValue("");
     setResultsList([]);
   };

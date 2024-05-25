@@ -8,7 +8,6 @@ const EditMovie = ({
   filmData,
   setTodoEditing,
   setOpenModal,
-  setPauseScroll,
   handleCloseModal,
 }) => {
   const [editingDate, setEditingDate] = useState(filmData.date);
@@ -32,7 +31,6 @@ const EditMovie = ({
     setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
-    setPauseScroll(false);
     handleCloseModal();
   };
 
@@ -44,7 +42,6 @@ const EditMovie = ({
     setEditingDate("");
     setEditingFormat("");
     setEditingSeries("");
-    setPauseScroll(false);
     handleCloseModal();
   };
 
@@ -54,12 +51,9 @@ const EditMovie = ({
     setTodoEditing(null);
     setEditingFormat("");
     setEditingSeries("");
-    setPauseScroll(false);
     setTimeout(function () {
       handleCloseModal();
     }, 250);
-
-    // handleCloseModal();
   };
 
   return (

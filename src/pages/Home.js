@@ -4,7 +4,7 @@ import { UserAuth } from "../context/AuthContext";
 import GoogleButton from "react-google-button";
 
 
-function App() {
+const Home = () => {
   const { googleSignIn, user } = UserAuth();
   const navigate = useNavigate();
 
@@ -46,4 +46,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

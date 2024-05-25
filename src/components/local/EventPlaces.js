@@ -1,30 +1,32 @@
 import React from "react";
-import dayjs from "dayjs";
 
-function EventPlaces({
-  places,
+const EventPlaces = ({
+  filterPlaces,
   highlight,
   highlightPlace,
   date,
-  zeitgeistsRequest,
-}) {
+  setFilterFilms,
+}) => {
+  const allPlaces = new Set(filterPlaces.map((movie) => movie.place.name));
+  const sortAllPlaces = [...allPlaces].sort();
+
   const placeSelected = (place, index) => {
     highlightPlace(index);
     if (place == null) {
       if (date == null) {
-        zeitgeistsRequest(date, date, place);
+        setFilterFilms(filterPlaces);
       } else {
-        const startofDay = dayjs(date).startOf("day").format();
-        const endofDay = dayjs(date).endOf("day").format();
-        zeitgeistsRequest(startofDay, endofDay, place);
+        setFilterFilms(filterPlaces);
       }
     } else {
+      const filterDate = filterPlaces.filter((movie) => {
+        const placeSelected = movie.place.name === place;
+        return placeSelected;
+      });
       if (date == null) {
-        zeitgeistsRequest(date, date, place);
+        setFilterFilms(filterDate);
       } else {
-        const startofDay = dayjs(date).startOf("day").format();
-        const endofDay = dayjs(date).endOf("day").format();
-        zeitgeistsRequest(startofDay, endofDay, place);
+        setFilterFilms(filterDate);
       }
     }
   };
@@ -33,10 +35,11 @@ function EventPlaces({
       <div
         onClick={() => placeSelected(null, null)}
         className={`${highlight == null ? "highlight" : ""}`}
+        id="all"
       >
         <p>All</p>
       </div>
-      {places.map((place, index) => (
+      {sortAllPlaces.map((place, index) => (
         <div
           key={index}
           className={`${highlight === index ? "highlight" : ""}`}

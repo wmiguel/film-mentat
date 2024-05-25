@@ -13,21 +13,21 @@ import CalendarDates from "../components/local/CalendarDates";
 import CalendarSeries from "../components/local/CalendarSeries";
 import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
 
-function Calendar({ pauseScroll, openFilmDetails }) {
-  const [films, setFilms] = useState([]);
-  const [filterFilms, setFilterFilms] = useState([]);
-  const [filterSeries, setFilterSeries] = useState([]);
+const Calendar = ({ openFilmDetails }) => {
   const [userLogged, setUserLogged] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [films, setFilms] = useState([]);
+  const [filterFilms, setFilterFilms] = useState([]);
+  const [filterSeries, setFilterSeries] = useState([]);
+  
   const [dateSelected, setDateSelected] = useState(null);
   const [highlight, highlightSeries] = useState(null);
   const [allDates, setAllDates] = useState([]);
-  const pause = pauseScroll ? "pause-scroll" : "";
+
   const newDate = new Date();
   const today = dayjs(newDate).startOf("day").format("YYYY-MM-DD");
 
-  // Authorize firebase read with UserLogged
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       setUserLogged(user?.uid);
@@ -107,7 +107,6 @@ function Calendar({ pauseScroll, openFilmDetails }) {
       }
     });
   }
-
   function organizeFilmsByMonth(films) {
     const groupedFilms = groupFilmsByMonth(films);
     const sortedFilms = sortFilmsByMonth(groupedFilms);
@@ -129,7 +128,6 @@ function Calendar({ pauseScroll, openFilmDetails }) {
 
     return organizedFilms;
   }
-
   const organizedFilms = organizeFilmsByMonth(filterFilms);
 
   if (isLoading) {
@@ -139,7 +137,7 @@ function Calendar({ pauseScroll, openFilmDetails }) {
     return (
       <section
         id="film-calendar-list"
-        className={`film-calendar-list flex ${pause}`}
+        className={`film-calendar-list flex `}
       >
         <div className="film-event-filter">
           <CalendarDates
@@ -195,7 +193,7 @@ function Calendar({ pauseScroll, openFilmDetails }) {
     return (
       <section
         id="film-calendar-list"
-        className={`film-calendar-list flex ${pause}`}
+        className={`film-calendar-list flex `}
       >
         <div className="empty-wrap">
           <div className="dash-border">
