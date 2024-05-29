@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { zeitgeists } from "../api/moviesRequests";
+// import { auth, db } from "../firebase/firebase";
+// import { addDoc, collection } from "firebase/firestore";
 import dayjs from "dayjs";
 
 import CardTicket from "../images/card-ticket-outline.svg";
-import EventDates from "../components/local/EventDates";
-import EventPlaces from "../components/local/EventPlaces";
 import { ReactComponent as TicketSVG } from "../images/empty-ticket.svg";
-// import { auth, db } from "../firebase/firebase";
-// import { addDoc, collection } from "firebase/firestore";
-const zeitgeistsAuth = process.env.REACT_APP_ZEITGEISTS_AUTHORIZATION;
+import EventPlaces from "../components/local/EventPlaces";
+import EventDates from "../components/local/EventDates";
+
 
 const Local = ({ openEventDetails }) => {
   const [screenings, setScreenings] = useState([]);
@@ -44,79 +44,43 @@ const Local = ({ openEventDetails }) => {
   //     completed: false,
   //   });
   // };
-
-  const zeitgeistsRequest = async () => {
-    let page = 1;
-    const allResults = [];
-    const pageSize = 100;
-    let hasMorePages = true;
-
-    while (hasMorePages) {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://zeitgeists.org/api/v1/listings?type=Screening&page=${page}`,
-        headers: {
-          Authorization: zeitgeistsAuth,
-        },
-      };
-      try {
-        const response = await axios.request(config);
-        const results = response.data.data.listings;
-        allResults.push(...results);
-        hasMorePages = results.length === pageSize;
-        page += 1;
-      } catch (error) {
-        console.log(error);
-        hasMorePages = false;
-      }
-    }
-
-    const allScreenings = allResults;
-    allScreenings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-    setScreenings(allScreenings);
-    setFilterFilms(allScreenings);
-    setFilterPlaces(allScreenings);
-    const allScreeningDates = new Set(
-      allResults.map((movie) => movie.startDate.split("T")[0])
-    );
-    const sortAllScreeningDates = [...allScreeningDates].sort(
-      (a, b) => new Date(a) - new Date(b)
-    );
-    setScreeningDates(sortAllScreeningDates);
-  };
+  
 
   useEffect(() => {
-    zeitgeistsRequest();
-  }, []);
+    const getZeitgeist = async () => {
+      const response = await zeitgeists();
 
-  function parseDate(dateString) {
-    const date = dayjs(dateString).format("YYYY-MM-DD");
-    const [year, month, day] = date.split("-");
-    return {
-      year: parseInt(year),
-      month: parseInt(month),
-      day: parseInt(day),
+      const allScreenings = response;
+      allScreenings.sort(
+        (a, b) => new Date(a.startDate) - new Date(b.startDate)
+      );
+      setScreenings(allScreenings);
+      setFilterFilms(allScreenings);
+      setFilterPlaces(allScreenings);
+      const allScreeningDates = new Set(
+        response.map((movie) => movie.startDate.split("T")[0])
+      );
+      const sortAllScreeningDates = [...allScreeningDates].sort(
+        (a, b) => new Date(a) - new Date(b)
+      );
+      setScreeningDates(sortAllScreeningDates);
     };
-  }
+    getZeitgeist();
+  }, []);
 
   function groupFilmsByMonth(screenings) {
     const groupedFilms = {};
     screenings.forEach((screening) => {
-      const { year, month, day } = parseDate(screening.startDate);
-      const dateObj = new Date(year, month - 1, day);
-      const dayOfWeek = dateObj.toLocaleDateString("en-US", {
-        weekday: "short",
-      });
-      const monthKey = `${year}-${month}`;
+      const dayOfWeek = dayjs(screening.startDate).format("ddd");
+      const monthKey = dayjs(screening.startDate).format("YYYY-M");
       if (!groupedFilms[monthKey]) {
         groupedFilms[monthKey] = {
-          month: dayjs([month]).format("MMM"),
-          year: year,
+          month: dayjs(screening.startDate).format("MMM"),
+          year: dayjs(screening.startDate).format("YYYY"),
           days: {},
         };
       }
-      const dayKey = `${day}`;
+      const dayKey = dayjs(screening.startDate).format("D");
       if (!groupedFilms[monthKey].days[dayKey]) {
         groupedFilms[monthKey].days[dayKey] = { dayOfWeek, screenings: [] };
       }

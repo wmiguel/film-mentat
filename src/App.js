@@ -13,23 +13,24 @@ import Letterboxd from "./pages/Letterboxd";
 import Footer from "./components/footer/Footer";
 
 const App = () => {
-  const [todoEditing, setTodoEditing] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [filmPicked, setFilmPicked] = useState([]);
   const [eventPicked, setEventPicked] = useState([]);
+  const [searchPicked, setSearchPicked] = useState(null);
+  const [filterSeries, setFilterSeries] = useState([]);
 
+  const openSearchDetails = (filmPicked) => {
+    setSearchPicked(filmPicked);
+    setOpenModal(!openModal);
+  };
   const openFilmDetails = (filmPicked) => {
     setFilmPicked(filmPicked);
-    setTodoEditing(filmPicked);
     setOpenModal(!openModal);
   };
   const openEventDetails = (eventPicked) => {
-    // console.log(eventPicked);
     setEventPicked(eventPicked);
-    // setTodoEditing(eventPicked);
     setOpenModal(!openModal);
   };
-  // console.log(eventPicked);
   return (
     <AuthContextProvider>
       <Navigation />
@@ -40,6 +41,8 @@ const App = () => {
           element={
             <Protected>
               <Calendar
+                filterSeries={filterSeries}
+                setFilterSeries={setFilterSeries}
                 openFilmDetails={openFilmDetails}
               />
             </Protected>
@@ -57,9 +60,7 @@ const App = () => {
           path="/local"
           element={
             <Protected>
-              <Local
-                openEventDetails={openEventDetails}
-              />
+              <Local openEventDetails={openEventDetails} />
               {/* <NowPlaying /> */}
             </Protected>
           }
@@ -77,16 +78,17 @@ const App = () => {
         <FilmModal
           film={filmPicked}
           event={eventPicked}
-          todoEditing={todoEditing}
-          setTodoEditing={setTodoEditing}
+          search={searchPicked}
           openModal={openModal}
+          filterSeries={filterSeries}
           setOpenModal={setOpenModal}
           openFilmDetails={openFilmDetails}
           openEventDetails={openEventDetails}
+          openSearchDetails={openSearchDetails}
         />
       </Protected>
 
-      <Footer />
+      <Footer openSearchDetails={openSearchDetails} />
     </AuthContextProvider>
   );
 }

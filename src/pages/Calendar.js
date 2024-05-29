@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { auth, db, } from "../firebase/firebase";
-import dayjs from "dayjs";
 import {
   query,
   where,
@@ -8,19 +7,20 @@ import {
   collection,
   onSnapshot
 } from "firebase/firestore";
+import dayjs from "dayjs";
 import FilmCard from "../components/calendar/FilmCard";
 import CalendarDates from "../components/local/CalendarDates";
 import CalendarSeries from "../components/local/CalendarSeries";
 import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
 
-const Calendar = ({ openFilmDetails }) => {
+const Calendar = ({ openFilmDetails, filterSeries, setFilterSeries }) => {
   const [userLogged, setUserLogged] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const [films, setFilms] = useState([]);
   const [filterFilms, setFilterFilms] = useState([]);
-  const [filterSeries, setFilterSeries] = useState([]);
-  
+  // const [filterSeries, setFilterSeries] = useState([]);
+
   const [dateSelected, setDateSelected] = useState(null);
   const [highlight, highlightSeries] = useState(null);
   const [allDates, setAllDates] = useState([]);
@@ -61,34 +61,21 @@ const Calendar = ({ openFilmDetails }) => {
       };
       fetchFilms();
     }
-  }, [today, userLogged]);
-
-  function parseDate(dateString) {
-    const [year, month, day] = dateString.split("-");
-    return {
-      year: parseInt(year),
-      month: parseInt(month),
-      day: parseInt(day),
-    };
-  }
+  }, [today, userLogged, setFilterSeries]);
 
   function groupFilmsByMonth(films) {
     const groupedFilms = {};
     films.forEach((film) => {
-      const { year, month, day } = parseDate(film.date);
-      const dateObj = new Date(year, month - 1, day);
-      const dayOfWeek = dateObj.toLocaleDateString("en-US", {
-        weekday: "short",
-      });
-      const monthKey = `${year}-${month}`;
+      const dayOfWeek = dayjs(film.date).format("ddd");
+      const monthKey = dayjs(film.date).format("YYYY-M");
       if (!groupedFilms[monthKey]) {
         groupedFilms[monthKey] = {
-          month: dayjs([month]).format("MMM"),
-          year: year,
+          month: dayjs(film.date).format("MMM"),
+          year: dayjs(film.date).format("YYYY"),
           days: {},
         };
       }
-      const dayKey = `${day}`;
+      const dayKey = dayjs(film.date).format("D");
       if (!groupedFilms[monthKey].days[dayKey]) {
         groupedFilms[monthKey].days[dayKey] = { dayOfWeek, films: [] };
       }
@@ -129,16 +116,14 @@ const Calendar = ({ openFilmDetails }) => {
     return organizedFilms;
   }
   const organizedFilms = organizeFilmsByMonth(filterFilms);
+  // console.log(filterFilms);
 
   if (isLoading) {
     return;
   }
   if (filterFilms.length !== 0) {
     return (
-      <section
-        id="film-calendar-list"
-        className={`film-calendar-list flex `}
-      >
+      <section id="film-calendar-list" className={`film-calendar-list flex `}>
         <div className="film-event-filter">
           <CalendarDates
             films={films}
@@ -146,6 +131,7 @@ const Calendar = ({ openFilmDetails }) => {
             setFilterFilms={setFilterFilms}
             highlightSeries={highlightSeries}
             setDateSelected={setDateSelected}
+            filterSeries={filterSeries}
             setFilterSeries={setFilterSeries}
           />
           <CalendarSeries
@@ -191,23 +177,20 @@ const Calendar = ({ openFilmDetails }) => {
     );
   } else {
     return (
-      <section
-        id="film-calendar-list"
-        className={`film-calendar-list flex `}
-      >
+      <section id="film-calendar-list" className={`film-calendar-list flex `}>
         <div className="empty-wrap">
           <div className="dash-border">
             <div className="empty-text">
               <div className="empty-ticket">
                 <TicketSVG />
               </div>
-              <h1>No Movies Scheduled!</h1>
-              <h3>Add your next movie event.</h3>
+              <h1>No Movies Listed</h1>
+              <h3>Schedule your next movie!</h3>
             </div>
           </div>
         </div>
       </section>
     );
   }
-}
+};
 export default Calendar;

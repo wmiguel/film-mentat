@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import EditMovie from "./EditMovie";
 const userModal = ({
+  filterSeries,
   film,
   filmData,
-  setTodoEditing,
   setOpenModal,
   handleCloseModal,
 }) => {
@@ -48,9 +48,9 @@ const userModal = ({
         </div>
         <div className="details">
           <EditMovie
+            filterSeries={filterSeries}
             film={film}
             filmData={filmData}
-            setTodoEditing={setTodoEditing}
             setOpenModal={setOpenModal}
             handleCloseModal={handleCloseModal}
           />

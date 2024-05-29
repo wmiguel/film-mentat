@@ -10,6 +10,7 @@ const FilmCalendarSearch = ({
   searchValue,
   setSearchValue,
   style,
+  openSearchDetails,
   toggleOff,
 }) => {
   const className = style ? "toggle-on" : "toggle-off";
@@ -32,12 +33,13 @@ const FilmCalendarSearch = ({
             pagination={pagination}
             resultsList={resultsList}
             searchValue={searchValue}
+            openSearchDetails={openSearchDetails}
             toggleOff={toggleOff}
           />
         </section>
       ) : null}
     </>
   );
-}
+};
 
 export default FilmCalendarSearch;

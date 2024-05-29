@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import FilmUpdateEvent from "../buttons/FilmUpdateEvent";
-import { db } from "../../firebase/firebase";
-import { updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../firebase/firebase";
+import {
+  addDoc,
+  collection,
+} from "firebase/firestore";
+import dayjs from "dayjs";
 
-const EditMovie = ({
-  filterSeries,
-  film,
-  filmData,
-  setOpenModal,
-  handleCloseModal,
-}) => {
-  const [editingDate, setEditingDate] = useState(filmData.date);
-  const [editingFormat, setEditingFormat] = useState(filmData.format);
-  const [editingSeries, setEditingSeries] = useState(filmData.series);
+const AddMovie = ({ filmData, closeModal, filterSeries }) => {
+  const today = dayjs().format("YYYY-MM-DD");
+  const [editingDate, setEditingDate] = useState(today);
+  const [editingFormat, setEditingFormat] = useState("");
+  const [editingSeries, setEditingSeries] = useState("");
 
   const filteredSeries = new Set(filterSeries.map((movie) => movie.series));
   const seriesOptions = [...filteredSeries];
@@ -21,47 +19,41 @@ const EditMovie = ({
   const formatOptions = [...filteredFormats];
 
   // Update Film
-  const updateFilm = async (f) => {
+  const addFilm = async (f) => {
     f.preventDefault(f);
     if (editingDate === "") {
       return;
     }
-    await updateDoc(doc(db, "films", film), {
-      date: editingDate,
-      format: editingFormat,
+    const { uid } = auth.currentUser;
+    await addDoc(collection(db, "films"), {
+      uid,
+      title: filmData.title,
+      year: dayjs(filmData.release_date).format("YYYY"),
+      poster: filmData.poster_path,
+      backdrop: filmData.backdrop_path,
       series: editingSeries,
+      format: editingFormat,
+      tmdbID: filmData.id,
+      date: editingDate,
+      completed: false,
     });
-    setOpenModal(false);
-    setEditingDate("");
+    closeModal();
+    setEditingDate(today);
     setEditingFormat("");
     setEditingSeries("");
-    handleCloseModal();
-  };
-
-  // Delete Film
-  const deleteFilm = async () => {
-    await deleteDoc(doc(db, "films", film));
-    setOpenModal(false);
-    setEditingDate("");
-    setEditingFormat("");
-    setEditingSeries("");
-    handleCloseModal();
   };
 
   // Cancel Edit
   const cancelEditFilm = () => {
-    setOpenModal(false);
+    closeModal();
+    setEditingDate(today);
     setEditingFormat("");
     setEditingSeries("");
-    setTimeout(function () {
-      handleCloseModal();
-    }, 250);
   };
-
   return (
     <>
       <div className="film-info film-edit show">
-        <form onSubmit={updateFilm} className="film-edit-form flex">
+        <form onSubmit={addFilm} className="film-edit-form flex">
           <div className="edit-film-date grid">
             <label>Date</label>
             <input
@@ -76,6 +68,7 @@ const EditMovie = ({
             <label>Format</label>
             <input
               value={editingFormat}
+              placeholder="Add format..."
               onChange={(f) => setEditingFormat(f.target.value)}
               type="text"
               list="format-options"
@@ -93,6 +86,7 @@ const EditMovie = ({
             <label>Series</label>
             <input
               value={editingSeries}
+              placeholder="Add series..."
               onChange={(f) => setEditingSeries(f.target.value)}
               type="text"
               list="series-options"
@@ -108,14 +102,16 @@ const EditMovie = ({
           </div>
         </form>
       </div>
-      <FilmUpdateEvent
-        filmID={film}
-        updateFilm={updateFilm}
-        deleteFilm={deleteFilm}
-        cancelEditFilm={cancelEditFilm}
-      />
+      <div className="film-update-buttons">
+        <button className="save" onClick={(f) => addFilm(f)}>
+          Save
+        </button>
+        <button className="cancel" onClick={() => cancelEditFilm()}>
+          Cancel
+        </button>
+      </div>
     </>
   );
 };
 
-export default EditMovie;
+export default AddMovie;

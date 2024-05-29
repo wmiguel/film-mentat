@@ -13,15 +13,18 @@ const FilmCalendarSearchBox = ({ searchValue, setSearchValue, toggleOff }) => {
         className="search-form flex"
         onSubmit={(e) => {
           e.preventDefault();
+          const searchInput = document.getElementById("search-input");
+          searchInput.blur();
         }}
       >
         <input
-          id="searchInput"
+          id="search-input"
           className="search-input"
           onChange={handleInputChange}
           value={searchValue}
           placeholder="Type to search..."
           type="text"
+          enterKeyHint="search"
         />
       </form>
     </div>

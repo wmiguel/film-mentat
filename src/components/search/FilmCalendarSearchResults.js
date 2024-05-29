@@ -6,6 +6,7 @@ const FilmCalendarSearchResults = ({
   pagination,
   resultsList,
   searchValue,
+  openSearchDetails,
   toggleOff,
 }) => {
   const { count: countResults } = pagination;
@@ -17,6 +18,7 @@ const FilmCalendarSearchResults = ({
           fetchPage={fetchPage}
           pagination={pagination}
           resultsList={resultsList}
+          openSearchDetails={openSearchDetails}
           toggleOff={toggleOff}
         />
       ) : null}
@@ -35,6 +37,6 @@ const FilmCalendarSearchResults = ({
       )}
     </>
   );
-}
+};
 
 export default FilmCalendarSearchResults;

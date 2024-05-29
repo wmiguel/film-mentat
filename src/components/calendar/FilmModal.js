@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from "react";
 import UserModal from "./UserModal";
 import ScreeningModal from "../local/ScreeningModal";
+import SearchModal from "../local/SearchModal";
 import { db } from "../../firebase/firebase";
 import {
   doc, getDoc
 } from "firebase/firestore";
-import dayjs from "dayjs";
-var weekday = require("dayjs/plugin/weekday");
-var localeData = require("dayjs/plugin/localeData");
-dayjs.extend(localeData);
-dayjs.extend(weekday);
 
 
 const FilmModal = ({
   film,
   event,
-  setTodoEditing,
+  search,
   openModal,
   setOpenModal,
   openFilmDetails,
   openEventDetails,
+  openSearchDetails,
+  filterSeries,
 }) => {
   const [filmData, setFilmData] = useState(null);
   const [eventData, setEventData] = useState(null);
+  const [searchData, setSearchData] = useState(null);
   const open = openModal ? "open-modal" : "close-modal";
   const opacityDelay = openModal ? "opacity-100" : "opacity-0";
+
+  useEffect(() => {
+    if (!search || typeof search !== "object") {
+      return;
+    }
+    // if (!search.backdrop_path !== "undefined") {
+    //   return;
+    // }
+    setSearchData(search);
+  }, [search]);
 
   useEffect(() => {
     if (!event || typeof event !== "object") {
@@ -38,6 +47,7 @@ const FilmModal = ({
     }
     setEventData(event);
   }, [event]);
+
   useEffect(() => {
     if (!film || typeof film !== "string") {
       return;
@@ -59,11 +69,14 @@ const FilmModal = ({
     };
     getData();
   }, [film]);
+
   const handleCloseModal = () => {
-    setFilmData(null); // Clear filmData
+    setFilmData(null);
     setEventData(null);
+    setSearchData(null);
     openFilmDetails("");
     openEventDetails("");
+    openSearchDetails("");
   };
   const closeModal = () => {
     setOpenModal(false);
@@ -78,7 +91,7 @@ const FilmModal = ({
         className={`fm-details ${open}`}
         style={{
           borderRadius: "0",
-          backgroundColor: "rgba(1,1,1,0.8)",
+          backgroundColor: "var(--sinbad)",
           overscrollBehavior: "contain",
         }}
       >
@@ -95,7 +108,6 @@ const FilmModal = ({
             gap: "32px",
             bottom: "0",
             position: "absolute",
-            // opacity: "0.35",
           }}
         >
           {eventData ? (
@@ -105,65 +117,22 @@ const FilmModal = ({
           )}
           {filmData ? (
             <UserModal
+              filterSeries={filterSeries}
               film={film}
               filmData={filmData}
-              setTodoEditing={setTodoEditing}
               setOpenModal={setOpenModal}
               handleCloseModal={handleCloseModal}
             />
           ) : (
-            // <>
-            //   <div
-            //     className={`fm-movie-card modal`}
-            //     style={{
-            //       backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.backdrop}")`,
-            //       borderRadius: "20px",
-            //     }}
-            //   ></div>
-
-            //   <div
-            //     className={`container modal-container`}
-            //     style={{ padding: "0" }}
-            //   >
-            //     <div
-            //       className="film-event-details"
-            //       style={{
-            //         display: "grid",
-            //         gridTemplateColumns: "1fr 3fr",
-            //         gap: "24px",
-            //         marginBottom: "24px",
-            //       }}
-            //     >
-            //       <figure
-            //         style={{
-            //           backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.poster}")`,
-            //           backgroundPosition: "center",
-            //           backgroundRepeat: "no-repeat",
-            //           backgroundSize: "contain",
-            //           aspectRatio: "1 / 1.47",
-            //           borderRadius: "20px",
-            //         }}
-            //       ></figure>
-            //       <div className="the-details">
-            //         <p>{dayjs(filmData.date).format("dddd, MMM DD YYYY")}</p>
-            //         <h1>
-            //           {filmData.title} <span>{filmData.year}</span>
-            //         </h1>
-            //         <span>{filmData.series}</span>
-            //         <p>{filmData.format}</p>
-            //       </div>
-            //     </div>
-            //     <div className="details">
-            //       <EditMovie
-            //         film={film}
-            //         filmData={filmData}
-            //         setTodoEditing={setTodoEditing}
-            //         setOpenModal={setOpenModal}
-            //         handleCloseModal={handleCloseModal}
-            //       />
-            //     </div>
-            //   </div>
-            // </>
+            <></>
+          )}
+          {searchData ? (
+            <SearchModal
+              filterSeries={filterSeries}
+              searchData={searchData}
+              closeModal={closeModal}
+            />
+          ) : (
             <></>
           )}
         </div>

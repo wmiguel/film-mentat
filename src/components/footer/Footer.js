@@ -8,7 +8,7 @@ import LetterboxdButton from "../buttons/Letterboxd";
 import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
-const Footer = () => {
+const Footer = ({ openSearchDetails }) => {
   const [style, setStyle] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
@@ -63,7 +63,7 @@ const Footer = () => {
   };
 
   const { user } = UserAuth();
-  
+
   return (
     <>
       {user?.displayName ? (
@@ -75,12 +75,13 @@ const Footer = () => {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
             style={style}
+            openSearchDetails={openSearchDetails}
             toggleOff={toggleSearch}
           />
           <footer className="film-calendar-footer">
             <div className="footer-wrap">
-              <FilmHome/>
-              <FilmLocalEvents/>
+              <FilmHome />
+              <FilmLocalEvents />
               <FilmToggleSearch toggleSearch={toggleSearch} />
               <LetterboxdButton />
               <AccountButton />
@@ -90,5 +91,5 @@ const Footer = () => {
       ) : null}
     </>
   );
-}
+};
 export default Footer;

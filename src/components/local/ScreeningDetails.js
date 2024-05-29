@@ -1,8 +1,4 @@
 import dayjs from "dayjs";
-var weekday = require("dayjs/plugin/weekday");
-var localeData = require("dayjs/plugin/localeData");
-dayjs.extend(localeData);
-dayjs.extend(weekday);
 
 const ScreeningDetails = ({ eventData }) => {
   return (
@@ -16,7 +12,7 @@ const ScreeningDetails = ({ eventData }) => {
         <div
           className="details"
           style={{
-            marginBottom: "24px",
+            marginBottom: "64px",
             display: "flex",
             flexDirection: "column",
             height: "100%",

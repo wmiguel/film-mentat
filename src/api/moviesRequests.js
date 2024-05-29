@@ -4,6 +4,7 @@ const tmdb_apiKey = process.env.REACT_APP_TMDB_APIKEY;
 const apiUrl = `https://www.omdbapi.com/?apikey=${OMDB_API}`;
 const tmdb_url = `https://api.themoviedb.org/3/search/movie?api_key=${tmdb_apiKey}`;
 const tmdb_NowPlaying = `https://api.themoviedb.org/3/movie/now_playing?api_key=${tmdb_apiKey}`;
+const zeitgeistsAuth = process.env.REACT_APP_ZEITGEISTS_AUTHORIZATION;
 
 /**
  * get movies by title
@@ -65,10 +66,6 @@ export async function requestFetchMovie(params) {
   }
 }
 
-/**
- * get movie by id
- * @param {string} filmID Movie id to fetch
- */
 export async function getFilmData(params) {
   const filmID = params;
   const url = `https://api.themoviedb.org/3/movie/${filmID}?api_key=${tmdb_apiKey}&append_to_response=release_dates,credits,watch/providers`;
@@ -79,4 +76,33 @@ export async function getFilmData(params) {
   } catch (err) {
     return err.response;
   }
+}
+
+export async function zeitgeists() {
+  let page = 1;
+  const allResults = [];
+  const pageSize = 100;
+  let hasMorePages = true;
+
+  while (hasMorePages) {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://zeitgeists.org/api/v1/listings?type=Screening&page=${page}`,
+      headers: {
+        Authorization: zeitgeistsAuth,
+      }
+    };
+    try {
+      const response = await axios.request(config);
+      const results = response.data.data.listings;
+      allResults.push(...results);
+      hasMorePages = results.length === pageSize;
+      page += 1;
+    } catch (error) {
+      console.log(error);
+      hasMorePages = false;
+    }
+  }
+  return allResults;
 }
