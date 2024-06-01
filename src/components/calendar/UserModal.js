@@ -1,11 +1,13 @@
 import dayjs from "dayjs";
 import EditMovie from "./EditMovie";
+import { IoAdd } from "react-icons/io5";
 const userModal = ({
   filterSeries,
   film,
   filmData,
   setOpenModal,
   handleCloseModal,
+  closeModal,
 }) => {
   return (
     <>
@@ -13,11 +15,39 @@ const userModal = ({
         className={`fm-movie-card modal`}
         style={{
           backgroundImage: `url("https://image.tmdb.org/t/p/w1280${filmData.backdrop}")`,
-          borderRadius: "20px",
+          cursor: "auto",
         }}
-      ></div>
+      >
+        <div
+          className="cancel-button"
+          style={{
+            marginLeft: "auto",
+            marginRight: "0",
+          }}
+        >
+          <button
+            className="cancel"
+            onClick={() => closeModal()}
+            style={{
+              border: "none",
+              borderRadius: "24px",
+              lineHeight: "12px",
+              cursor: "pointer",
+              width: "36px",
+              height: "36px",
+              fontSize: "18px",
+              rotate: "45deg",
+            }}
+          >
+            <IoAdd size={28} />
+          </button>
+        </div>
+      </div>
 
-      <div className={`container modal-container`} style={{ padding: "0" }}>
+      <div
+        className={`container modal-container`}
+        style={{ padding: "24px 24px 64px" }}
+      >
         <div
           className="film-event-details"
           style={{
@@ -33,14 +63,15 @@ const userModal = ({
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
-              aspectRatio: "1 / 1.47",
-              borderRadius: "20px",
+              aspectRatio: "1 / 1.5",
+              borderRadius: "8px",
             }}
           ></figure>
           <div className="the-details">
             <p>{dayjs(filmData.date).format("dddd, MMM DD YYYY")}</p>
             <h1>
-              {filmData.title} <span>{filmData.year}</span>
+              {filmData.title}{" "}
+              <span className="film--year">{filmData.year}</span>
             </h1>
             <span>{filmData.series}</span>
             <p>{filmData.format}</p>

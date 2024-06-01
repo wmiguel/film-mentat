@@ -99,14 +99,14 @@ const FilmModal = ({
           className={`modal-body-container ${opacityDelay}`}
           style={{
             backgroundColor: "var(--sinbad)",
-            padding: "24px 24px 64px",
+            // padding: "24px 24px 64px",
             borderRadius: "48px 48px 0 0",
             boxSizing: "border-box",
             height: "99%",
             display: "flex",
             flexDirection: "column",
-            gap: "32px",
-            bottom: "0",
+            gap: "0",
+            top: "0",
             position: "absolute",
           }}
         >
@@ -121,6 +121,7 @@ const FilmModal = ({
               film={film}
               filmData={filmData}
               setOpenModal={setOpenModal}
+              closeModal={closeModal}
               handleCloseModal={handleCloseModal}
             />
           ) : (

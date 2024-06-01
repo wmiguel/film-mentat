@@ -6,7 +6,7 @@ const FilmLocalEvents = () => {
   return (
     <NavLink
       to="/local"
-      className={({ isActive }) => (isActive ? "highlight" : "")}
+      className={({ isActive }) => (isActive ? "orange" : "")}
     >
       <button className="local inline-flex">
         <FaMapMarkerAlt size={18} />

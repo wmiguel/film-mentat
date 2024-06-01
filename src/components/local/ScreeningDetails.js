@@ -7,6 +7,7 @@ const ScreeningDetails = ({ eventData }) => {
         className={`container modal-container`}
         style={{
           flex: "1 1 auto",
+          padding: "24px 24px 64px",
         }}
       >
         <div
@@ -33,10 +34,7 @@ const ScreeningDetails = ({ eventData }) => {
                 {/* <p>{eventData.place.address}</p> */}
               </h2>
             </div>
-            <div
-              className="event-title"
-              style={{ textAlign: "center" }}
-            >
+            <div className="event-title" style={{ textAlign: "center" }}>
               <h1 style={{ fontSize: "2rem", fontWeight: "600" }}>
                 <strong>{eventData.name.toUpperCase()}</strong>
               </h1>
@@ -101,13 +99,16 @@ const ScreeningDetails = ({ eventData }) => {
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat",
-                                aspectRatio: "1 / 1.47",
+                                aspectRatio: "1 / 1.5",
                               }}
                             ></figure>
                             <div style={{ margin: "auto 0" }}>
                               <h2>
                                 <strong>
-                                  {movie.name} <span>{movie.year}</span>
+                                  {movie.name}{" "}
+                                  <span className="film--year">
+                                    {movie.year}
+                                  </span>
                                 </strong>
                               </h2>
                               <p>directed by {movie.director}</p>
@@ -143,7 +144,7 @@ const ScreeningDetails = ({ eventData }) => {
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 backgroundRepeat: "no-repeat",
-                                aspectRatio: "1 / 1.47",
+                                aspectRatio: "1 / 1.5",
                               }}
                             ></figure>
                             <div style={{ margin: "auto 0" }}>
@@ -153,7 +154,9 @@ const ScreeningDetails = ({ eventData }) => {
                                   {movie.year === null ? (
                                     <></>
                                   ) : (
-                                    <span>{movie.year}</span>
+                                    <span className="film--year">
+                                      {movie.year}
+                                    </span>
                                   )}
                                 </strong>
                               </h2>

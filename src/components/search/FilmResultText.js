@@ -7,7 +7,10 @@ const FilmResultText = ({ resultTitle, resultYear }) => {
       <div className="film-info">
         <div className="film-title-year flex">
           <h4>
-            {resultTitle} <span style={{ color: "white" }}>{resultYear}</span>
+            {resultTitle}{" "}
+            <span className="film--year" style={{ color: "white" }}>
+              {resultYear}
+            </span>
           </h4>
         </div>
       </div>

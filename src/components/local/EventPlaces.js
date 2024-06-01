@@ -37,7 +37,7 @@ const EventPlaces = ({
         className={`${highlight == null ? "highlight" : ""}`}
         id="all"
       >
-        <p>All</p>
+        <p>All Locations</p>
       </div>
       {sortAllPlaces.map((place, index) => (
         <div

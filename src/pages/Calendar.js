@@ -25,8 +25,9 @@ const Calendar = ({ openFilmDetails, filterSeries, setFilterSeries }) => {
   const [highlight, highlightSeries] = useState(null);
   const [allDates, setAllDates] = useState([]);
 
-  const newDate = new Date();
-  const today = dayjs(newDate).startOf("day").format("YYYY-MM-DD");
+  // const newDate = new Date();
+  // const today = dayjs(newDate).startOf("day").format("YYYY-MM-DD");
+  const today = dayjs().startOf("day").format("YYYY-MM-DD");
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {

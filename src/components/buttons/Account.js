@@ -7,7 +7,7 @@ const ButtonAccount = () => {
   return (
     <NavLink
       to="/account"
-      className={({ isActive }) => (isActive ? "highlight" : "")}
+      className={({ isActive }) => (isActive ? "orange" : "")}
     >
       <button className="account inline-flex">
         <IoSettingsSharp size={18} />

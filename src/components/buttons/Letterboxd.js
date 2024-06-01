@@ -6,8 +6,9 @@ import { NavLink } from "react-router-dom";
 const Letterboxd = () => {
   return (
     <NavLink
-      to="/letterboxd"
-      className={({ isActive }) => (isActive ? "highlight" : "")}
+      // to="/letterboxd"
+      to="/now-playing"
+      className={({ isActive }) => (isActive ? "orange" : "")}
     >
       <button className="local inline-flex">
         <FaTicketAlt size={18} />

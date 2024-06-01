@@ -6,7 +6,7 @@ const FilmLocalEvents = () => {
   return (
     <NavLink
       to="/calendar"
-      className={({ isActive }) => (isActive ? "highlight" : "")}
+      className={({ isActive }) => (isActive ? "orange" : "")}
     >
       <button className="local inline-flex">
         <FaRegCalendarAlt size={18} />

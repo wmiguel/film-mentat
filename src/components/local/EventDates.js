@@ -31,7 +31,8 @@ const EventDates = ({
           dayjs(movie.startDate).endOf("day").format() <= endofDay
       );
       dateScreenings.sort(
-        (a, b) => new Date(a.startDate) - new Date(b.startDate)
+        // (a, b) => new Date(a.startDate) - new Date(b.startDate)
+        (a, b) => (dayjs(a.startDate).isAfter(dayjs(b.startDate)) ? 1 : -1)
       );
       setFilterFilms(dateScreenings);
       setFilterPlaces(dateScreenings);
@@ -45,7 +46,7 @@ const EventDates = ({
         className={`${highlight === null ? "highlight" : ""}`}
         onClick={() => dateSelected(null, null)}
       >
-        <p>All</p>
+        <p>All Dates</p>
       </div>
       {dates.map((date, index) => {
         if (date < today) {

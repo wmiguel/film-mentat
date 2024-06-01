@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Account from "./pages/Account";
 import Local from "./pages/Local";
-// import NowPlaying from "./pages/NowPlaying";
+import NowPlaying from "./pages/NowPlaying";
 import FilmModal from "./components/calendar/FilmModal";
 import Letterboxd from "./pages/Letterboxd";
 import Footer from "./components/footer/Footer";
@@ -62,6 +62,14 @@ const App = () => {
             <Protected>
               <Local openEventDetails={openEventDetails} />
               {/* <NowPlaying /> */}
+            </Protected>
+          }
+        />
+        <Route
+          path="/now-playing"
+          element={
+            <Protected>
+              <NowPlaying />
             </Protected>
           }
         />

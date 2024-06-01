@@ -35,7 +35,7 @@ const CalendarSeries = ({
         onClick={() => seriesSelected(null, null)}
         className={`${highlight === null ? "highlight" : ""}`}
       >
-        <p>All</p>
+        <p>All Series</p>
       </div>
       {arraytestFilter.map((series, index) => {
         if (series === "") {

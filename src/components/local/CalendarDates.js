@@ -36,7 +36,7 @@ const EventDates = ({
         className={`${highlight === null ? "highlight" : ""}`}
         onClick={() => dateSelected(null, null)}
       >
-        <p>All</p>
+        <p>All Dates</p>
       </div>
       {dates.map((date, index) => {
         const screenDate = dayjs(date).format("YYYY-MM-DD");

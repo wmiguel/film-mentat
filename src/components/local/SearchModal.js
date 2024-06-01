@@ -38,21 +38,24 @@ const SearchModal = ({
       {searchData.backdrop_path === undefined ? (
         <div
           className={`fm-movie-card modal`}
-          style={{
-            borderRadius: "20px",
-          }}
+          // style={{
+          //   borderRadius: "20px",
+          // }}
         ></div>
       ) : (
         <div
           className={`fm-movie-card modal`}
           style={{
             backgroundImage: `url("https://image.tmdb.org/t/p/w1280${searchData.backdrop_path}")`,
-            borderRadius: "20px",
+            // borderRadius: "20px",
           }}
         ></div>
       )}
 
-      <div className={`container modal-container`} style={{ padding: "0" }}>
+      <div
+        className={`container modal-container`}
+        style={{ padding: "24px 24px 64px" }}
+      >
         <div
           className="film-event-details"
           style={{
@@ -71,8 +74,8 @@ const SearchModal = ({
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "contain",
-                aspectRatio: "1 / 1.47",
-                borderRadius: "20px",
+                aspectRatio: "1 / 1.5",
+                borderRadius: "8px",
               }}
             ></figure>
           )}
@@ -80,7 +83,9 @@ const SearchModal = ({
           <div className="the-details">
             <h1>
               {searchData.title}{" "}
-              <span>{dayjs(searchData.release_date).format("YYYY")}</span>
+              <span className="film--year">
+                {dayjs(searchData.release_date).format("YYYY")}
+              </span>
             </h1>
           </div>
         </div>

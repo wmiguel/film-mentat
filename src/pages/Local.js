@@ -20,12 +20,6 @@ const Local = ({ openEventDetails }) => {
   const [highlight, highlightPlace] = useState(null);
   const [displayAll, setDisplayAll] = useState(true);
 
-  const screeningDatesFormatted = screeningDates.map((dateStr) => {
-    const date = new Date(dateStr);
-    const dateFormat = dayjs(date).startOf("day").format("YYYY-MM-DD");
-    return dateFormat;
-  });
-
   // const addtoCalendar = async (screen) => {
   //   const screeningInfo = [screen];
   //   const { uid } = auth.currentUser;
@@ -51,17 +45,20 @@ const Local = ({ openEventDetails }) => {
       const response = await zeitgeists();
 
       const allScreenings = response;
-      allScreenings.sort(
-        (a, b) => new Date(a.startDate) - new Date(b.startDate)
+      allScreenings.sort((a, b) =>
+        dayjs(a.startDate).isAfter(dayjs(b.startDate)) ? 1 : -1
       );
       setScreenings(allScreenings);
       setFilterFilms(allScreenings);
       setFilterPlaces(allScreenings);
+
       const allScreeningDates = new Set(
-        response.map((movie) => movie.startDate.split("T")[0])
+        allScreenings.map((movie) =>
+          dayjs(movie.startDate).format("YYYY-MM-DD")
+        )
       );
-      const sortAllScreeningDates = [...allScreeningDates].sort(
-        (a, b) => new Date(a) - new Date(b)
+      const sortAllScreeningDates = [...allScreeningDates].sort((a, b) =>
+        dayjs(a).isAfter(dayjs(b)) ? 1 : -1
       );
       setScreeningDates(sortAllScreeningDates);
     };
@@ -128,7 +125,7 @@ const Local = ({ openEventDetails }) => {
         <div className="film-event-filter">
           <EventDates
             screenings={screenings}
-            dates={screeningDatesFormatted}
+            dates={screeningDates}
             setFilterFilms={setFilterFilms}
             highlightPlace={highlightPlace}
             setDate={setDate}
@@ -145,7 +142,7 @@ const Local = ({ openEventDetails }) => {
         </div>
         <div className="content-wrap">
           {displayAll === false ? (
-            <div style={{ padding: "24px 16px 0" }}>
+            <div style={{ padding: "24px 40px 0" }}>
               {filterFilms.length ? (
                 filterFilms.map((screen, index) => (
                   <div
@@ -270,6 +267,10 @@ const Local = ({ openEventDetails }) => {
               </div>
               <h1>Loading!</h1>
               <h3>Please wait...</h3>
+              If you're having trouble loading,
+              <button onClick={() => window.location.reload()}>
+                Click to Refresh
+              </button>
             </div>
           </div>
         </div>
