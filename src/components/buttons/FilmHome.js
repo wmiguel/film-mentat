@@ -8,8 +8,8 @@ const FilmLocalEvents = () => {
       to="/calendar"
       className={({ isActive }) => (isActive ? "orange" : "")}
     >
-      <button className="local inline-flex">
-        <FaRegCalendarAlt size={18} />
+      <button className="navButton">
+        <FaRegCalendarAlt size={18} /><span>Test</span>
       </button>
     </NavLink>
   );

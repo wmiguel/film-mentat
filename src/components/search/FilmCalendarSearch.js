@@ -20,8 +20,8 @@ const FilmCalendarSearch = ({
     <>
       {user?.displayName ? (
         <section
-          className={`film-calendar-search ${className}`}
           id="scrollableDiv"
+          className={`film-calendar-search ${className}`}
         >
           <FilmCalendarSearchBox
             searchValue={searchValue}

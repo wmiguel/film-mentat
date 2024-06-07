@@ -30,11 +30,7 @@ const FilmCalendarSearchResults = ({
             : "No result"}
           {` for "${searchValue}"`}
         </div>
-      ) : (
-        <div className="search-results-number">
-          {"Waiting for search results..."}
-        </div>
-      )}
+      ) : null}
     </>
   );
 };

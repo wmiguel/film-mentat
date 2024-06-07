@@ -4,7 +4,7 @@ import FilmHome from "../buttons/FilmHome";
 import FilmLocalEvents from "../buttons/FilmLocalEvents";
 import FilmToggleSearch from "../buttons/FilmToggleSearch";
 import AccountButton from "../buttons/Account";
-import LetterboxdButton from "../buttons/Letterboxd";
+// import LetterboxdButton from "../buttons/Letterboxd";
 import { UserAuth } from "../../context/AuthContext";
 import { requestFetchMovies } from "../../api/moviesRequests";
 
@@ -82,9 +82,9 @@ const Footer = ({ openSearchDetails }) => {
             <div className="footer-wrap">
               <FilmHome />
               <FilmLocalEvents />
-              <FilmToggleSearch toggleSearch={toggleSearch} />
-              <LetterboxdButton />
+              {/* <LetterboxdButton /> */}
               <AccountButton />
+              <FilmToggleSearch toggleSearch={toggleSearch} />
             </div>
           </footer>
         </>

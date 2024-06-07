@@ -48,16 +48,6 @@ const EditMovie = ({
     handleCloseModal();
   };
 
-  // Cancel Edit
-  const cancelEditFilm = () => {
-    setOpenModal(false);
-    setEditingFormat("");
-    setEditingSeries("");
-    setTimeout(function () {
-      handleCloseModal();
-    }, 250);
-  };
-
   return (
     <>
       <div className="film-info film-edit show">
@@ -112,7 +102,6 @@ const EditMovie = ({
         filmID={film}
         updateFilm={updateFilm}
         deleteFilm={deleteFilm}
-        cancelEditFilm={cancelEditFilm}
       />
     </>
   );

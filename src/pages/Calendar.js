@@ -9,11 +9,15 @@ import {
 } from "firebase/firestore";
 import dayjs from "dayjs";
 import FilmCard from "../components/calendar/FilmCard";
-import CalendarDates from "../components/local/CalendarDates";
-import CalendarSeries from "../components/local/CalendarSeries";
 import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
+import NavigationBar from "../components/navbar/NavigationCal";
 
-const Calendar = ({ openFilmDetails, filterSeries, setFilterSeries }) => {
+const Calendar = ({
+  openFilmDetails,
+  filterSeries,
+  setFilterSeries,
+  openScreenDetails,
+}) => {
   const [userLogged, setUserLogged] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -117,64 +121,60 @@ const Calendar = ({ openFilmDetails, filterSeries, setFilterSeries }) => {
     return organizedFilms;
   }
   const organizedFilms = organizeFilmsByMonth(filterFilms);
-  // console.log(filterFilms);
 
   if (isLoading) {
     return;
   }
   if (filterFilms.length !== 0) {
     return (
-      <section id="film-calendar-list" className={`film-calendar-list flex `}>
-        <div className="film-event-filter">
-          <CalendarDates
-            films={films}
-            dates={allDates}
-            setFilterFilms={setFilterFilms}
-            highlightSeries={highlightSeries}
-            setDateSelected={setDateSelected}
-            filterSeries={filterSeries}
-            setFilterSeries={setFilterSeries}
-          />
-          <CalendarSeries
-            filterSeries={filterSeries}
-            highlight={highlight}
-            highlightSeries={highlightSeries}
-            dateSelected={dateSelected}
-            setFilterFilms={setFilterFilms}
-          />
-        </div>
-        <div className="content-wrap">
-          {organizedFilms.map((monthData, index) => (
-            <div key={index} className="month-wrap">
-              <div className="film-calendar-month flex">
-                <h2>
-                  {monthData.month} {monthData.year}
-                </h2>
-              </div>
-              {Object.entries(monthData.days).map(([day, dayData]) => (
-                <div key={day} className="day-wrap grid">
-                  <div className="film-calendar-day film-date">
-                    <div className="film-date-border grid">
-                      <span>{dayData.dayOfWeek}</span>
-                      <h3>{dayData.day}</h3>
+      <>
+        <NavigationBar
+          title="Calendar"
+          films={films}
+          dates={allDates}
+          setFilterFilms={setFilterFilms}
+          highlightSeries={highlightSeries}
+          setDateSelected={setDateSelected}
+          filterSeries={filterSeries}
+          setFilterSeries={setFilterSeries}
+          highlight={highlight}
+          dateSelected={dateSelected}
+        />
+        <section id="film-calendar-list" className={`film-calendar-list flex `}>
+          <div className="content-wrap">
+            {organizedFilms.map((monthData, index) => (
+              <div key={index} className="month-wrap">
+                <div className="film-calendar-month flex">
+                  <h2>
+                    {monthData.month} {monthData.year}
+                  </h2>
+                </div>
+                {Object.entries(monthData.days).map(([day, dayData]) => (
+                  <div key={day} className="day-wrap grid">
+                    <div className="film-calendar-day film-date">
+                      <div className="film-date-border grid">
+                        <span>{dayData.dayOfWeek}</span>
+                        <h3>{dayData.day}</h3>
+                      </div>
+                    </div>
+
+                    <div className="film-calendar-event">
+                      {dayData.films.map((film, index) => (
+                        <FilmCard
+                          key={index}
+                          film={film}
+                          openFilmDetails={openFilmDetails}
+                          openScreenDetails={openScreenDetails}
+                        />
+                      ))}
                     </div>
                   </div>
-
-                  <div className="film-calendar-event">
-                    {dayData.films.map((film, index) => (
-                      <FilmCard
-                        key={index}
-                        film={film}
-                        openFilmDetails={openFilmDetails}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+      </>
     );
   } else {
     return (

@@ -39,6 +39,16 @@ p {
   margin: 2px 0;
 }
 
+a {
+  color: var(--orient);
+  text-decoration: none;
+  font-weight: var(--fw-medium);
+}
+
+a:visited {
+  color: var(--orient);
+}
+
 /* Navigation */
 
 .film-calendar-sitename h1 {
@@ -54,15 +64,39 @@ p {
 
 /* Search Result Card */
 
+.title-year h4, .details .title {
+  color: var(--tiber);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.details p {
+  color: var(--orient);
+  font-size: 10px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.film-title-year h4 {
+  font-size: 16px;
+  font-weight: var(--fw-extrabold);
+}
+
 .film-title-year span {
   font-size: 12px;
-  line-height: 1.25;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 .film-series-format {
   font-size: 10px;
   line-height: 1.5em;
+}
+
+.endofResults p {
+  color: var(--orient);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  text-align: center;
 }
 
 /* Film Calendar List */
@@ -77,13 +111,19 @@ p {
 
 .film-calendar-month h2 {
   font-size: 12px;
-  font-weight: normal;
+  font-weight: 600;
 }
 
 .film-date-border span {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
+  line-height: 1;
   text-transform: uppercase;
+}
+
+.film-date-border h3 {
+  font-size: 24px;
+  font-weight: 300;
 }
 
 /* Film Event Card */

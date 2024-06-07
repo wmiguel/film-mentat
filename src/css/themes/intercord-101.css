@@ -1,12 +1,12 @@
 :root {
-  --alabaster: #F3F2EA;
-  --travertine: #E5E3D0;
-  --green-mist : #C8C49F;
-  --sinbad: #A7CBCE;
-  --fountain-blue: #65A4AA;
-  --karry: #FFD6C6;
+  --alabaster:    #F3F2EA;
+  --travertine:   #E5E3D0;
+  --green-mist :  #C8C49F;
+  --sinbad:       #A7CBCE;
+  --fountain-blue:#65A4AA;
+  --karry:        #FFD6C6;
   --burnt-orange: #FF692E;
-  --nero: #161616;
+  --nero:         #161616;
 }
 
 body {

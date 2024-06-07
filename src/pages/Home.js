@@ -33,7 +33,7 @@ const Home = () => {
             />
           </div>
           <div className="home-signin-text">
-            <h1>Welcome to Film Mentat</h1>
+            <h1>Welcome to ScreenTrack</h1>
             <br />
             <h2>Sign In to Access Your Calendar</h2>
           </div>

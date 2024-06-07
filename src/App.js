@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { AuthContextProvider } from "./context/AuthContext";
 import { Route, Routes } from "react-router-dom";
 import Protected from "./components/navbar/Protected";
-import Navigation from "./components/navbar/Navigation";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Account from "./pages/Account";
@@ -17,7 +16,13 @@ const App = () => {
   const [filmPicked, setFilmPicked] = useState([]);
   const [eventPicked, setEventPicked] = useState([]);
   const [searchPicked, setSearchPicked] = useState(null);
+  const [screenPicked, setScreenPicked] = useState([]);
   const [filterSeries, setFilterSeries] = useState([]);
+
+  const openScreenDetails = (screenPicked) => {
+    setScreenPicked(screenPicked);
+    setOpenModal(!openModal);
+  };
 
   const openSearchDetails = (filmPicked) => {
     setSearchPicked(filmPicked);
@@ -33,7 +38,6 @@ const App = () => {
   };
   return (
     <AuthContextProvider>
-      <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -44,6 +48,7 @@ const App = () => {
                 filterSeries={filterSeries}
                 setFilterSeries={setFilterSeries}
                 openFilmDetails={openFilmDetails}
+                openScreenDetails={openScreenDetails}
               />
             </Protected>
           }
@@ -87,12 +92,14 @@ const App = () => {
           film={filmPicked}
           event={eventPicked}
           search={searchPicked}
+          screen={screenPicked}
           openModal={openModal}
           filterSeries={filterSeries}
           setOpenModal={setOpenModal}
           openFilmDetails={openFilmDetails}
           openEventDetails={openEventDetails}
           openSearchDetails={openSearchDetails}
+          openScreenDetails={openScreenDetails}
         />
       </Protected>
 

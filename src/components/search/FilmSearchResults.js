@@ -23,22 +23,20 @@ const FilmSearchResults = ({
       hasMore={page !== totalPages}
       loader={<h4>Loading...</h4>}
       endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>Yay! You have seen it all</b>
-        </p>
+        <div className="endofResults">
+          <p>End of Search Results</p>
+        </div>
       }
       scrollableTarget="scrollableDiv"
     >
-      <>
-        {resultsList.map((film, index) => (
-          <FilmResultCard
-            key={index}
-            film={film}
-            openSearchDetails={openSearchDetails}
-            toggleOff={toggleOff}
-          />
-        ))}
-      </>
+      {resultsList.map((film, index) => (
+        <FilmResultCard
+          key={index}
+          film={film}
+          openSearchDetails={openSearchDetails}
+          toggleOff={toggleOff}
+        />
+      ))}
     </InfiniteScroll>
   );
 };

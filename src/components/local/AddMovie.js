@@ -4,6 +4,7 @@ import {
   addDoc,
   collection,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 const AddMovie = ({ filmData, closeModal, filterSeries }) => {
@@ -18,7 +19,13 @@ const AddMovie = ({ filmData, closeModal, filterSeries }) => {
   const filteredFormats = new Set(filterSeries.map((movie) => movie.format));
   const formatOptions = [...filteredFormats];
 
-  // Update Film
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/calendar");
+  }
+
+
+  // Add Film
   const addFilm = async (f) => {
     f.preventDefault(f);
     if (editingDate === "") {
@@ -35,21 +42,15 @@ const AddMovie = ({ filmData, closeModal, filterSeries }) => {
       format: editingFormat,
       tmdbID: filmData.id,
       date: editingDate,
-      completed: false,
+      type: "personal",
     });
     closeModal();
     setEditingDate(today);
     setEditingFormat("");
     setEditingSeries("");
+    handleClick();
   };
-
-  // Cancel Edit
-  const cancelEditFilm = () => {
-    closeModal();
-    setEditingDate(today);
-    setEditingFormat("");
-    setEditingSeries("");
-  };
+  
   return (
     <>
       <div className="film-info film-edit show">
@@ -102,12 +103,9 @@ const AddMovie = ({ filmData, closeModal, filterSeries }) => {
           </div>
         </form>
       </div>
-      <div className="film-update-buttons">
+      <div className="search-save-button">
         <button className="save" onClick={(f) => addFilm(f)}>
           Save
-        </button>
-        <button className="cancel" onClick={() => cancelEditFilm()}>
-          Cancel
         </button>
       </div>
     </>

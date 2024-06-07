@@ -1,5 +1,4 @@
 import React from "react";
-// import { FaUser } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 
@@ -9,8 +8,9 @@ const ButtonAccount = () => {
       to="/account"
       className={({ isActive }) => (isActive ? "orange" : "")}
     >
-      <button className="account inline-flex">
+      <button className="navButton">
         <IoSettingsSharp size={18} />
+        <span>Settings</span>
       </button>
     </NavLink>
   );
