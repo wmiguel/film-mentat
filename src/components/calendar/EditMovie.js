@@ -1,108 +1,101 @@
 import React, { useState } from "react";
-import FilmUpdateEvent from "../buttons/FilmUpdateEvent";
 import { db } from "../../firebase/firebase";
-import { updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import DeleteButton from "../buttons/DeleteButton";
+import SaveButton from "../buttons/SaveButton";
 
 const EditMovie = ({
-  filterSeries,
-  film,
-  filmData,
-  setOpenModal,
-  handleCloseModal,
+  id,
+  movieData,
+  seriesList,
+  closeModal,
 }) => {
-  const [editingDate, setEditingDate] = useState(filmData.date);
-  const [editingFormat, setEditingFormat] = useState(filmData.format);
-  const [editingSeries, setEditingSeries] = useState(filmData.series);
+  const [date, submitDate] = useState(movieData.date);
+  const [format, submitFormat] = useState(movieData.format);
+  const [series, submitSeries] = useState(movieData.series);
+  
+  const seriesSet = new Set(seriesList.map((movie) => movie.series));
+  const serieslist = [...seriesSet];
+  const formatSet = new Set(seriesList.map((movie) => movie.format));
+  const formatlist = [...formatSet];
 
-  const filteredSeries = new Set(filterSeries.map((movie) => movie.series));
-  const seriesOptions = [...filteredSeries];
+  const clearForm = () => {
+    submitDate("");
+    submitFormat("");
+    submitSeries("");
+    closeModal();
+  }
 
-  const filteredFormats = new Set(filterSeries.map((movie) => movie.format));
-  const formatOptions = [...filteredFormats];
-
-  // Update Film
-  const updateFilm = async (f) => {
-    f.preventDefault(f);
-    if (editingDate === "") {
+  const updateMovie = async (e) => {
+    e.preventDefault(e);
+    if (date === "") {
       return;
     }
-    await updateDoc(doc(db, "films", film), {
-      date: editingDate,
-      format: editingFormat,
-      series: editingSeries,
+    await updateDoc(doc(db, "films", id), {
+      date: date,
+      format: format,
+      series: series,
     });
-    setOpenModal(false);
-    setEditingDate("");
-    setEditingFormat("");
-    setEditingSeries("");
-    handleCloseModal();
+    clearForm();
   };
 
-  // Delete Film
-  const deleteFilm = async () => {
-    await deleteDoc(doc(db, "films", film));
-    setOpenModal(false);
-    setEditingDate("");
-    setEditingFormat("");
-    setEditingSeries("");
-    handleCloseModal();
+  const deleteMovie = async () => {
+    await deleteDoc(doc(db, "films", id));
+    clearForm();
   };
 
   return (
     <>
-      <div className="film-info film-edit show">
-        <form onSubmit={updateFilm} className="film-edit-form flex">
-          <div className="edit-film-date grid">
-            <label>Date</label>
-            <input
-              value={editingDate}
-              onChange={(f) => setEditingDate(f.target.value)}
-              type="date"
-              className="date-input"
-              required
-            />
-          </div>
-          <div className="edit-film-format grid">
-            <label>Format</label>
-            <input
-              value={editingFormat}
-              onChange={(f) => setEditingFormat(f.target.value)}
-              type="text"
-              list="format-options"
-            />
-            <datalist id="format-options">
-              {formatOptions.map((format, index) => {
-                if (format === "") {
-                  return null;
-                }
-                return <option key={index} value={format}></option>;
-              })}
-            </datalist>
-          </div>
-          <div className="edit-film-series grid">
-            <label>Series</label>
-            <input
-              value={editingSeries}
-              onChange={(f) => setEditingSeries(f.target.value)}
-              type="text"
-              list="series-options"
-            />
-            <datalist id="series-options">
-              {seriesOptions.map((option, index) => {
-                if (option === "") {
-                  return null;
-                }
-                return <option key={index} value={option}></option>;
-              })}
-            </datalist>
-          </div>
-        </form>
+      <form onSubmit={updateMovie} className="submit flex">
+        <div className="date grid">
+          <label>Date</label>
+          <input
+            className="date-input"
+            onChange={(e) => submitDate(e.target.value)}
+            required
+            type="date"
+            value={date}
+          />
+        </div>
+        <div className="format grid">
+          <label>Format</label>
+          <input
+            list="format-options"
+            onChange={(e) => submitFormat(e.target.value)}
+            type="text"
+            value={format}
+          />
+          <datalist id="format-options">
+            {formatlist.map((format, index) => {
+              if (format === "") {
+                return null;
+              }
+              return <option key={index} value={format}></option>;
+            })}
+          </datalist>
+        </div>
+        <div className="series grid">
+          <label>Series</label>
+          <input
+            list="series-options"
+            onChange={(e) => submitSeries(e.target.value)}
+            type="text"
+            value={series}
+          />
+          <datalist id="series-options">
+            {serieslist.map((option, index) => {
+              if (option === "") {
+                return null;
+              }
+              return <option key={index} value={option}></option>;
+            })}
+          </datalist>
+        </div>
+      </form>
+      <div className="buttons flex">
+        <DeleteButton text={"Delete"} action={deleteMovie} />
+        <SaveButton action={updateMovie} />
       </div>
-      <FilmUpdateEvent
-        filmID={film}
-        updateFilm={updateFilm}
-        deleteFilm={deleteFilm}
-      />
     </>
   );
 };

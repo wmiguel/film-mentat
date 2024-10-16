@@ -1,62 +1,20 @@
+@media all and (max-width: 390px) {
+  /* #mentat-site {
+    display: flex;
+  } */
+}
+
+@media all and (min-width: 391px) {
+  #mentat-site {
+    max-width: 390px;
+  }
+}
+
 @media all and (max-width: 600px) {
-  
-  /* Search Result Card */
-
-  /* .film-title-year span {
-    font-size: 12px;
-  } */
-
-  /* Film Event Card */
-
-  /* .film-card .cover-image {
-    aspect-ratio: 2.35 / 1;
-  } */
-  
-  /* .film-event {
-    gap: 18px;
-    padding: 18px 12px;
-  } */
-
-  /* .film-edit-button button {
-    width: 40px;
-    height: 40px;
-    border: none;
-    transition: ease-in-out 0.25s;
-  } */
-
-  /* .film-edit-button button > svg:hover {
-    transition: ease-in-out 0.25s;
-    cursor: pointer;
-  } */
-
-  /* Buttons */
-
-  /* .search {
-    height: 30px;
-    width: 30px;
-
-    box-sizing: content-box;
-    padding: 0;
-
-    -webkit-font-smoothing: inherit;
-    -moz-osx-font-smoothing: inherit;
-  } */
 }
 
-@media all and (max-width: 1000px)  and (min-width: 599px) {
-
-  /* Film Event Card */
-
-  /* .film-event {
-    gap: 24px;
-  } */
+@media all and (max-width: 1000px) and (min-width: 599px) {
 }
 
-@media all and (max-width: 1000px)  {
-  
-  /* Film Event Card */
-
-  /* .film-event {
-    grid-template-columns: 20% 1fr;
-  } */
+@media all and (max-width: 1000px) {
 }

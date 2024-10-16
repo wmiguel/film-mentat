@@ -1,113 +1,102 @@
 import React, { useState } from "react";
 import { auth, db } from "../../firebase/firebase";
-import {
-  addDoc,
-  collection,
-} from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import SaveButton from "../buttons/SaveButton";
 
-const AddMovie = ({ filmData, closeModal, filterSeries }) => {
+const AddMovie = ({ closeModal, data, seriesList }) => {
   const today = dayjs().format("YYYY-MM-DD");
-  const [editingDate, setEditingDate] = useState(today);
-  const [editingFormat, setEditingFormat] = useState("");
-  const [editingSeries, setEditingSeries] = useState("");
+  const [date, submitDate] = useState(today);
+  const [format, submitFormat] = useState("");
+  const [series, submitSeries] = useState("");
 
-  const filteredSeries = new Set(filterSeries.map((movie) => movie.series));
-  const seriesOptions = [...filteredSeries];
-
-  const filteredFormats = new Set(filterSeries.map((movie) => movie.format));
-  const formatOptions = [...filteredFormats];
+  const seriesSet = new Set(seriesList.map((movie) => movie.series));
+  const serieslist = [...seriesSet];
+  const formatSet = new Set(seriesList.map((movie) => movie.format));
+  const formatlist = [...formatSet];
 
   const navigate = useNavigate();
   function handleClick() {
     navigate("/calendar");
   }
 
-
-  // Add Film
-  const addFilm = async (f) => {
-    f.preventDefault(f);
-    if (editingDate === "") {
+  const addMovie = async (e) => {
+    e.preventDefault(e);
+    if (date === "") {
       return;
     }
     const { uid } = auth.currentUser;
     await addDoc(collection(db, "films"), {
       uid,
-      title: filmData.title,
-      year: dayjs(filmData.release_date).format("YYYY"),
-      poster: filmData.poster_path,
-      backdrop: filmData.backdrop_path,
-      series: editingSeries,
-      format: editingFormat,
-      tmdbID: filmData.id,
-      date: editingDate,
+      title: data.title,
+      year: dayjs(data.release_date).format("YYYY"),
+      poster: data.poster_path,
+      backdrop: data.backdrop_path,
+      series: series,
+      format: format,
+      tmdbID: data.id,
+      date: date,
       type: "personal",
     });
     closeModal();
-    setEditingDate(today);
-    setEditingFormat("");
-    setEditingSeries("");
+    submitDate(today);
+    submitFormat("");
+    submitSeries("");
     handleClick();
   };
-  
+
   return (
     <>
-      <div className="film-info film-edit show">
-        <form onSubmit={addFilm} className="film-edit-form flex">
-          <div className="edit-film-date grid">
-            <label>Date</label>
-            <input
-              value={editingDate}
-              onChange={(f) => setEditingDate(f.target.value)}
-              type="date"
-              className="date-input"
-              required
-            />
-          </div>
-          <div className="edit-film-format grid">
-            <label>Format</label>
-            <input
-              value={editingFormat}
-              placeholder="Add format..."
-              onChange={(f) => setEditingFormat(f.target.value)}
-              type="text"
-              list="format-options"
-            />
-            <datalist id="format-options">
-              {formatOptions.map((format, index) => {
-                if (format === "") {
-                  return null;
-                }
-                return <option key={index} value={format}></option>;
-              })}
-            </datalist>
-          </div>
-          <div className="edit-film-series grid">
-            <label>Series</label>
-            <input
-              value={editingSeries}
-              placeholder="Add series..."
-              onChange={(f) => setEditingSeries(f.target.value)}
-              type="text"
-              list="series-options"
-            />
-            <datalist id="series-options">
-              {seriesOptions.map((option, index) => {
-                if (option === "") {
-                  return null;
-                }
-                return <option key={index} value={option}></option>;
-              })}
-            </datalist>
-          </div>
-        </form>
-      </div>
-      <div className="search-save-button">
-        <button className="save" onClick={(f) => addFilm(f)}>
-          Save
-        </button>
-      </div>
+      <form onSubmit={addMovie} className="submit flex">
+        <div className="date grid">
+          <label>Date</label>
+          <input
+            className="date-input"
+            onChange={(e) => submitDate(e.target.value)}
+            required
+            type="date"
+            value={date}
+          />
+        </div>
+        <div className="format grid">
+          <label>Format</label>
+          <input
+            list="format-options"
+            onChange={(e) => submitFormat(e.target.value)}
+            placeholder="Add format..."
+            type="text"
+            value={format}
+          />
+          <datalist id="format-options">
+            {formatlist.map((format, index) => {
+              if (format === "") {
+                return null;
+              }
+              return <option key={index} value={format}></option>;
+            })}
+          </datalist>
+        </div>
+        <div className="series grid">
+          <label>Series</label>
+          <input
+            list="series-options"
+            onChange={(e) => submitSeries(e.target.value)}
+            placeholder="Add series..."
+            type="text"
+            value={series}
+          />
+          <datalist id="series-options">
+            {serieslist.map((option, index) => {
+              if (option === "") {
+                return null;
+              }
+              return <option key={index} value={option}></option>;
+            })}
+          </datalist>
+        </div>
+      </form>
+      <SaveButton action={addMovie} />
     </>
   );
 };

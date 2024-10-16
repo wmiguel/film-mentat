@@ -8,30 +8,27 @@ import {
   onSnapshot
 } from "firebase/firestore";
 import dayjs from "dayjs";
-import FilmCard from "../components/calendar/FilmCard";
-import { ReactComponent as TicketSVG } from '../images/empty-ticket.svg';
-import NavigationBar from "../components/navbar/NavigationCal";
+import MovieCard from "../components/calendar/MovieCard";
+import Navigation from "../components/navbar/Navigation";
+import Empty from "../components/Empty";
 
 const Calendar = ({
-  openFilmDetails,
-  filterSeries,
-  setFilterSeries,
+  seriesList,
+  setSeriesList,
+  openMovieDetails,
   openScreenDetails,
+  openEventDetails,
 }) => {
+
   const [userLogged, setUserLogged] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [films, setFilms] = useState([]);
-  const [filterFilms, setFilterFilms] = useState([]);
-  // const [filterSeries, setFilterSeries] = useState([]);
-
-  const [dateSelected, setDateSelected] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [moviesFiltered, filterMovies] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [dateSelected, selectDate] = useState(null);
   const [highlight, highlightSeries] = useState(null);
-  const [allDates, setAllDates] = useState([]);
-
-  // const newDate = new Date();
-  // const today = dayjs(newDate).startOf("day").format("YYYY-MM-DD");
-  const today = dayjs().startOf("day").format("YYYY-MM-DD");
+  const [view, viewAll] = useState(true);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
@@ -39,57 +36,61 @@ const Calendar = ({
     });
     return () => unsubscribeAuth();
   }, []);
+
   useEffect(() => {
+    const today = dayjs().startOf("day").format("YYYY-MM-DD");
     if (userLogged) {
-      const fetchFilms = async () => {
-        const filmsRef = collection(db, "films");
+      const fetchMovies = async () => {
+        const ref = collection(db, "films");
         const q = query(
-          filmsRef,
+          ref,
           where("uid", "==", userLogged),
           where("date", ">=", today),
           orderBy("date"),
           orderBy("year", "asc")
         );
-        const unsubscribeFilms = onSnapshot(q, (querySnapshot) => {
-          let filmsArr = [];
+        const unsubscribeMovies = onSnapshot(q, (querySnapshot) => {
+          let moviesList = [];
           querySnapshot.forEach((doc) => {
-            filmsArr.push({ ...doc.data(), id: doc.id });
+            moviesList.push({ ...doc.data(), id: doc.id });
           });
-          setFilms(filmsArr);
-          setFilterFilms(filmsArr);
-          setFilterSeries(filmsArr);
-          const filmDates = new Set(filmsArr.map((movie) => movie.date));
-          setAllDates([...filmDates]);
+          setMovies(moviesList);
+          filterMovies(moviesList);
+          setSeriesList(moviesList);
+          const moviesListDates = new Set(
+            moviesList.map((movie) => movie.date)
+          );
+          setDates([...moviesListDates]);
           setIsLoading(false);
         });
-        return () => unsubscribeFilms();
+        return () => unsubscribeMovies();
       };
-      fetchFilms();
+      fetchMovies();
     }
-  }, [today, userLogged, setFilterSeries]);
+  }, [userLogged, setSeriesList]);
 
-  function groupFilmsByMonth(films) {
-    const groupedFilms = {};
-    films.forEach((film) => {
-      const dayOfWeek = dayjs(film.date).format("ddd");
-      const monthKey = dayjs(film.date).format("YYYY-M");
-      if (!groupedFilms[monthKey]) {
-        groupedFilms[monthKey] = {
-          month: dayjs(film.date).format("MMM"),
-          year: dayjs(film.date).format("YYYY"),
+  function groupbyMonth(movies) {
+    const groupedMovies = {};
+    movies.forEach((movie) => {
+      const dayOfWeek = dayjs(movie.date).format("ddd");
+      const monthKey = dayjs(movie.date).format("YYYY-M");
+      if (!groupedMovies[monthKey]) {
+        groupedMovies[monthKey] = {
+          month: dayjs(movie.date).format("MMM"),
+          year: dayjs(movie.date).format("YYYY"),
           days: {},
         };
       }
-      const dayKey = dayjs(film.date).format("D");
-      if (!groupedFilms[monthKey].days[dayKey]) {
-        groupedFilms[monthKey].days[dayKey] = { dayOfWeek, films: [] };
+      const dayKey = dayjs(movie.date).format("D");
+      if (!groupedMovies[monthKey].days[dayKey]) {
+        groupedMovies[monthKey].days[dayKey] = { dayOfWeek, movies: [] };
       }
-      groupedFilms[monthKey].days[dayKey].films.push(film);
+      groupedMovies[monthKey].days[dayKey].movies.push(movie);
     });
-    return groupedFilms;
+    return groupedMovies;
   }
-  function sortFilmsByMonth(films) {
-    return Object.entries(films).sort((a, b) => {
+  function sortasArray(groupedMovies) {
+    return Object.entries(groupedMovies).sort((a, b) => {
       const [yearA, monthA] = a[0].split("-").map(Number);
       const [yearB, monthB] = b[0].split("-").map(Number);
       if (yearA !== yearB) {
@@ -99,16 +100,16 @@ const Calendar = ({
       }
     });
   }
-  function organizeFilmsByMonth(films) {
-    const groupedFilms = groupFilmsByMonth(films);
-    const sortedFilms = sortFilmsByMonth(groupedFilms);
+  function sortMoviesbyMonth(movies) {
+    const groupedMovies = groupbyMonth(movies);
+    const sortedMovies = sortasArray(groupedMovies);
 
-    const organizedFilms = sortedFilms.map(([key, value]) => {
+    const moviesArranged = sortedMovies.map(([key, value]) => {
       const monthData = value;
       const monthWithDayOfWeek = Object.entries(monthData.days).map(
         ([day, dayData]) => {
-          const { dayOfWeek, films } = dayData;
-          return { day, dayOfWeek, films };
+          const { dayOfWeek, movies } = dayData;
+          return { day, dayOfWeek, movies };
         }
       );
       return {
@@ -118,80 +119,86 @@ const Calendar = ({
       };
     });
 
-    return organizedFilms;
+    return moviesArranged;
   }
-  const organizedFilms = organizeFilmsByMonth(filterFilms);
+  const moviesArranged = sortMoviesbyMonth(moviesFiltered);
 
   if (isLoading) {
     return;
   }
-  if (filterFilms.length !== 0) {
-    return (
-      <>
-        <NavigationBar
-          title="Calendar"
-          films={films}
-          dates={allDates}
-          setFilterFilms={setFilterFilms}
-          highlightSeries={highlightSeries}
-          setDateSelected={setDateSelected}
-          filterSeries={filterSeries}
-          setFilterSeries={setFilterSeries}
-          highlight={highlight}
-          dateSelected={dateSelected}
-        />
-        <section id="film-calendar-list" className={`film-calendar-list flex `}>
+  return (
+    <>
+      <Navigation
+        title="Calendar"
+        movies={movies}
+        dates={dates}
+        filterMovies={filterMovies}
+        highlightSeries={highlightSeries}
+        viewAll={viewAll}
+        selectDate={selectDate}
+        seriesList={seriesList}
+        setSeriesList={setSeriesList}
+        highlight={highlight}
+        dateSelected={dateSelected}
+      />
+      <section className="calendar flex">
+        {moviesFiltered.length !== 0 ? (
           <div className="content-wrap">
-            {organizedFilms.map((monthData, index) => (
-              <div key={index} className="month-wrap">
-                <div className="film-calendar-month flex">
-                  <h2>
-                    {monthData.month} {monthData.year}
-                  </h2>
-                </div>
-                {Object.entries(monthData.days).map(([day, dayData]) => (
-                  <div key={day} className="day-wrap grid">
-                    <div className="film-calendar-day film-date">
-                      <div className="film-date-border grid">
-                        <span>{dayData.dayOfWeek}</span>
-                        <h3>{dayData.day}</h3>
-                      </div>
+            {view === false ? (
+              <div className="filter-wrap">
+                {moviesFiltered.length
+                  ? moviesFiltered.map((movie, index) => (
+                      <MovieCard
+                        key={index}
+                        movie={movie}
+                        poster={movie.poster}
+                        openMovieDetails={openMovieDetails}
+                        openScreenDetails={openScreenDetails}
+                      />
+                    ))
+                  : null}
+              </div>
+            ) : (
+              <>
+                {moviesArranged.map((monthData, index) => (
+                  <div key={index} className="month-wrap">
+                    <div className="month-year-wrap flex">
+                      <p>
+                        {monthData.month} {monthData.year}
+                      </p>
                     </div>
+                    {Object.entries(monthData.days).map(([day, dayData]) => (
+                      <div key={day} className="day-wrap grid">
+                        <div className="day flex">
+                          <span>{dayData.dayOfWeek}</span>
+                          <h2>{dayData.day}</h2>
+                        </div>
 
-                    <div className="film-calendar-event">
-                      {dayData.films.map((film, index) => (
-                        <FilmCard
-                          key={index}
-                          film={film}
-                          openFilmDetails={openFilmDetails}
-                          openScreenDetails={openScreenDetails}
-                        />
-                      ))}
-                    </div>
+                        <div className="movies-wrap">
+                          {dayData.movies.map((movie, index) => (
+                            <MovieCard
+                              key={index}
+                              movie={movie}
+                              poster={movie.poster}
+                              openMovieDetails={openMovieDetails}
+                              openScreenDetails={openScreenDetails}
+                              openEventDetails={openEventDetails}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
-              </div>
-            ))}
+              </>
+            )}
           </div>
-        </section>
-      </>
-    );
-  } else {
-    return (
-      <section id="film-calendar-list" className={`film-calendar-list flex `}>
-        <div className="empty-wrap">
-          <div className="dash-border">
-            <div className="empty-text">
-              <div className="empty-ticket">
-                <TicketSVG />
-              </div>
-              <h1>No Movies Listed</h1>
-              <h3>Schedule your next movie!</h3>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <Empty header="No Movies Listed" body="Schedule your next movie!" />
+        )}
       </section>
-    );
-  }
+    </>
+  );
 };
+
 export default Calendar;

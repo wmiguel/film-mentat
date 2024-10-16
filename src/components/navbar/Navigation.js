@@ -1,50 +1,97 @@
-import React from "react";
-// import EventDates from "../local/CalendarDates";
-import EventDates from "../local/EventDates";
-import EventPlaces from "../local/EventPlaces";
+import React, {useState} from "react";
+import Dates from "../local/Dates";
+import SecondFilter from "../local/SecondFilter";
+import FilterButton from "../buttons/FilterButton";
 
-
-// import EventPlaces from "../components/local/EventPlaces";
-// import EventDates from "../components/local/EventDates";
-
-const NavigationBar = ({
+const Navigation = ({
+  // display,
   title,
+  movies,
   screenings,
   dates,
-  setFilterFilms,
-  highlightPlace,
-  setDate,
-  setFilterPlaces,
-  setDisplayAll,
-  filterPlaces,
+
+  filterMovies,
+
+  selectDate,
+  viewAll,
+  seriesList,
+
   highlight,
-  date,
+  dateSelected,
+
+  places,
+
+  highlightSeries,
+  setSeriesList,
+  highlightPlace,
+  setPlaces,
 }) => {
+  const [display, setDisplay] = useState(false);
+  const toggleFilters = () => {
+    setDisplay(!display);
+  };
+  const toggleDisplay = display ? "flex" : "none";
+  
   return (
-    <header className={`film-calendar-header`}>
-      <div className="header-wrap">
-        <h1>{title}</h1>
+    <header className="nav-header flex">
+      <div className="title-filter flex">
+        <div className="title">
+          <h2>{title}</h2>
+        </div>
+        {title === "Settings" ? null : (
+          <FilterButton toggleFilters={toggleFilters} />
+        )}
       </div>
-      <div className="film-event-filter">
-        <EventDates
-          screenings={screenings}
-          dates={dates}
-          setFilterFilms={setFilterFilms}
-          highlightPlace={highlightPlace}
-          setDate={setDate}
-          setFilterPlaces={setFilterPlaces}
-          setDisplayAll={setDisplayAll}
-        />
-        <EventPlaces
-          filterPlaces={filterPlaces}
-          highlight={highlight}
-          highlightPlace={highlightPlace}
-          date={date}
-          setFilterFilms={setFilterFilms}
-        />
-      </div>
+      {title === "Settings" ? null : (
+        <>
+          {dates.length !== 0 ? (
+            <div className={`nav-filters ${toggleDisplay}`}>
+              {title === "Calendar" ? (
+                <>
+                  <Dates
+                    movies={movies}
+                    dates={dates}
+                    filterMovies={filterMovies}
+                    selectDate={selectDate}
+                    viewAll={viewAll}
+                    setSecondHighlight={highlightSeries}
+                    setSecondFilter={setSeriesList}
+                  />
+                  <SecondFilter
+                    seriesList={seriesList}
+                    setSecondHighlight={highlightSeries}
+                    highlight={highlight}
+                    dateSelected={dateSelected}
+                    filterMovies={filterMovies}
+                  />
+                </>
+              ) : null}
+              {title === "Screenings" ? (
+                <>
+                  <Dates
+                    screenings={screenings}
+                    dates={dates}
+                    filterMovies={filterMovies}
+                    selectDate={selectDate}
+                    viewAll={viewAll}
+                    setSecondHighlight={highlightPlace}
+                    setSecondFilter={setPlaces}
+                  />
+                  <SecondFilter
+                    places={places}
+                    setSecondHighlight={highlightPlace}
+                    highlight={highlight}
+                    dateSelected={dateSelected}
+                    filterMovies={filterMovies}
+                  />
+                </>
+              ) : null}
+            </div>
+          ) : null}
+        </>
+      )}
     </header>
   );
 };
 
-export default NavigationBar;
+export default Navigation;

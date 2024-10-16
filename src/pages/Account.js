@@ -1,5 +1,7 @@
 import React from "react";
 import { UserAuth } from "../context/AuthContext";
+import SignOutButton from "../components/buttons/SignOutButton";
+import Navigation from "../components/navbar/Navigation";
 
 const Account = () => {
   const { logOut } = UserAuth();
@@ -13,20 +15,9 @@ const Account = () => {
 
   return (
     <>
-      <header className="film-calendar-header">
-        <div className="header-wrap" style={{ padding: "0" }}>
-          <h1>Settings</h1>
-        </div>
-      </header>
-      <section
-        id="film-calendar-list"
-        className="film-calendar-list flex "
-        style={{ backgroundColor: "var(--light-blue)" }}
-      >
-        <div style={{ flex: "1", margin: "24px 0 0" }}>
-          <figure style={{ backgroundColor: "var(--tiber)", aspectRatio: "1/1.25" }}></figure>
-        </div>
-        <div className="filmModal-details">
+      <Navigation title="Settings" />
+      <section className="account flex">
+        <div className="modal-details flex">
           <div className="overview">
             <p>
               This app relies on free cultural events data from{" "}
@@ -40,10 +31,11 @@ const Account = () => {
             </p>
           </div>
         </div>
-        <div className="search-save-button" style={{ margin: "12px 0 48px" }}>
-          <button className="save" onClick={handleSignOut}>
-            Log Out
-          </button>
+
+        <div className="signout">
+          <div className="g-signout flex">
+            <SignOutButton handleSignOut={handleSignOut} />
+          </div>
         </div>
       </section>
     </>

@@ -1,0 +1,367 @@
+:root {
+  --white:          #ffffff;
+  --light-blue:     #ADD6E3;
+  --viking :        #5AADC7;
+  --lochmara:       #327C93;
+  --orient:         #255E6D;
+  --tiber:          #163741;
+  --deep-teal:      #0C1E23;
+  --black:          #000000;
+  --peach-puff:     #FFD4BA;
+  --safety-orange:  #FF6A0D;
+
+  --light:          300;
+  --regular:        400;
+  --medium:         500;
+  --semibold:       600;
+  --bold:           700;
+  --extrabold:      800;
+  --xblack:         900;
+}
+
+body {
+  background-color: var(--tiber);
+}
+
+figure {
+  background-color: var(--tiber);
+  border-radius: 5px;
+}
+
+#mentat-site {
+  color: var(--white);
+}
+
+h1 {
+  color: var(--light-blue);
+}
+
+h2 {
+  color: var(--light-blue);
+}
+
+h3 {
+  color: var(--light-blue);
+}
+
+.modal .cover .cover-details p {
+  color: var(--viking);
+}
+.modal-details p {
+  color: var(--tiber);
+}
+.month-year-wrap p { 
+  color: var(--light-blue);
+}
+.search-end p {
+  color: var(--orient);
+  text-align: center;
+}
+.details p {
+  color: var(--orient);
+}
+
+/* Navigation */
+
+.nav-header {
+  color: var(--light-blue);
+  background-color: var(--deep-teal);
+}
+
+.nav-filters > div div {
+  border: 2px solid var(--light-blue);
+  border-radius: 18px;
+  color: var(--light-blue);
+}
+
+.highlight {
+  color: var(--deep-teal) !important;
+  background-color: var(--light-blue);
+}
+
+/* Home Page */
+
+.sc-home {
+  background-color: var(--alabaster);
+}
+
+/* Account Page */
+
+.account {
+  background-color: var(--light-blue);
+}
+
+.account .g-signout > button {
+  border-radius: 6px;
+}
+
+/* Calendar Page */
+
+.calendar .month-wrap .day-wrap:last-child .movies-wrap {
+  border: none;
+}
+
+/* Modal - Cover */
+
+
+
+/* Modal */
+
+
+.modal-details .buttons * {
+  background-color: var(--tiber);
+  border: 2px solid var(--tiber);
+  border-radius: 6px;
+  color: var(--white);
+}
+.modal-details .buttons *:first-child {
+  background-color: transparent;
+  color: var(--tiber);
+}
+
+.modal-details .buttons *:hover {
+  color: var(--white);
+  background-color: var(--lochmara);
+  border: 2px solid var(--lochmara);
+}
+
+.modal-details button {
+  background-color: var(--tiber);
+  border: 2px solid var(--tiber);
+  border-radius: 6px;
+  color: var(--white);
+}
+
+.modal-details button:hover {
+  color: var(--white);
+  background-color: var(--lochmara);
+  border: 2px solid var(--lochmara);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Search Functions */
+
+.search {
+  background-color: var(--light-blue);
+  border-radius: 12px 12px 0 0;
+}
+
+.search-box {
+  background-color: var(--light-blue);
+}
+
+.search-box .buttons > button {
+  border: none;
+  background-color: transparent;
+  color: var(--tiber);
+}
+
+.search-box h4 {
+  color: var(--tiber);
+}
+
+.search-results-number {
+  color: var(--tiber);
+  /* background-color: var(--light-blue); */
+  background-color: var(--light-blue);
+}
+
+.search-box input {
+  border: none;
+  border-radius: 0.5rem;
+}
+
+/* Search Result Card */
+
+
+.search-card .container {
+  color: var(--alabaster);
+  background-color: transparent;
+}
+
+.search-card .title-year span {
+  color: var(--tiber);
+}
+
+.title-year h4 {
+  color: var(--tiber);
+}
+
+
+
+/* Calendar List */
+
+
+
+.dash-border {
+  background-image: repeating-linear-gradient(-1deg, var(--light-blue), var(--light-blue) 18px, transparent 18px, transparent 35px, var(--light-blue) 35px), repeating-linear-gradient(89deg, var(--light-blue), var(--light-blue) 18px, transparent 18px, transparent 35px, var(--light-blue) 35px), repeating-linear-gradient(179deg, var(--light-blue), var(--light-blue) 18px, transparent 18px, transparent 35px, var(--light-blue) 35px), repeating-linear-gradient(269deg, var(--light-blue), var(--light-blue) 18px, transparent 18px, transparent 35px, var(--light-blue) 35px); 
+  background-size: 2px 100%, 100% 2px, 2px 100% , 100% 2px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+}
+
+
+
+
+
+
+.day {
+  color: var(--light-blue);
+}
+
+
+
+.edit {
+  background-color: transparent; 
+  border: none; 
+  color: var(--burnt-orange);
+}
+
+
+
+
+
+
+
+.cancel {
+  color: var(--burnt-orange) !important;
+  background-color: var(--travertine);
+}
+.cancel:hover {
+  background-color: var(--alabaster);
+}
+
+
+
+/* Event Editor */
+
+.submit input {
+  background-color: var(--white);
+  color: var(--black);
+  border: none;
+  border-radius: 3px;
+}
+
+.submit label {
+  color: var(--tiber);
+}
+
+.movie-card .container {
+  border-bottom: 2px dashed var(--tiber);
+}
+
+.movie-card .series > span {
+  background-color: var(--lochmara);
+  border-radius: 8px;
+}
+
+.modal {
+  background-color: var(--light-blue);
+  border-radius: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+.month-wrap .day-wrap:last-child .movies-wrap {
+  border: none;
+}
+
+.day-wrap .movie-card:last-child .container {
+  border-bottom: none;
+}
+
+.search-box {
+  border-bottom: 1px solid var(--tiber);
+}
+
+.search-card {
+  background-color: transparent;
+  border-bottom: 1px solid var(--orient);
+}
+
+.search-box .buttons {
+  border-bottom: 1px solid var(--fountain-blue);
+}
+
+.month-year-wrap {
+  background-color: var(--tiber);
+  border-bottom: 1px solid var(--light-blue);
+}
+
+.modal::before {
+  border-bottom: 1px solid var(--light-blue);
+}
+
+.search::before {
+  border-bottom: 1px solid var(--light-blue);
+}
+
+/* Footer */
+
+.sc-footer {
+  background-color: var(--black);
+}
+
+/* Buttons */
+
+.orange > button {
+  color: var(--safety-orange);
+}
+
+.orange button span {
+  color: var(--peach-puff)
+}
+
+.navButton {
+  background-color: transparent;
+  border: none;
+  border-radius: 2rem;
+  color: var(--white);
+}
+
+.searchButton {
+  background-color: var(--safety-orange);
+  border: none;
+  border-radius: 21px;
+  color: var(--white);
+}
+
+
+.editButton {
+  background-color: var(--viking);
+  border: none;
+  border-radius: 16px;
+  color: var(--white);
+}
+
+.filterButton {
+  background-color: var(--light-blue);
+  border: none;
+  border-radius: 16px;
+  color: var(--deep-teal);
+}

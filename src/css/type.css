@@ -13,95 +13,105 @@ body {
 }
 
 h1 {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 32px;
+  font-weight: var(--xblack);
 }
 
 h2 {
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 24px;
+  font-weight: var(--bold);
 }
 
 h3 {
   font-size: 18px;
-  font-weight: normal;
-  line-height: 0.85;
+  font-weight: var(--bold);
 }
 
 h4 {
   font-size: 16px;
-  line-height: 1.25em;
+  line-height: 1.25;
+  font-weight: var(--regular);
 }
+.title-year h4 {
+  font-weight: var(--xblack);
+}
+
+
 
 p {
   font-size: 12px;
   line-height: 1.25;
-  margin: 2px 0;
+  /* margin: 2px 0; */
 }
+.nav-filters p,
+.month-year-wrap p,
+.modal .cover .details p,
+.modal-details .stats p,
+.search-end p {
+  font-weight: var(--semibold);
+}
+.nav-filters > div p {
+  line-height: 1;
+}
+.modal p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.details p {
+  font-size: 10px;
+  font-weight: var(--regular);
+  /* margin: 0; */
+}
+
+
+
+
 
 a {
   color: var(--orient);
   text-decoration: none;
-  font-weight: var(--fw-medium);
+  font-weight: var(--medium);
 }
+
 
 a:visited {
   color: var(--orient);
 }
 
+
+
 /* Navigation */
 
-.film-calendar-sitename h1 {
-  line-height: 1;
-}
 
-/* Search Functions */
 
-.search-input {
-  font-size: 1rem; /* 20px */
-  line-height: 1.5rem; /* 28px */
-}
 
-/* Search Result Card */
+/* Home Page */
 
-.title-year h4, .details .title {
-  color: var(--tiber);
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.details p {
-  color: var(--orient);
-  font-size: 10px;
-  font-weight: 400;
-  margin: 0;
-}
-
-.film-title-year h4 {
-  font-size: 16px;
-  font-weight: var(--fw-extrabold);
-}
-
-.film-title-year span {
-  font-size: 12px;
-  font-weight: var(--fw-medium);
-}
-
-.film-series-format {
-  font-size: 10px;
-  line-height: 1.5em;
-}
-
-.endofResults p {
-  color: var(--orient);
-  font-size: 12px;
-  font-weight: var(--fw-medium);
+.sc-home .signin-text {
   text-align: center;
 }
 
-/* Film Calendar List */
+/* Empty Component */
 
-.film-calendar-month {
+.empty-text {
+  text-align: center;
+  line-height: 2;
+}
+
+/* Page Components */
+
+/* Account Page */
+
+.account .g-signout > button {
+  font-size: 14px;
+  font-weight: var(--semibold);
+  line-height: 1;
+}
+
+/* Calendar & Screenings Page - Movies */
+
+.month-year-wrap {
   font-size: 14px;
   font-size: .875rem;
   letter-spacing: .4px;
@@ -109,35 +119,105 @@ a:visited {
   text-transform: uppercase;
 }
 
-.film-calendar-month h2 {
-  font-size: 12px;
-  font-weight: 600;
+
+.day {
+  text-align: center;
 }
 
-.film-date-border span {
+.day h2 {
+  font-weight: var(--light);
+}
+
+.day span {
   font-size: 12px;
   font-weight: 500;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.film-date-border h3 {
+/* Movie Card */
+
+.movie-card .series > span {
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.4px;
+  line-height: 0.75;
+}
+
+/* Modal - Cover */
+
+
+.modal .cover .year {
   font-size: 24px;
   font-weight: 300;
 }
 
-/* Film Event Card */
 
-.film-series {  
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.4px;
-  line-height: 1.5;
-  /* text-transform: uppercase; */
+.year {
+  font-size: 12px;
+  font-weight: normal;
 }
 
-/* Home Page & Account Page */
+/* Modal - Details */
 
-.home-signin-text {
+
+.modal-details .buttons a {
+  font-size: 14px;
+  font-weight: var(--semibold);
+  line-height: 1;
+  
   text-align: center;
+  text-decoration: none;
+}
+
+.modal-details .buttons > button {
+  font-size: 14px;
+  font-weight: var(--semibold);
+  line-height: 1;
+}
+
+/* Modal - Submit Form */
+
+.submit input {
+  font-size: 14px;
+  font-weight: var(--regular);
+}
+
+.submit label {
+  font-size: 16px;
+  font-weight: var(--semibold);
+}
+
+/* Search Functions */
+
+.search-results-number {
+  font-size: 16px;
+  font-weight: var(--medium);
+  line-height: 1;
+}
+
+/* Search Box */
+
+.search-box .buttons > button {
+  font-size: 16px;
+  font-weight: var(--medium);
+}
+
+.search-box h4 {
+  font-weight: var(--medium);
+}
+
+.search-box input {
+  font-size: 1rem; /* 20px */
+  line-height: 1.5rem; /* 28px */
+}
+
+/* Search Results */
+
+
+/* Footer */
+
+button.navButton span {
+  font-size: 12px;
+  font-weight: 500;
 }

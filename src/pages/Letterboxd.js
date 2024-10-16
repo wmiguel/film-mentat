@@ -1,20 +1,14 @@
-import { ReactComponent as TicketSVG } from "../images/empty-ticket.svg";
+import Navigation from "../components/navbar/Navigation";
+import Empty from "../components/Empty";
 
 const Letterboxd = () => {
   return (
-    <section className="film-letterboxd flex">
-      <div className="empty-wrap">
-        <div className="dash-border">
-          <div className="empty-text">
-            <div className="empty-ticket">
-              <TicketSVG />
-            </div>
-            <h1>Your Letterboxd Watchlist!</h1>
-            <h3>Coming Soon</h3>
-          </div>
-        </div>
-      </div>
-    </section>
+    <>
+      <Navigation title="Letterboxd" />
+      <section className="letterboxd flex">
+        <Empty header="Letterboxd Watchlist" body="Coming Soon!" />
+      </section>
+    </>
   );
 }
 export default Letterboxd;

@@ -5,36 +5,35 @@ import Protected from "./components/navbar/Protected";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
 import Account from "./pages/Account";
-import Local from "./pages/Local";
-import NowPlaying from "./pages/NowPlaying";
-import FilmModal from "./components/calendar/FilmModal";
+import Screenings from "./pages/Screenings";
 import Letterboxd from "./pages/Letterboxd";
+import Modal from "./components/modal/Modal";
 import Footer from "./components/footer/Footer";
 
 const App = () => {
-  const [openModal, setOpenModal] = useState(false);
-  const [filmPicked, setFilmPicked] = useState([]);
+  const [open,    openModal] = useState(false);
   const [eventPicked, setEventPicked] = useState([]);
-  const [searchPicked, setSearchPicked] = useState(null);
+  const [moviePicked,   setMoviePicked] = useState([]);
   const [screenPicked, setScreenPicked] = useState([]);
-  const [filterSeries, setFilterSeries] = useState([]);
-
-  const openScreenDetails = (screenPicked) => {
-    setScreenPicked(screenPicked);
-    setOpenModal(!openModal);
+  const [searchPicked, setSearchPicked] = useState(null);
+  const [seriesList, setSeriesList] = useState([]);
+  
+  const openScreenDetails = (data) => {
+    setScreenPicked(data);
+    openModal(!open);
+  };
+  const openMovieDetails = (data) => {
+    setMoviePicked(data);
+    openModal(!open);
   };
 
-  const openSearchDetails = (filmPicked) => {
-    setSearchPicked(filmPicked);
-    setOpenModal(!openModal);
+  const openSearchDetails = (data) => {
+    setSearchPicked(data);
+    openModal(!open);
   };
-  const openFilmDetails = (filmPicked) => {
-    setFilmPicked(filmPicked);
-    setOpenModal(!openModal);
-  };
-  const openEventDetails = (eventPicked) => {
-    setEventPicked(eventPicked);
-    setOpenModal(!openModal);
+  const openEventDetails = (data) => {
+    setEventPicked(data);
+    openModal(!open);
   };
   return (
     <AuthContextProvider>
@@ -45,10 +44,11 @@ const App = () => {
           element={
             <Protected>
               <Calendar
-                filterSeries={filterSeries}
-                setFilterSeries={setFilterSeries}
-                openFilmDetails={openFilmDetails}
+                seriesList={seriesList}
+                setSeriesList={setSeriesList}
+                openMovieDetails={openMovieDetails}
                 openScreenDetails={openScreenDetails}
+                openEventDetails={openEventDetails}
               />
             </Protected>
           }
@@ -62,19 +62,10 @@ const App = () => {
           }
         />
         <Route
-          path="/local"
+          path="/screenings"
           element={
             <Protected>
-              <Local openEventDetails={openEventDetails} />
-              {/* <NowPlaying /> */}
-            </Protected>
-          }
-        />
-        <Route
-          path="/now-playing"
-          element={
-            <Protected>
-              <NowPlaying />
+              <Screenings openEventDetails={openEventDetails} />
             </Protected>
           }
         />
@@ -88,21 +79,20 @@ const App = () => {
         />
       </Routes>
       <Protected>
-        <FilmModal
-          film={filmPicked}
+        <Modal
           event={eventPicked}
-          search={searchPicked}
+          movie={moviePicked}
           screen={screenPicked}
+          search={searchPicked}
+          open={open}
+          seriesList={seriesList}
           openModal={openModal}
-          filterSeries={filterSeries}
-          setOpenModal={setOpenModal}
-          openFilmDetails={openFilmDetails}
+          openMovieDetails={openMovieDetails}
           openEventDetails={openEventDetails}
           openSearchDetails={openSearchDetails}
           openScreenDetails={openScreenDetails}
         />
       </Protected>
-
       <Footer openSearchDetails={openSearchDetails} />
     </AuthContextProvider>
   );
