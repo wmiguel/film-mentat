@@ -20,8 +20,9 @@ const Screenings = ({ openEventDetails }) => {
       const today = dayjs().format("YYYY-MM-DD");
       const response = await fetchScreenings();
       const todayFuture = response.filter(
-        (movie) => 
-          dayjs(movie.startDate).format("YYYY-MM-DD") >= today
+        (movie) =>
+          dayjs(movie.startDate).format("YYYY-MM-DD") >= today &&
+          movie.place?.name !== undefined
       );
 
       const allScreenings = todayFuture;
