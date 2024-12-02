@@ -15,7 +15,7 @@ const Home = () => {
   };
   useEffect(() => {
     if (user != null) {
-      navigate("/calendar");
+      navigate("/screenings");
     }
   }, [navigate, user]);
 
